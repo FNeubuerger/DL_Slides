@@ -549,12 +549,13 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Backpropagation-Algorithmus: Mathematische Grundlagen}
+      \begin{frame}{Backpropagation: Grundidee}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{Backpropagation} \cite{rumelhart1986}: Effizienter Algorithmus zur Berechnung von Gradienten in neuronalen Netzen
-              \item Anwendung der Kettenregel der Differentiation:
+              \item \textbf{Backpropagation} \cite{rumelhart1986}: Effizienter Algorithmus zur Berechnung von Gradienten
+              \item \textbf{Problem}: Wie berechnen wir $\frac{\partial L}{\partial w_{ij}}$ in tiefen Netzen?
+              \item \textbf{Lösung}: Anwendung der \textbf{Kettenregel} der Differentiation:
               \begin{equation}
                 \frac{\partial L}{\partial w_{ij}^{(l)}} = \frac{\partial L}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}
               \end{equation}
@@ -562,90 +563,95 @@
               \begin{equation}
                 \delta_j^{(l)} = \frac{\partial L}{\partial z_j^{(l)}}
               \end{equation}
-              \item Rekursive Berechnung (rückwärts durch das Netz):
-              \begin{align}
-                \delta_j^{(L)} &= \frac{\partial L}{\partial a_j^{(L)}} \cdot \sigma'(z_j^{(L)}) \quad \text{(Output-Schicht)} \\
-                \delta_j^{(l)} &= \left(\sum_{k} \delta_k^{(l+1)} w_{jk}^{(l+1)}\right) \sigma'(z_j^{(l)}) \quad \text{(versteckte Schichten)}
-              \end{align}
-              \item Gradientenberechnung:
+              \item \textbf{Idee}: Berechne Fehler rückwärts durch das Netz
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Backpropagation: Algorithmus}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Forward Pass}: Berechne Ausgaben für alle Schichten
+              \item \textbf{Backward Pass}: Berechne Gradienten rekursiv
+              \item \textbf{Output-Schicht}:
+              \begin{equation}
+                \delta_j^{(L)} = \frac{\partial L}{\partial a_j^{(L)}} \cdot \sigma'(z_j^{(L)})
+              \end{equation}
+              \item \textbf{Versteckte Schichten}:
+              \begin{equation}
+                \delta_j^{(l)} = \left(\sum_{k} \delta_k^{(l+1)} w_{jk}^{(l+1)}\right) \sigma'(z_j^{(l)})
+              \end{equation}
+              \item \textbf{Gradientenberechnung}:
               \begin{align}
                 \frac{\partial L}{\partial w_{ij}^{(l)}} &= \delta_j^{(l)} \cdot a_i^{(l-1)} \\
                 \frac{\partial L}{\partial b_j^{(l)}} &= \delta_j^{(l)}
               \end{align}
             \end{itemize}
           \end{column}
-          %\begin{column}{0.3\textwidth}
-          %  \begin{figure}
-          %    \centering
-          %                \includegraphics[width=0.9\textwidth]{images/MLP2.png}
-          %    \end{figure}
-          %\end{column}
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Training von Neuronalen Netzen: Multi-Layer-Perceptron}
+      \begin{frame}{MLP Training: Grundlagen}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item analog zum SLP nutzen wir den Gradienten zur Minimierung des Fehlers
-            \begin{align*}
-              \nabla f(w,u) &= \sum_{x,z^* \in B} \nabla f(w, u; x,z^*) \\
-              \frac{\partial f(w,u)}{\partial u_{jk}} &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial u_{jk}} \\
-              \frac{\partial f(w,u)}{\partial w_{ij}} &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial w_{ij}} 
-            \end{align*}
-            \item mit den Sigmoid-Aktivierungsfunktionen:
-            \begin{align*}
-              a(x) = h(x) = \frac{1}{1+e^{-x}} \text{mit der Ableitung:  } \frac{\text{d}a(x)}{\text{dx}} = a(x) \cdot (1 - a(x))
-            \end{align*}
-            \item mit der Kettenregel für Ableitungen:
-            \begin{equation*}
-              [p(q(x))]´ = p´(q(x)) \cdot q´(x) 
-            \end{equation*}
-            \item ergibt sich für den Gradienten von $f$:
-            \begin{align*}
-              f(w,u;x,z^*) &= \sum_{k=1} ^K [a(u_k y) - z^*_k]^2 \\
-              \frac{\partial f(w,u; x,z^*) }{ \partial u_{jk} } &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial u_{jk}} \\
-                                                            &= 2 [a(u´_k y)-z^*_k] \cdot a´(u´_k y) \cdot y_j \\
-                                                            &= 2 [a(u´_k y)-z^*_k] \cdot a(u´_k y \cdot (1 - a(u´_k y)))\cdot y_j\\
-                                                            &=  \underbrace{ 2 [z_k - z^*_k] \cdot z_k \cdot (1- z_k) }_\text{Fehlerterm $ \delta_k$} \cdot y_j \\
-               \frac{\partial f(w,u; x,z^*)}{\partial w_{ij}} &= 2 \sum_{k=1} ^K (a(u´_k y) -z^*_k) \cdot a´(u´_k y) \cdot u_{jk} \cdot h´(w´_j x) x_i \\
-                                                             &= 2 \sum_{k=1} ^K ( z_k -z^*_k) \cdot z_k \cdot (1-z_k) \cdot u_{jk} \cdot y_j (1-y_j) x_i \\                                                            
-                                                             &= x_i y_j (1-y_j)  \underbrace{2 \sum_{k=1} ^K ( z_k -z^*_k) \cdot z_k \cdot (1-z_k) }_\text{Fehlerterm $ \delta_i$} \cdot u_{jk} \cdot y_j 
-            \end{align*}
+              \item Analog zum SLP: Gradientenabstieg zur Fehlerminimierung
+              \item \textbf{Batch-Gradient}:
+              \begin{align}
+                \nabla f(w,u) &= \sum_{x,z^* \in B} \nabla f(w, u; x,z^*)
+              \end{align}
+              \item \textbf{Sigmoid-Aktivierungsfunktion}:
+              \begin{align}
+                \sigma(x) = \frac{1}{1+e^{-x}} \quad \text{mit} \quad \sigma'(x) = \sigma(x) \cdot (1 - \sigma(x))
+              \end{align}
+              \item \textbf{Kettenregel}:
+              \begin{equation}
+                [f(g(x))]' = f'(g(x)) \cdot g'(x)
+              \end{equation}
+              \item \textbf{Fehlerterm} (Delta): $\delta_j = \frac{\partial L}{\partial z_j}$
             \end{itemize}
           \end{column}
-          %\begin{column}{0.3\textwidth}
-          %  \begin{figure}
-          %    \centering
-          %                \includegraphics[width=0.9\textwidth]{images/MLP2.png}
-          %    \end{figure}
-          %\end{column}
         \end{columns}
       \end{frame}
-      \begin{frame}{Training von Neuronalen Netzen: Multi-Layer-Perceptron}
+
+      \begin{frame}{MLP Training: Gradientenberechnung Output-Schicht}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-
-            \item ergibt sich für den Gradienten von $f$:
-            \begin{align*}
-              f(w,u;x,z^*) &= \sum_{k=1} ^K [a(u_k y) - z^*_k]^2 \\
-              \frac{\partial f(w,u; x,z^*) }{ \partial u_{jk} } &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial u_{jk}} \\
-                                                            &= 2 [a(u´_k y)-z^*_k] \cdot a´(u´_k y) \cdot y_j \\
-                                                            &= 2 [a(u´_k y)-z^*_k] \cdot a(u´_k y \cdot (1 - a(u´_k y)))\cdot y_j\\
-                                                            &=  \underbrace{ 2 [z_k - z^*_k] \cdot z_k \cdot (1- z_k) }_\text{Fehlerterm $ \delta_k$} \cdot y_j \\
-               \frac{\partial f(w,u; x,z^*)}{\partial w_{ij}} &= 2 \sum_{k=1} ^K (a(u´_k y) -z^*_k) \cdot a´(u´_k y) \cdot u_{jk} \cdot h´(w´_j x) x_i \\
-                                                             &= 2 \sum_{k=1} ^K ( z_k -z^*_k) \cdot z_k \cdot (1-z_k) \cdot u_{jk} \cdot y_j (1-y_j) x_i \\                                                            
-                                                             &= x_i y_j (1-y_j)  \underbrace{2 \sum_{k=1} ^K ( z_k -z^*_k) \cdot z_k \cdot (1-z_k) }_\text{Fehlerterm $ \delta_i$} \cdot u_{jk} \cdot y_j 
-            \end{align*}
+              \item \textbf{Fehlerterm für Output-Schicht}:
+              \begin{align}
+                \delta_k^{(out)} &= \frac{\partial L}{\partial z_k^{(out)}} \\
+                &= 2(z_k - z_k^*) \cdot \sigma'(z_k^{(out)}) \\
+                &= 2(z_k - z_k^*) \cdot z_k \cdot (1 - z_k)
+              \end{align}
+              \item \textbf{Gradient für Output-Gewichte}:
+              \begin{align}
+                \frac{\partial L}{\partial u_{jk}} &= \delta_k^{(out)} \cdot y_j
+              \end{align}
+              \item Wobei $y_j$ die Aktivierung der versteckten Schicht ist
             \end{itemize}
           \end{column}
-          %\begin{column}{0.3\textwidth}
-          %  \begin{figure}
-          %    \centering
-          %                \includegraphics[width=0.9\textwidth]{images/MLP2.png}
-          %    \end{figure}
-          %\end{column}
+        \end{columns}
+      \end{frame}
+      \begin{frame}{MLP Training: Gradientenberechnung versteckte Schicht}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Fehlerterm für versteckte Schicht}:
+              \begin{align}
+                \delta_j^{(hidden)} &= \frac{\partial L}{\partial z_j^{(hidden)}} \\
+                &= \sum_{k} \delta_k^{(out)} \cdot u_{jk} \cdot \sigma'(z_j^{(hidden)}) \\
+                &= y_j (1-y_j) \sum_{k} \delta_k^{(out)} \cdot u_{jk}
+              \end{align}
+              \item \textbf{Gradient für versteckte Gewichte}:
+              \begin{align}
+                \frac{\partial L}{\partial w_{ij}} &= \delta_j^{(hidden)} \cdot x_i
+              \end{align}
+              \item \textbf{Backpropagation}: Fehler propagiert rückwärts!
+            \end{itemize}
+          \end{column}
         \end{columns}
       \end{frame}
 
@@ -710,11 +716,6 @@
       \begin{itemize}
         \item \textbf{Representation Learning}: Tiefere Netze lernen hierarchische Merkmalsdarstellungen
         \item \textbf{Mathematischer Vorteil}: Exponentiell weniger Parameter für dieselbe Expressivität
-        \item \textbf{Beispiel - Parität-Funktion}: Prüfe, ob eine ungerade Anzahl von Bits gesetzt ist
-        \begin{itemize}
-          \item Flaches Netz: Benötigt $O(2^n)$ versteckte Neuronen
-          \item Tiefes Netz: Benötigt nur $O(n)$ Neuronen in $O(\log n)$ Schichten
-        \end{itemize}
         \item \textbf{Kompositionelle Struktur}: Viele reale Funktionen haben hierarchische Struktur
         \begin{equation}
           f(\mathbf{x}) = g_L(g_{L-1}(...g_2(g_1(\mathbf{x}))...))
@@ -1173,6 +1174,155 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}{Generative Adversarial Networks (GANs): Grundprinzip}
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+      \begin{itemize}
+        \item \textbf{Grundidee}: Zwei neuronale Netze konkurrieren miteinander
+        \begin{itemize}
+          \item \textbf{Generator $G$}: Erzeugt "gefälschte" Daten aus Rauschen
+          \item \textbf{Discriminator $D$}: Unterscheidet echte von gefälschten Daten
+        \end{itemize}
+        \item \textbf{Adversarial Training}: Spieltheoretischer Ansatz
+        \begin{align}
+          \min_G \max_D V(D,G) = \mathbb{E}_{x \sim p_{data}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1-D(G(z)))]
+        \end{align}
+        \item \textbf{Training Process}:
+        \begin{enumerate}
+          \item \textbf{Discriminator Training}: Maximiere $V(D,G)$
+          \begin{itemize}
+            \item Lerne echte Daten als "echt" zu klassifizieren
+            \item Lerne generierte Daten als "gefälscht" zu erkennen
+          \end{itemize}
+          \item \textbf{Generator Training}: Minimiere $V(D,G)$
+          \begin{itemize}
+            \item Erzeuge Daten, die den Discriminator "täuschen"
+          \end{itemize}
+        \end{enumerate}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{images/GAN.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GAN Training: Mathematische Details}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Discriminator Loss} (Binary Cross-Entropy):
+        \begin{align}
+          \mathcal{L}_D = -\mathbb{E}_{x \sim p_{data}}[\log D(x)] - \mathbb{E}_{z \sim p_z}[\log(1-D(G(z)))]
+        \end{align}
+        \item \textbf{Generator Loss} (Ursprünglich):
+        \begin{align}
+          \mathcal{L}_G = \mathbb{E}_{z \sim p_z}[\log(1-D(G(z)))]
+        \end{align}
+        \item \textbf{Problem}: Vanishing Gradients bei schlechtem Generator
+        \item \textbf{Praktische Generator Loss} (Non-saturating):
+        \begin{align}
+          \mathcal{L}_G = -\mathbb{E}_{z \sim p_z}[\log D(G(z))]
+        \end{align}
+        \item \textbf{Nash-Gleichgewicht}: Theoretisch optimal wenn:
+        \begin{align}
+          D^*(x) = \frac{p_{data}(x)}{p_{data}(x) + p_g(x)} = \frac{1}{2}
+        \end{align}
+        wenn $p_g = p_{data}$ (Generator erzeugt perfekte Datenverteilung)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GAN Varianten und Verbesserungen}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Deep Convolutional GANs (DCGANs)}:
+        \begin{itemize}
+          \item Verwendung von Convolutional Layers
+          \item Batch Normalization, LeakyReLU
+          \item Bessere Stabilität für Bildgenerierung
+        \end{itemize}
+        \item \textbf{Wasserstein GAN (WGAN)}:
+        \begin{itemize}
+          \item Earth Mover Distance statt JS-Divergenz
+          \item Stabileres Training, bessere Konvergenz-Eigenschaften
+          \item \textbf{Lipschitz-Constraint}: Kritisch für WGAN-Theorie
+        \end{itemize}
+        \item \textbf{Conditional GANs (cGANs)}:
+        \begin{itemize}
+          \item Bedingung auf Labels: $G(z|y)$, $D(x|y)$
+          \item Kontrollierte Generierung spezifischer Klassen
+        \end{itemize}
+        \item \textbf{StyleGAN}:
+        \begin{itemize}
+          \item Latent Space Manipulation
+          \item Progressive Growing, Style Transfer
+          \item State-of-the-art für hochauflösende Gesichter
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WGAN und die Lipschitz-Constraint: Kurz erklärt}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Problem bei Standard GANs}: Training instabil, Gradients verschwinden
+        \item \textbf{WGAN Lösung}: Verwende Wasserstein-Distanz statt JS-Divergenz
+        \item \textbf{Lipschitz-Constraint}: 
+        \begin{itemize}
+          \item \textbf{Einfach gesagt}: Discriminator darf nicht "zu steil" werden
+          \item \textbf{Mathematisch}: $|f(x_1) - f(x_2)| \leq L \cdot |x_1 - x_2|$
+          \item \textbf{Warum nötig?} Wasserstein-Distanz erfordert beschränkte Funktionen
+        \end{itemize}
+        \item \textbf{Praktische Umsetzung}:
+        \begin{itemize}
+          \item \textbf{Weight Clipping}: Einfach, aber problematisch
+          \item \textbf{Gradient Penalty}: Moderne Lösung - bestraft zu steile Gradienten
+          \item \textbf{Spectral Normalization}: Normalisiert Netzwerk-Gewichte
+        \end{itemize}
+        \item \textbf{Resultat}: Stabileres Training, bessere Konvergenz
+        \item \textbf{Take-away}: Theoretische Constraints führen zu praktischen Verbesserungen
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GAN Herausforderungen und Lösungsansätze}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Training Instabilität}:
+        \begin{itemize}
+          \item \textbf{Problem}: Discriminator wird zu gut $\rightarrow$ Generator bekommt keine Gradienten
+          \item \textbf{Lösung}: Balanced Training, Learning Rate Scheduling
+        \end{itemize}
+        \item \textbf{Mode Collapse}:
+        \begin{itemize}
+          \item \textbf{Problem}: Generator erzeugt nur wenige Modi der Datenverteilung
+          \item \textbf{Lösung}: Unrolled GANs, Diversity-encouraging Loss Terms
+        \end{itemize}
+        \item \textbf{Evaluation Metrics}:
+        \begin{itemize}
+          \item \textbf{Inception Score (IS)}: Misst Bildqualität und Diversität
+          \item \textbf{Fréchet Inception Distance (FID)}: Vergleicht Feature-Statistiken
+          \item \textbf{Precision \& Recall}: Qualität vs. Diversität Trade-off
+        \end{itemize}
+        \item \textbf{Praktische Tipps}:
+        \begin{itemize}
+          \item Feature Matching, Experience Replay
+          \item Spectral Normalization, Self-Attention
+          \item Progressive Growing für hohe Auflösungen
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}{GANs vs. VAEs: Vergleich der generativen Modelle}
   \begin{columns}
     \begin{column}{1\textwidth}
@@ -1201,6 +1351,88 @@
     \end{column}
   \end{columns}
 \end{frame} 
+
+\begin{frame}{Zusammenfassung: Was haben wir gelernt?}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Mathematische Grundlagen}: Lineare Algebra, Gradienten, Optimierung als Fundament
+        \item \textbf{Perceptron bis Deep Learning}: Von linearer Separierung zum Universal Approximation Theorem
+        \item \textbf{Training neuronaler Netze}: Backpropagation, Gradientenabstieg, moderne Optimierer (ADAM)
+        \item \textbf{Warum Deep Learning funktioniert}: Hierarchische Features, Komposition, Expressivität
+        \item \textbf{Herausforderungen}: Vanishing Gradients, Aktivierungsfunktionen, Regularisierung
+        \item \textbf{Spezielle Architekturen}:
+        \begin{itemize}
+          \item \textbf{CNNs}: Translation Equivarianz für Bilddaten
+          \item \textbf{RNNs/LSTMs}: Sequentielle Daten und Langzeit-Gedächtnis
+          \item \textbf{VAEs}: Probabilistische latente Repräsentationen
+        \end{itemize}
+        \item \textbf{Praktische Anwendung}: Predictive Maintenance als Beispiel für reale Probleme
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Zentrale Erkenntnisse und Ausblick}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Theoretisches Verständnis ist entscheidend}:
+        \begin{itemize}
+          \item Neuronale Netze sind nicht "Black Boxes" - mathematisch fundiert
+          \item Universal Approximation erklärt das Potenzial
+          \item Gradient Flow erklärt Trainierbarkeit
+        \end{itemize}
+        \item \textbf{Architektur-Wahl ist problemspezifisch}:
+        \begin{itemize}
+          \item Nicht immer ist "Deep Learning" die beste Lösung
+          \item Inductive Biases nutzen (CNNs für Bilder, RNNs für Sequenzen)
+          \item Trade-offs zwischen Komplexität und Interpretierbarkeit
+        \end{itemize}
+        \item \textbf{Praktische Anwendung erfordert}:
+        \begin{itemize}
+          \item Datenqualität und -quantität
+          \item Richtige Problemformulierung
+          \item Evaluation und Validierung
+          \item Domain-Wissen einbeziehen
+        \end{itemize}
+        \item \textbf{Zukunft}: Transformer, Attention, Self-Supervised Learning, Foundation Models
+        \item \textbf{Ethik}: Verantwortlicher Einsatz, Bias, Interpretierbarkeit, Nachhaltigkeit
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Projektarbeit: Nächste Schritte}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Gruppenbildung}: 2-3 Personen oder Einzelarbeit bei eigenem Thema
+        \item \textbf{Themenauswahl}: 
+        \begin{itemize}
+          \item Predictive Maintenance Datensätze (NASA Turbofan, PHM Data Challenge)
+          \item Computer Vision (CIFAR-10, MNIST, Custom Dataset)
+          \item Zeitreihenanalyse (Sensor Data, Financial Data)
+          \item Eigenes Thema nach Absprache
+        \end{itemize}
+        \item \textbf{Methodische Anforderungen}:
+        \begin{itemize}
+          \item Mathematische Begründung der Architektur-Wahl
+          \item Implementierung und Training
+          \item Evaluation und Vergleich verschiedener Ansätze
+          \item Interpretation der Ergebnisse
+        \end{itemize}
+        \item \textbf{Deliverables}:
+        \begin{itemize}
+          \item Schriftliche Ausarbeitung (70\% der Note)
+          \item Präsentation in der Blockwoche (30\% der Note)
+          \item Code-Repository (dokumentiert)
+        \end{itemize}
+        \item \textbf{Timeline}: Ausarbeitung eine Woche vor Blockwoche
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
 
       
 
