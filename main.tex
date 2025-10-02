@@ -1144,7 +1144,7 @@
           \item Likelihood: $p(\mathbf{x}|\mathbf{z})$ durch Decoder-Netzwerk
           \item Posterior: $p(\mathbf{z}|\mathbf{x})$ durch Encoder-Netzwerk approximiert
         \end{itemize}
-        \item \textbf{Herausforderung}: $p(\mathbf{z}|\mathbf{x})$ ist analytisch intraktabel
+        \item \textbf{Herausforderung}: $p(\mathbf{z}|\mathbf{x})$ ist analytisch nicht berechenbar
         \item \textbf{Lösung}: Variational Inference mit \textbf{Evidence Lower Bound (ELBO)}
         \item \textbf{Vorteil}: Latenter Raum ist \textbf{kontinuierlich} und \textbf{interpolierbar}
         \item \textbf{Anwendungen}: Bildgenerierung, Data Augmentation, Semi-Supervised Learning
@@ -1169,7 +1169,7 @@
         \end{itemize}
         \item \textbf{Encoder}: $q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\phi}}(\mathbf{x}), \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\phi}}^2(\mathbf{x})))$
         \item \textbf{Decoder}: $p_{\boldsymbol{\theta}}(\mathbf{x}|\mathbf{z}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z}), \boldsymbol{\sigma}_{\boldsymbol{\theta}}^2 \mathbf{I})$
-        \item \textbf{KL-Divergenz} (analytisch berechenbar für Gausssche Verteilungen):
+        \item \textbf{KL-Divergenz} (analytisch berechenbar für Gauß'sche Verteilungen):
         \begin{equation}
           D_{KL} = \frac{1}{2} \sum_{j=1}^{d} (1 + \log(\sigma_j^2) - \mu_j^2 - \sigma_j^2)
         \end{equation}

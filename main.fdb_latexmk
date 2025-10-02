@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1759392028.41731 "main.aux" "main.bbl" "main" 1759392042.46982 0
+["bibtex main"] 1759392190.21264 "main.aux" "main.bbl" "main" 1759392204.00987 0
   "./lit.bib" 1759390824 3683 8ae6dcda2d78297bb50556f6795f1de1 ""
   "d:/texlive/2025/texmf-dist/bibtex/bst/base/ieeetr.bst" 1743656550 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1759392040 8580 348a4e5323a7d7bc9fd8379e2adb3886 "lualatex"
+  "main.aux" 1759392202 8580 348a4e5323a7d7bc9fd8379e2adb3886 "lualatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["lualatex"] 1759392028.93437 "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" "main.pdf" "main" 1759392042.47052 0
+["lualatex"] 1759392190.72994 "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" "main.pdf" "main" 1759392204.01061 0
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/3b355fc090260ff0fc79d71cffbecb06bbbd2537ccd7d10b627343225c33e5d0.luc" 1743677686 78308 a1574930059313ffa5b9ca485b4c5fc4 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/4def4bd880f25a909626457587afec3990d099d8aafeb19a2442b72c5431a0c8.luc" 1743677676 149322 918206f951dd93996111a756ec6d74c6 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/82fd7f25077efd92267baebf6e85d4d37216ccf189f9f9480b5787b0bf7a905d.luc" 1743677686 78332 6d00418f2d9df79816d1e744c04630ed ""
@@ -27,10 +27,10 @@
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman9-regular.luc" 1743677672 127952 4054cd5e62ebd668307ed02877574af7 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-bold.luc" 1743677674 128096 f014f778193e94fd73e1997a21b52564 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmsans9-regular.luc" 1743677673 128297 0a2c7beb1c421209526d9001dd5d0f2e ""
-  "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc" 1759392035 6042 99d9194699efb1ec8eac8fec732c1ab3 "lualatex"
+  "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc" 1759392197 6042 99d9194699efb1ec8eac8fec732c1ab3 "lualatex"
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz" 1759389094 320226 8fd2182ab7fb58107ed8eebaabce6117 ""
   "beamerthemefhswf.sty" 1759389009 6462 b7e20d31109e93f11d48f79497605bc1 ""
-  "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" 1759392020 70433 028db2a5341695e89b5de69d64916dd8 ""
+  "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" 1759392195 70440 0eefbba61ba5f533b151147c6c93bd2b ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraMono-Regular.otf" 1743657457 134144 44994ff3e0dacdadabdbeb50fb90c079 ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Light.otf" 1743657457 505308 908ddf8035629ddf8584d6c783eb6761 ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Medium.otf" 1743657457 514220 fb33739df7c2a9698e6f70d1f9b8b48e ""
@@ -345,10 +345,10 @@
   "images/machine_learning.png" 1759389010 29081 cbe71fa87fe4d1fd5607c93ddb33d795 ""
   "images/sigmoid.png" 1759389010 43676 0cd35e67712d38141c7b87e95b1e2e97 ""
   "logos/fhswf.png" 1759389010 39725 c3e6bae19da3cc022da6eda45b3cafbf ""
-  "main.aux" 1759392040 8580 348a4e5323a7d7bc9fd8379e2adb3886 "lualatex"
-  "main.bbl" 1759392028 1629 1997311f7bf7ee00006445aa26b2a076 "bibtex main"
-  "main.nav" 1759392040 5387 2bb53e06fa96defe43b3d9ce0a03b537 "lualatex"
-  "main.tex" 1759392020 70433 028db2a5341695e89b5de69d64916dd8 ""
+  "main.aux" 1759392202 8580 348a4e5323a7d7bc9fd8379e2adb3886 "lualatex"
+  "main.bbl" 1759392190 1629 1997311f7bf7ee00006445aa26b2a076 "bibtex main"
+  "main.nav" 1759392202 5387 2bb53e06fa96defe43b3d9ce0a03b537 "lualatex"
+  "main.tex" 1759392195 70440 0eefbba61ba5f533b151147c6c93bd2b ""
   (generated)
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.lua"
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc"
