@@ -1411,6 +1411,65 @@
   \end{columns}
 \end{frame} 
 
+\begin{frame}{Wann Deep Learning? Wann klassisches Machine Learning?}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Deep Learning ist sinnvoll bei}:
+        \begin{itemize}
+          \item \textbf{Große Datenmengen}: > 10.000 Samples (je mehr, desto besser)
+          \item \textbf{Komplexe Muster}: Bilder, Audio, Text, Sequenzen
+          \item \textbf{Hierarchische Strukturen}: Features müssen automatisch gelernt werden
+          \item \textbf{Raw Data}: Wenig/keine Feature-Engineering nötig
+          \item \textbf{End-to-End Learning}: Von Rohdaten zur Entscheidung
+          \item \textbf{Ausreichend Rechenkapazität}: GPUs verfügbar
+        \end{itemize}
+        \item \textbf{Klassisches ML ist besser bei}:
+        \begin{itemize}
+          \item \textbf{Kleine Datenmengen}: < 1.000 Samples
+          \item \textbf{Strukturierte/tabellarische Daten}: Features sind bereits bekannt
+          \item \textbf{Interpretierbarkeit wichtig}: Entscheidungen müssen erklärbar sein
+          \item \textbf{Schnelle Inferenz}: Real-time Anwendungen mit Latenz-Constraints
+          \item \textbf{Begrenzte Ressourcen}: Wenig Rechenleistung/Speicher
+          \item \textbf{Gut definierte Features}: Domain-Wissen kann genutzt werden
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Praktische Entscheidungshilfe: Deep Learning vs. klassisches ML}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Beispiele für Deep Learning}:
+        \begin{itemize}
+          \item \textbf{Computer Vision}: Objekterkennung, medizinische Bildanalyse
+          \item \textbf{NLP}: Sprachübersetzung, Chatbots, Sentiment Analysis
+          \item \textbf{Predictive Maintenance}: Sensordaten, Zeitreihen mit vielen Features
+          \item \textbf{Generative Tasks}: Bild-/Texterstellung, Data Augmentation
+        \end{itemize}
+        \item \textbf{Beispiele für klassisches ML}:
+        \begin{itemize}
+          \item \textbf{Tabellarische Daten}: Kreditscoring, Kundenklassifikation
+          \item \textbf{Einfache Klassifikation}: Mit wenigen, gut verstandenen Features
+          \item \textbf{Regression}: Preisvorhersage, wissenschaftliche Analysen
+          \item \textbf{Clustering}: Kundensegmentierung, Anomalieerkennung
+        \end{itemize}
+        \item \textbf{Hybride Ansätze}:
+        \begin{itemize}
+          \item \textbf{Feature-Extraktion}: Deep Learning für Features + klassisches ML für Klassifikation
+          \item \textbf{Ensemble}: Kombination verschiedener Ansätze
+          \item \textbf{Transfer Learning}: Pretrained Models + Domain-spezifische Anpassung
+        \end{itemize}
+        \item \textbf{Praktischer Tipp}: Beginne mit einfachsten Methoden, steigere Komplexität schrittweise
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+
 \begin{frame}{Zusammenfassung: Was haben wir gelernt?}
   \begin{columns}
     \begin{column}{1\textwidth}

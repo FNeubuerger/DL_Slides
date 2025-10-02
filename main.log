@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.4.3)  2 OCT 2025 10:03
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.4.3)  2 OCT 2025 10:06
  restricted system commands enabled.
  file:line:error style messages enabled.
 **c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex
@@ -2221,33 +2221,59 @@ Package luatex.def Info: logos/fhswf.png  used on input line 1412.
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1433.
+Package luatex.def Info: logos/fhswf.png  used on input line 1439.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1433.
+Package luatex.def Info: logos/fhswf.png  used on input line 1439.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [53
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1463.
+Package luatex.def Info: logos/fhswf.png  used on input line 1469.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1463.
+Package luatex.def Info: logos/fhswf.png  used on input line 1469.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [54
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1470.
+Package luatex.def Info: logos/fhswf.png  used on input line 1492.
+(luatex.def)             Requested size: 92.49533pt x 22.76271pt.
+
+
+File: logos/fhswf.png Graphic file (type png)
+<use logos/fhswf.png>
+Package luatex.def Info: logos/fhswf.png  used on input line 1492.
+(luatex.def)             Requested size: 92.49533pt x 22.76271pt.
+[55
+
+]
+File: logos/fhswf.png Graphic file (type png)
+<use logos/fhswf.png>
+Package luatex.def Info: logos/fhswf.png  used on input line 1522.
+(luatex.def)             Requested size: 92.49533pt x 22.76271pt.
+
+
+File: logos/fhswf.png Graphic file (type png)
+<use logos/fhswf.png>
+Package luatex.def Info: logos/fhswf.png  used on input line 1522.
+(luatex.def)             Requested size: 92.49533pt x 22.76271pt.
+[56
+
+]
+File: logos/fhswf.png Graphic file (type png)
+<use logos/fhswf.png>
+Package luatex.def Info: logos/fhswf.png  used on input line 1529.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
  (./main.bbl
 
@@ -2260,17 +2286,17 @@ LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/it' will be
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1470.
+Package luatex.def Info: logos/fhswf.png  used on input line 1529.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
-[55
+[57
 
 <d:/texlive/2025/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>]
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1470.
+Package luatex.def Info: logos/fhswf.png  used on input line 1529.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
-[56
+[58
 
 
 ]
@@ -2295,19 +2321,19 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 )
 
 Here is how much of LuaTeX's memory you used:
- 36250 strings out of 475506
+ 36270 strings out of 475506
  100000,1648299 words of node,token memory allocated
  4668 words of node memory still in use:
    66 hlist, 9 vlist, 15 rule, 15 disc, 6 local_par, 84 glue, 34 kern, 21 penalty, 8 sub_mlist, 139 glyph, 277 attribute, 66 glue_spec, 277 attribute_list, 4 write, 39 pdf_literal, 1 pdf_dest, 47 pdf_colorstack, 1 pdf_setmatrix, 1 pdf_save, 1 pdf_restore nodes
-   avail lists: 2:1027,3:292,4:325,5:758,6:67,7:4754,8:62,9:1024,10:17,11:417
- 57721 multiletter control sequences out of 65536+600000
- 88 fonts using 28427987 bytes
+   avail lists: 2:1027,3:292,4:325,5:758,6:67,7:4754,8:62,9:1024,10:17,11:486
+ 57725 multiletter control sequences out of 65536+600000
+ 88 fonts using 28428031 bytes
  128i,18n,138p,420b,1012s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-bold.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraMono-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Medium.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Light.otf>
-Output written on main.pdf (56 pages, 1051115 bytes).
+Output written on main.pdf (58 pages, 1055479 bytes).
 
-PDF statistics: 476 PDF objects out of 1000 (max. 8388607)
- 317 compressed objects within 4 object streams
- 122 named destinations out of 1000 (max. 131072)
+PDF statistics: 486 PDF objects out of 1000 (max. 8388607)
+ 325 compressed objects within 4 object streams
+ 126 named destinations out of 1000 (max. 131072)
  196 words of extra memory for PDF output out of 10000 (max. 100000000)
 
