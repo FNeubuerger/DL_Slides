@@ -17,22 +17,21 @@ Nach dieser Vorlesung können Studierende:
 
 ## 📖 Inhalt der Vorlesung
 
-### 1. Mathematische Grundlagen (Folien 1-50)
-- **Lineare Algebra Refresher**: Vektoren, Matrizen, Eigenwerte
+### 1. Mathematische Grundlagen
+- **Lineare Algebra Refresher**: Vektoren, Matrizen, Grundoperationen
 - **Analysis**: Gradienten, partielle Ableitungen, Kettenregel
-- **Wahrscheinlichkeitstheorie**: Verteilungen, Bayes'sche Statistik
-- **Optimierung**: Gradientenabstieg, Konvexität
-- **Informationstheorie**: Entropie, KL-Divergenz
-- **Statistik**: Hypothesentests, Maximum Likelihood
+- **Normen und Abstände**: L1, L2, Frobenius-Norm
+- **Wichtige Funktionen**: Sigmoid, Exponential, Logarithmus
+- **Mathematische Notation**: Konsistente Schreibweise für die Vorlesung
 
-### 2. Grundlagen Neuronaler Netze (Folien 51-100)
+### 2. Grundlagen Neuronaler Netze 
 - **Perceptron**: Lineare Klassifikation, mathematische Herleitung
 - **Multi-Layer Perceptron (MLP)**: Universal Approximation Theorem
 - **Aktivierungsfunktionen**: Sigmoid, ReLU, Softmax
 - **Backpropagation**: Mathematische Herleitung und Implementierung
 - **Verlustfunktionen**: Cross-Entropy, Mean Squared Error
 
-### 3. Deep Learning Architekturen (Folien 101-200)
+### 3. Deep Learning Architekturen
 - **Convolutional Neural Networks (CNNs)**:
   - Convolution Operation und mathematische Grundlagen
   - Pooling, Feature Maps, Translation Equivarianz
@@ -44,7 +43,7 @@ Nach dieser Vorlesung können Studierende:
   - Gate-Mechanismen, Cell State
   - Mathematische Herleitung der Forget-, Input- und Output-Gates
 
-### 4. Generative Modelle (Folien 201-250)
+### 4. Generative Modelle 
 - **Variational Autoencoders (VAEs)**:
   - Evidence Lower Bound (ELBO)
   - Reparameterization Trick
@@ -53,10 +52,6 @@ Nach dieser Vorlesung können Studierende:
   - Adversarial Training, Minimax-Spiel
   - Lipschitz-Constraint und WGAN
   - Mode Collapse und Lösungsansätze
-
-### 5. Praktische Anwendungen (Folien 251-300)
-- **Wann Deep Learning vs. klassisches ML?**: Praktische Entscheidungshilfen
-- **Projektarbeit**: Hands-on Erfahrung mit realen Datensätzen
 
 ## 🛠️ Technische Details
 
