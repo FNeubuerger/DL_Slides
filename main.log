@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.4.3)  2 OCT 2025 09:57
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.4.3)  2 OCT 2025 09:59
  restricted system commands enabled.
  file:line:error style messages enabled.
 **c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex
@@ -1326,46 +1326,46 @@ LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/n' will be
 (Font)              scaled to size 8.48953pt on input line 42.
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 66.
+Package luatex.def Info: logos/fhswf.png  used on input line 65.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/b/n' will be
-(Font)              scaled to size 7.55379pt on input line 66.
+(Font)              scaled to size 7.55379pt on input line 65.
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/b/n' will be
-(Font)              scaled to size 8.3931pt on input line 66.
+(Font)              scaled to size 8.3931pt on input line 65.
 
 
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/n' will be
-(Font)              scaled to size 3.39581pt on input line 66.
+(Font)              scaled to size 3.39581pt on input line 65.
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 66.
+Package luatex.def Info: logos/fhswf.png  used on input line 65.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [1{d:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 <./logos/fhswf.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 88.
+Package luatex.def Info: logos/fhswf.png  used on input line 86.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/ai_methodology.png, id=50, 268.00125pt x 397.485pt>
 File: images/ai_methodology.png Graphic file (type png)
 <use images/ai_methodology.png>
-Package luatex.def Info: images/ai_methodology.png  used on input line 88.
+Package luatex.def Info: images/ai_methodology.png  used on input line 86.
 (luatex.def)             Requested size: 114.81627pt x 170.28444pt.
 LaTeX Font Info:    Font shape `TU/FiraMono(0)/m/n' will be
-(Font)              scaled to size 7.58249pt on input line 88.
+(Font)              scaled to size 7.58249pt on input line 86.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 88.
+Package luatex.def Info: logos/fhswf.png  used on input line 86.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [2
 
 <./images/ai_methodology.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 112.
+Package luatex.def Info: logos/fhswf.png  used on input line 110.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 Missing character: There is no ⋮ (U+22EE) in font "name:Fira Math:mode=base;script=math;language=dflt;mathfontdimen=xetex;"!
@@ -1374,47 +1374,47 @@ Missing character: There is no ⋮ (U+22EE) in font "name:Fira Math:mode=base;sc
 Missing character: There is no ⋱ (U+22F1) in font "name:Fira Math:mode=base;script=math;language=dflt;mathfontdimen=xetex;"!
 Missing character: There is no ⋮ (U+22EE) in font "name:Fira Math:mode=base;script=math;language=dflt;mathfontdimen=xetex;"!
 
-Overfull \vbox (20.43866pt too high) detected at line 112
+Overfull \vbox (20.43866pt too high) detected at line 110
  []
 
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 112.
+Package luatex.def Info: logos/fhswf.png  used on input line 110.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [3
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 137.
+Package luatex.def Info: logos/fhswf.png  used on input line 135.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 137.
+Package luatex.def Info: logos/fhswf.png  used on input line 135.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [4
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 153.
+Package luatex.def Info: logos/fhswf.png  used on input line 151.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 153.
+Package luatex.def Info: logos/fhswf.png  used on input line 151.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [5
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 183.
+Package luatex.def Info: logos/fhswf.png  used on input line 181.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 Missing character: There is no ⋮ (U+22EE) in font "name:Fira Math:mode=base;script=math;language=dflt;mathfontdimen=xetex;"!
@@ -1422,845 +1422,845 @@ Missing character: There is no ⋮ (U+22EE) in font "name:Fira Math:mode=base;sc
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 183.
+Package luatex.def Info: logos/fhswf.png  used on input line 181.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [6
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 202.
+Package luatex.def Info: logos/fhswf.png  used on input line 200.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 202.
+Package luatex.def Info: logos/fhswf.png  used on input line 200.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [7
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 225.
+Package luatex.def Info: logos/fhswf.png  used on input line 223.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/n' will be
-(Font)              scaled to size 5.5012pt on input line 225.
+(Font)              scaled to size 5.5012pt on input line 223.
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/n' will be
-(Font)              scaled to size 4.43153pt on input line 225.
+(Font)              scaled to size 4.43153pt on input line 223.
 LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/b/n' will be
-(Font)              scaled to size 6.71448pt on input line 225.
+(Font)              scaled to size 6.71448pt on input line 223.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 225.
+Package luatex.def Info: logos/fhswf.png  used on input line 223.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [8
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 245.
+Package luatex.def Info: logos/fhswf.png  used on input line 243.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/machine_learning.png, id=94, 372.39125pt x 440.64626pt>
 File: images/machine_learning.png Graphic file (type png)
 <use images/machine_learning.png>
-Package luatex.def Info: images/machine_learning.png  used on input line 245.
+Package luatex.def Info: images/machine_learning.png  used on input line 243.
 (luatex.def)             Requested size: 114.81627pt x 135.85931pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 245.
+Package luatex.def Info: logos/fhswf.png  used on input line 243.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [9
 
 <./images/machine_learning.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 268.
+Package luatex.def Info: logos/fhswf.png  used on input line 266.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 268.
+Package luatex.def Info: logos/fhswf.png  used on input line 266.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [10
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 290.
+Package luatex.def Info: logos/fhswf.png  used on input line 288.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 290.
+Package luatex.def Info: logos/fhswf.png  used on input line 288.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [11
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 315.
+Package luatex.def Info: logos/fhswf.png  used on input line 313.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 LaTeX Font Warning: Font shape `TU/FiraMath(1)/b/n' undefined
-(Font)              using `TU/FiraMath(1)/m/n' instead on input line 315.
+(Font)              using `TU/FiraMath(1)/m/n' instead on input line 313.
 
 LaTeX Font Info:    Font shape `TU/FiraMath(1)/b/n' will be
-(Font)              scaled to size 5.45938pt on input line 315.
+(Font)              scaled to size 5.45938pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(1)/b/n' will be
-(Font)              scaled to size 4.39784pt on input line 315.
+(Font)              scaled to size 4.39784pt on input line 313.
 
 LaTeX Font Warning: Font shape `TU/FiraMath(2)/b/n' undefined
-(Font)              using `TU/FiraMath(2)/m/n' instead on input line 315.
+(Font)              using `TU/FiraMath(2)/m/n' instead on input line 313.
 
 LaTeX Font Info:    Font shape `TU/FiraMath(2)/b/n' will be
-(Font)              scaled to size 5.45938pt on input line 315.
+(Font)              scaled to size 5.45938pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(2)/b/n' will be
-(Font)              scaled to size 4.39784pt on input line 315.
+(Font)              scaled to size 4.39784pt on input line 313.
 
 LaTeX Font Warning: Font shape `TU/FiraMath(3)/b/n' undefined
-(Font)              using `TU/FiraMath(3)/m/n' instead on input line 315.
+(Font)              using `TU/FiraMath(3)/m/n' instead on input line 313.
 
 LaTeX Font Info:    Font shape `TU/FiraMath(3)/b/n' will be
-(Font)              scaled to size 5.45938pt on input line 315.
+(Font)              scaled to size 5.45938pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(3)/b/n' will be
-(Font)              scaled to size 4.39784pt on input line 315.
+(Font)              scaled to size 4.39784pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(1)/b/n' will be
-(Font)              scaled to size 7.58249pt on input line 315.
+(Font)              scaled to size 7.58249pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(2)/b/n' will be
-(Font)              scaled to size 7.58249pt on input line 315.
+(Font)              scaled to size 7.58249pt on input line 313.
 LaTeX Font Info:    Font shape `TU/FiraMath(3)/b/n' will be
-(Font)              scaled to size 7.58249pt on input line 315.
+(Font)              scaled to size 7.58249pt on input line 313.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 315.
+Package luatex.def Info: logos/fhswf.png  used on input line 313.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [12
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 342.
+Package luatex.def Info: logos/fhswf.png  used on input line 340.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/Perceptron_example.svg.png, id=124, 501.875pt x 501.875pt>
 File: images/Perceptron_example.svg.png Graphic file (type png)
 <use images/Perceptron_example.svg.png>
-Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 342.
+Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 340.
 (luatex.def)             Requested size: 114.81627pt x 114.81618pt.
 
-Overfull \vbox (0.24835pt too high) detected at line 342
+Overfull \vbox (0.24835pt too high) detected at line 340
  []
 
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 342.
+Package luatex.def Info: logos/fhswf.png  used on input line 340.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [13
 
 <./images/Perceptron_example.svg.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 369.
+Package luatex.def Info: logos/fhswf.png  used on input line 367.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/Perceptron_example.svg.png Graphic file (type png)
 <use images/Perceptron_example.svg.png>
-Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 369.
+Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 367.
 (luatex.def)             Requested size: 114.81627pt x 114.81618pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 369.
+Package luatex.def Info: logos/fhswf.png  used on input line 367.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [14
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 400.
+Package luatex.def Info: logos/fhswf.png  used on input line 398.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/Perceptron_example.svg.png Graphic file (type png)
 <use images/Perceptron_example.svg.png>
-Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 400.
+Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 398.
 (luatex.def)             Requested size: 114.81627pt x 114.81618pt.
 
-Overfull \vbox (1.36304pt too high) detected at line 400
+Overfull \vbox (1.36304pt too high) detected at line 398
  []
 
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 400.
+Package luatex.def Info: logos/fhswf.png  used on input line 398.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [15
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 420.
+Package luatex.def Info: logos/fhswf.png  used on input line 418.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/Perceptron_example.svg.png Graphic file (type png)
 <use images/Perceptron_example.svg.png>
-Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 420.
+Package luatex.def Info: images/Perceptron_example.svg.png  used on input line 418.
 (luatex.def)             Requested size: 114.81627pt x 114.81618pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 420.
+Package luatex.def Info: logos/fhswf.png  used on input line 418.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [16
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 460.
+Package luatex.def Info: logos/fhswf.png  used on input line 458.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/XOR.png, id=150, 295.85532pt x 163.3603pt>
 File: images/XOR.png Graphic file (type png)
 <use images/XOR.png>
-Package luatex.def Info: images/XOR.png  used on input line 460.
+Package luatex.def Info: images/XOR.png  used on input line 458.
 (luatex.def)             Requested size: 153.08449pt x 84.52907pt.
 
-Overfull \vbox (30.10834pt too high) detected at line 460
+Overfull \vbox (30.10834pt too high) detected at line 458
  []
 
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 460.
+Package luatex.def Info: logos/fhswf.png  used on input line 458.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [17
 
 <./images/XOR.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 493.
+Package luatex.def Info: logos/fhswf.png  used on input line 491.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/OR_AND.png, id=159, 356.0803pt x 160.34906pt>
 File: images/OR_AND.png Graphic file (type png)
 <use images/OR_AND.png>
-Package luatex.def Info: images/OR_AND.png  used on input line 493.
+Package luatex.def Info: images/OR_AND.png  used on input line 491.
 (luatex.def)             Requested size: 114.81627pt x 51.70177pt.
 File: images/XOR.png Graphic file (type png)
 <use images/XOR.png>
-Package luatex.def Info: images/XOR.png  used on input line 493.
+Package luatex.def Info: images/XOR.png  used on input line 491.
 (luatex.def)             Requested size: 114.81627pt x 63.39618pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 493.
+Package luatex.def Info: logos/fhswf.png  used on input line 491.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [18
 
 <./images/OR_AND.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 522.
+Package luatex.def Info: logos/fhswf.png  used on input line 520.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/MLP.png, id=166, 274.77657pt x 164.86594pt>
 File: images/MLP.png Graphic file (type png)
 <use images/MLP.png>
-Package luatex.def Info: images/MLP.png  used on input line 522.
+Package luatex.def Info: images/MLP.png  used on input line 520.
 (luatex.def)             Requested size: 114.81627pt x 68.8885pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 522.
+Package luatex.def Info: logos/fhswf.png  used on input line 520.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [19
 
 <./images/MLP.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 550.
+Package luatex.def Info: logos/fhswf.png  used on input line 548.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/MLP2.png, id=173, 417.81094pt x 331.99031pt>
 File: images/MLP2.png Graphic file (type png)
 <use images/MLP2.png>
-Package luatex.def Info: images/MLP2.png  used on input line 550.
+Package luatex.def Info: images/MLP2.png  used on input line 548.
 (luatex.def)             Requested size: 114.81627pt x 91.22922pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 550.
+Package luatex.def Info: logos/fhswf.png  used on input line 548.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [20
 
 <./images/MLP2.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 570.
+Package luatex.def Info: logos/fhswf.png  used on input line 568.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 570.
+Package luatex.def Info: logos/fhswf.png  used on input line 568.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [21
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 594.
+Package luatex.def Info: logos/fhswf.png  used on input line 592.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 594.
+Package luatex.def Info: logos/fhswf.png  used on input line 592.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [22
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 617.
+Package luatex.def Info: logos/fhswf.png  used on input line 615.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 617.
+Package luatex.def Info: logos/fhswf.png  used on input line 615.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [23
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 637.
+Package luatex.def Info: logos/fhswf.png  used on input line 635.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 637.
+Package luatex.def Info: logos/fhswf.png  used on input line 635.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [24
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 656.
+Package luatex.def Info: logos/fhswf.png  used on input line 654.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 656.
+Package luatex.def Info: logos/fhswf.png  used on input line 654.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [25
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 682.
+Package luatex.def Info: logos/fhswf.png  used on input line 680.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 682.
+Package luatex.def Info: logos/fhswf.png  used on input line 680.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [26
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 711.
+Package luatex.def Info: logos/fhswf.png  used on input line 709.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 711.
+Package luatex.def Info: logos/fhswf.png  used on input line 709.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [27
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 736.
+Package luatex.def Info: logos/fhswf.png  used on input line 734.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 736.
+Package luatex.def Info: logos/fhswf.png  used on input line 734.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [28
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 766.
+Package luatex.def Info: logos/fhswf.png  used on input line 764.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/sigmoid.png, id=228, 1405.25pt x 538.01pt>
 File: images/sigmoid.png Graphic file (type png)
 <use images/sigmoid.png>
-Package luatex.def Info: images/sigmoid.png  used on input line 766.
+Package luatex.def Info: images/sigmoid.png  used on input line 764.
 (luatex.def)             Requested size: 153.08449pt x 58.60661pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 766.
+Package luatex.def Info: logos/fhswf.png  used on input line 764.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [29
 
 <./images/sigmoid.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 795.
+Package luatex.def Info: logos/fhswf.png  used on input line 793.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 795.
+Package luatex.def Info: logos/fhswf.png  used on input line 793.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [30
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 812.
+Package luatex.def Info: logos/fhswf.png  used on input line 810.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/Softplus.png, id=242, 462.528pt x 346.896pt>
 File: images/Softplus.png Graphic file (type png)
 <use images/Softplus.png>
-Package luatex.def Info: images/Softplus.png  used on input line 812.
+Package luatex.def Info: images/Softplus.png  used on input line 810.
 (luatex.def)             Requested size: 191.35854pt x 143.5198pt.
 <images/ReLU.png, id=243, 462.528pt x 346.896pt>
 File: images/ReLU.png Graphic file (type png)
 <use images/ReLU.png>
-Package luatex.def Info: images/ReLU.png  used on input line 812.
+Package luatex.def Info: images/ReLU.png  used on input line 810.
 (luatex.def)             Requested size: 191.35854pt x 143.5198pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 812.
+Package luatex.def Info: logos/fhswf.png  used on input line 810.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [31
 
 <./images/Softplus.png><./images/ReLU.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 836.
+Package luatex.def Info: logos/fhswf.png  used on input line 834.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/CNN.png, id=252, 396.48125pt x 122.4575pt>
 File: images/CNN.png Graphic file (type png)
 <use images/CNN.png>
-Package luatex.def Info: images/CNN.png  used on input line 836.
+Package luatex.def Info: images/CNN.png  used on input line 834.
 (luatex.def)             Requested size: 153.08449pt x 47.28174pt.
 <images/RNN.png, id=253, 853.1875pt x 372.39125pt>
 File: images/RNN.png Graphic file (type png)
 <use images/RNN.png>
-Package luatex.def Info: images/RNN.png  used on input line 836.
+Package luatex.def Info: images/RNN.png  used on input line 834.
 (luatex.def)             Requested size: 153.08449pt x 66.81728pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 836.
+Package luatex.def Info: logos/fhswf.png  used on input line 834.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [32
 
 <./images/CNN.png><./images/RNN.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 868.
+Package luatex.def Info: logos/fhswf.png  used on input line 866.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/CNN.png Graphic file (type png)
 <use images/CNN.png>
-Package luatex.def Info: images/CNN.png  used on input line 868.
+Package luatex.def Info: images/CNN.png  used on input line 866.
 (luatex.def)             Requested size: 148.83801pt x 45.97002pt.
 <images/featuremaps.jpg, id=261, 462.528pt x 462.528pt>
 File: images/featuremaps.jpg Graphic file (type jpg)
 <use images/featuremaps.jpg>
-Package luatex.def Info: images/featuremaps.jpg  used on input line 868.
+Package luatex.def Info: images/featuremaps.jpg  used on input line 866.
 (luatex.def)             Requested size: 148.83801pt x 148.8377pt.
 
-Overfull \vbox (5.65865pt too high) detected at line 868
+Overfull \vbox (5.65865pt too high) detected at line 866
  []
 
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 868.
+Package luatex.def Info: logos/fhswf.png  used on input line 866.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [33
 
 <./images/featuremaps.jpg>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 897.
+Package luatex.def Info: logos/fhswf.png  used on input line 895.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/convolution.png, id=267, 853.1875pt x 414.54875pt>
 File: images/convolution.png Graphic file (type png)
 <use images/convolution.png>
-Package luatex.def Info: images/convolution.png  used on input line 897.
+Package luatex.def Info: images/convolution.png  used on input line 895.
 (luatex.def)             Requested size: 127.57451pt x 61.98354pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 897.
+Package luatex.def Info: logos/fhswf.png  used on input line 895.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [34
 
 <./images/convolution.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 925.
+Package luatex.def Info: logos/fhswf.png  used on input line 923.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 925.
+Package luatex.def Info: logos/fhswf.png  used on input line 923.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [35
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 956.
+Package luatex.def Info: logos/fhswf.png  used on input line 954.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/CNN.png Graphic file (type png)
 <use images/CNN.png>
-Package luatex.def Info: images/CNN.png  used on input line 956.
+Package luatex.def Info: images/CNN.png  used on input line 954.
 (luatex.def)             Requested size: 153.08449pt x 47.28174pt.
 File: images/convolution.png Graphic file (type png)
 <use images/convolution.png>
-Package luatex.def Info: images/convolution.png  used on input line 956.
+Package luatex.def Info: images/convolution.png  used on input line 954.
 (luatex.def)             Requested size: 153.08449pt x 74.3815pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 956.
+Package luatex.def Info: logos/fhswf.png  used on input line 954.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [36
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 976.
+Package luatex.def Info: logos/fhswf.png  used on input line 974.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/featuremaps.jpg Graphic file (type jpg)
 <use images/featuremaps.jpg>
-Package luatex.def Info: images/featuremaps.jpg  used on input line 976.
+Package luatex.def Info: images/featuremaps.jpg  used on input line 974.
 (luatex.def)             Requested size: 191.35854pt x 191.35976pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 976.
+Package luatex.def Info: logos/fhswf.png  used on input line 974.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [37
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 997.
+Package luatex.def Info: logos/fhswf.png  used on input line 995.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 File: images/RNN.png Graphic file (type png)
 <use images/RNN.png>
-Package luatex.def Info: images/RNN.png  used on input line 997.
+Package luatex.def Info: images/RNN.png  used on input line 995.
 (luatex.def)             Requested size: 153.08449pt x 66.81728pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 997.
+Package luatex.def Info: logos/fhswf.png  used on input line 995.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [38
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1026.
+Package luatex.def Info: logos/fhswf.png  used on input line 1024.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/LSTM_1.png, id=298, 551.81157pt x 214.55156pt>
 File: images/LSTM_1.png Graphic file (type png)
 <use images/LSTM_1.png>
-Package luatex.def Info: images/LSTM_1.png  used on input line 1026.
+Package luatex.def Info: images/LSTM_1.png  used on input line 1024.
 (luatex.def)             Requested size: 153.08449pt x 59.52075pt.
 <images/LSTM_2.png, id=299, 288.3272pt x 173.89969pt>
 File: images/LSTM_2.png Graphic file (type png)
 <use images/LSTM_2.png>
-Package luatex.def Info: images/LSTM_2.png  used on input line 1026.
+Package luatex.def Info: images/LSTM_2.png  used on input line 1024.
 (luatex.def)             Requested size: 153.08449pt x 92.33356pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1026.
+Package luatex.def Info: logos/fhswf.png  used on input line 1024.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [39
 
 <./images/LSTM_1.png><./images/LSTM_2.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1066.
+Package luatex.def Info: logos/fhswf.png  used on input line 1064.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/LSTM_3.png, id=309, 518.6878pt x 169.38281pt>
 File: images/LSTM_3.png Graphic file (type png)
 <use images/LSTM_3.png>
-Package luatex.def Info: images/LSTM_3.png  used on input line 1066.
+Package luatex.def Info: images/LSTM_3.png  used on input line 1064.
 (luatex.def)             Requested size: 153.08449pt x 49.99075pt.
 <images/LSTM_4.png, id=310, 553.31718pt x 182.93344pt>
 File: images/LSTM_4.png Graphic file (type png)
 <use images/LSTM_4.png>
-Package luatex.def Info: images/LSTM_4.png  used on input line 1066.
+Package luatex.def Info: images/LSTM_4.png  used on input line 1064.
 (luatex.def)             Requested size: 153.08449pt x 50.6097pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1066.
+Package luatex.def Info: logos/fhswf.png  used on input line 1064.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [40
 
 <./images/LSTM_3.png><./images/LSTM_4.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1103.
+Package luatex.def Info: logos/fhswf.png  used on input line 1101.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/LSTM_5.png, id=318, 538.26094pt x 179.92218pt>
 File: images/LSTM_5.png Graphic file (type png)
 <use images/LSTM_5.png>
-Package luatex.def Info: images/LSTM_5.png  used on input line 1103.
+Package luatex.def Info: images/LSTM_5.png  used on input line 1101.
 (luatex.def)             Requested size: 153.08449pt x 51.17128pt.
 <images/LSTM_6.png, id=319, 530.73282pt x 185.94469pt>
 File: images/LSTM_6.png Graphic file (type png)
 <use images/LSTM_6.png>
-Package luatex.def Info: images/LSTM_6.png  used on input line 1103.
+Package luatex.def Info: images/LSTM_6.png  used on input line 1101.
 (luatex.def)             Requested size: 153.08449pt x 53.63316pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1103.
+Package luatex.def Info: logos/fhswf.png  used on input line 1101.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [41
 
 <./images/LSTM_5.png><./images/LSTM_6.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1134.
+Package luatex.def Info: logos/fhswf.png  used on input line 1132.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/Autoencoder.png, id=328, 679.53876pt x 507.8975pt>
 File: images/Autoencoder.png Graphic file (type png)
 <use images/Autoencoder.png>
-Package luatex.def Info: images/Autoencoder.png  used on input line 1134.
+Package luatex.def Info: images/Autoencoder.png  used on input line 1132.
 (luatex.def)             Requested size: 153.08449pt x 114.4115pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1134.
+Package luatex.def Info: logos/fhswf.png  used on input line 1132.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [42
 
 <./images/Autoencoder.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1156.
+Package luatex.def Info: logos/fhswf.png  used on input line 1154.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1156.
+Package luatex.def Info: logos/fhswf.png  used on input line 1154.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [43
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1181.
+Package luatex.def Info: logos/fhswf.png  used on input line 1179.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1181.
+Package luatex.def Info: logos/fhswf.png  used on input line 1179.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [44
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1207.
+Package luatex.def Info: logos/fhswf.png  used on input line 1205.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1207.
+Package luatex.def Info: logos/fhswf.png  used on input line 1205.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [45
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1236.
+Package luatex.def Info: logos/fhswf.png  used on input line 1234.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1236.
+Package luatex.def Info: logos/fhswf.png  used on input line 1234.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [46
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1270.
+Package luatex.def Info: logos/fhswf.png  used on input line 1268.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 <images/GAN.png, id=356, 1027.84pt x 448.67625pt>
 File: images/GAN.png Graphic file (type png)
 <use images/GAN.png>
-Package luatex.def Info: images/GAN.png  used on input line 1270.
+Package luatex.def Info: images/GAN.png  used on input line 1268.
 (luatex.def)             Requested size: 127.57451pt x 55.6873pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1270.
+Package luatex.def Info: logos/fhswf.png  used on input line 1268.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [47
 
 <./images/GAN.png>]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1297.
+Package luatex.def Info: logos/fhswf.png  used on input line 1295.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1297.
+Package luatex.def Info: logos/fhswf.png  used on input line 1295.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [48
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1329.
+Package luatex.def Info: logos/fhswf.png  used on input line 1327.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1329.
+Package luatex.def Info: logos/fhswf.png  used on input line 1327.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [49
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1354.
+Package luatex.def Info: logos/fhswf.png  used on input line 1352.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1354.
+Package luatex.def Info: logos/fhswf.png  used on input line 1352.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [50
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1385.
+Package luatex.def Info: logos/fhswf.png  used on input line 1383.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1385.
+Package luatex.def Info: logos/fhswf.png  used on input line 1383.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [51
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1414.
+Package luatex.def Info: logos/fhswf.png  used on input line 1412.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1414.
+Package luatex.def Info: logos/fhswf.png  used on input line 1412.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [52
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1435.
+Package luatex.def Info: logos/fhswf.png  used on input line 1433.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1435.
+Package luatex.def Info: logos/fhswf.png  used on input line 1433.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [53
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1465.
+Package luatex.def Info: logos/fhswf.png  used on input line 1463.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1465.
+Package luatex.def Info: logos/fhswf.png  used on input line 1463.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [54
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1496.
+Package luatex.def Info: logos/fhswf.png  used on input line 1494.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1496.
+Package luatex.def Info: logos/fhswf.png  used on input line 1494.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [55
 
 ]
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1505.
+Package luatex.def Info: logos/fhswf.png  used on input line 1503.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
  (./main.bbl
 
@@ -2273,7 +2273,7 @@ LaTeX Font Info:    Font shape `TU/FiraSansLight(0)/m/it' will be
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1505.
+Package luatex.def Info: logos/fhswf.png  used on input line 1503.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [56
 
@@ -2281,7 +2281,7 @@ Package luatex.def Info: logos/fhswf.png  used on input line 1505.
 
 File: logos/fhswf.png Graphic file (type png)
 <use logos/fhswf.png>
-Package luatex.def Info: logos/fhswf.png  used on input line 1505.
+Package luatex.def Info: logos/fhswf.png  used on input line 1503.
 (luatex.def)             Requested size: 92.49533pt x 22.76271pt.
 [57
 
@@ -2312,12 +2312,12 @@ Here is how much of LuaTeX's memory you used:
  100000,1648299 words of node,token memory allocated
  4668 words of node memory still in use:
    66 hlist, 9 vlist, 15 rule, 15 disc, 6 local_par, 84 glue, 34 kern, 21 penalty, 8 sub_mlist, 139 glyph, 277 attribute, 66 glue_spec, 277 attribute_list, 4 write, 39 pdf_literal, 1 pdf_dest, 47 pdf_colorstack, 1 pdf_setmatrix, 1 pdf_save, 1 pdf_restore nodes
-   avail lists: 2:1027,3:314,4:331,5:756,6:70,7:4754,8:62,9:1024,10:17,11:426
+   avail lists: 2:1027,3:292,4:331,5:756,6:70,7:4754,8:62,9:1024,10:17,11:426
  57723 multiletter control sequences out of 65536+600000
  88 fonts using 28428075 bytes
  128i,18n,138p,420b,1012s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-bold.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/firamath/FiraMath-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraMono-Regular.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Medium.otf><d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Light.otf>
-Output written on main.pdf (57 pages, 1053599 bytes).
+Output written on main.pdf (57 pages, 1053351 bytes).
 
 PDF statistics: 481 PDF objects out of 1000 (max. 8388607)
  321 compressed objects within 4 object streams
