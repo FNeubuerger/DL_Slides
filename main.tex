@@ -33,31 +33,14 @@
 }
 
 \title{Neuronale Netze/Deep Learning und Predictive Maintenance}
-\author[F.~Neubürger, T.~Kopinski]{ \textbf{Felix Neubürger}, Prof. Dr. Thomas Kopinski}
+\author[F.~Neubürger,]{ \textbf{Felix Neubürger}}
 \institute[I \& W]{Fachhochschule Südwestfalen, Ingenieurs- \& Wirtschaftswissenschaften}
-\date{15. Juni 2024}
+\date{01. Oktober 2025}
 \titlegraphic{\includegraphics[width=0.2\textwidth]{images/MLP2.png}}
 
 
 \begin{document}
 
-\maketitle
-\begin{frame}{Abfrage Erwartungen und Vorwissen}
-  \begin{columns}
-    \begin{column}{1\textwidth}
-      \begin{itemize}
-        \item \url{https://www.menti.com/} \newline
-        \item Code: 3972 7236
-      \end{itemize}
-    \end{column}
-    \begin{column}{0\textwidth}
-% \begin{figure}
-% \centering
-%             \includegraphics[width=0.9\textwidth]{images/intro/intro.pdf}
-% \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
 
 \begin{frame}{Inhalte der Vorlesung}
   \begin{columns}
@@ -67,9 +50,6 @@
         \item Einführung spezieller Architekturen Neuronaler Netze \newline
         \item Anwendung von Neuronalen Netzen zur Lösung zur Datenanalyse  \newline
         \item Verschiedene Architekturen Neuronaler Netze \newline 
-        \item Einführung in das Anwendungsthema der Predictive Maintenance (PM) \newline
-        \item Bearbeitung von Benchmark Datensätzen in der PM mithilfe von NN \newline
-        \item Strategien zur Durchführung von PM Projekten
       \end{itemize}
     \end{column}
     \begin{column}{0\textwidth}
@@ -88,10 +68,8 @@
         \item Was genau machen Neuronale Netze? \newline
         \item Wie kann ich mir das vorstellen? \newline
         \item Was ist überhaupt "Deep Learning"?  \newline
-        %\item Welche Vorteile kann Predictive Maintenance haben? \newline
         \item Welche verschiedenen Architekturen neuronaler Netze gibt es? \newline
         \item Muss es immer Deep Learning sein? \newline
-        %\item Wie gehe ich an ein Predictive Maintenance Projekt heran?
       \end{itemize}
     \end{column}
     \begin{column}{0.3\textwidth}
@@ -103,51 +81,6 @@
     \end{column}
   \end{columns}
 \end{frame}
-
-\begin{frame}{Fromat der Vorlesung - Wie sollen diese Fragen beantwortet werden?}
-  \begin{columns}
-    \begin{column}{0.69\textwidth}
-      \begin{itemize}
-        \item Theroretischer Teil mit Folien \newline
-        \item Praktischer Teil in Gruppen an einem Projekt  \newline
-        \item Gruppengröße 2 oder 3 Personen  \newline
-        %\item Welche Vorteile kann Predictive Maintenance haben? \newline
-        \item Einzelarbeit möglich wenn eigenes Thema vorhanden \newline
-        \item Abgabe der Ausarbeitung eine Woche vor der Blockwoche \newline
-        \item Vorstellung der Projektergebnisse in der Blockwoche \newline
-        \item Gewichtung der Bewertung Projektausarbeitung (70\%) und Vortrag (30\%)
-        %\item Wie gehe ich an ein Predictive Maintenance Projekt heran?
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.3\textwidth}
- \begin{figure}
- \centering
-             \includegraphics[width=0.7\textwidth]{images/tasks.png} \newline
-             [\url{https://xkcd.com/1425/}]
- \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Was ist Predictive Maintenance?}
-  \begin{columns}
-    \begin{column}{1\textwidth}
-      Grundlegende Ziele
-      \begin{itemize}
-        \item Prozessüberwachung und eventuelle Steuerung \newline
-        \item Vorhersagen von Maschinen/Produktionsausfällen \newline
-        \item Hilfe/Unterstützung bei der Wartungsplanung \newline
-        \item Klassifikation von Fehlerzuständen \newline
-      \end{itemize}
-    \end{column}
-    % \begin{column}{0.4\textwidth}
-    %   \begin{figure}
-    %     \centering
-    %      \includegraphics[width=0.6\textwidth]{images/anlage.png}
-    %   \end{figure}
-    % \end{column}
-  \end{columns}
-    \end{frame}
 
 
   \begin{frame}{Was sind Neuronale Netze und was ist Deep Learning?}
@@ -168,21 +101,93 @@
           \end{column}
         \end{columns}
       \end{frame}
+
+\begin{frame}{Warum funktionieren Neuronale Netze? -- Mathematische Intuition}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Grundproblem}: Finde eine Funktion $f: \mathbb{R}^d \to \mathbb{R}^k$, die Eingaben $\mathbf{x}$ auf gewünschte Ausgaben $\mathbf{y}$ abbildet
+        \item \textbf{Funktionsapproximation}: Neuronale Netze sind universelle Funktionsapproximatoren
+        \item \textbf{Komposition einfacher Funktionen}: 
+        \begin{equation}
+          f(\mathbf{x}) = f_L \circ f_{L-1} \circ \ldots \circ f_2 \circ f_1(\mathbf{x})
+        \end{equation}
+        \item Jede Schicht $f_i$ führt eine \textbf{affine Transformation} gefolgt von \textbf{Nichtlinearität} aus:
+        \begin{equation}
+          f_i(\mathbf{x}) = \sigma_i(\mathbf{W}_i \mathbf{x} + \mathbf{b}_i)
+        \end{equation}
+        \item \textbf{Warum Nichtlinearität wichtig ist}: Ohne sie wäre das gesamte Netz nur eine lineare Transformation
+        \begin{equation}
+          \mathbf{W}_L(\mathbf{W}_{L-1}(\ldots(\mathbf{W}_1 \mathbf{x}))) = (\mathbf{W}_L \mathbf{W}_{L-1} \ldots \mathbf{W}_1) \mathbf{x} = \mathbf{W}_{\text{eff}} \mathbf{x}
+        \end{equation}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Warum funktionieren Neuronale Netze? -- Universal Approximation Theorem}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Universal Approximation Theorem} \cite{cybenko1989,hornik1991}:
+        \item Ein Feedforward-Netz mit einer versteckten Schicht kann jede stetige Funktion auf einem kompakten Definitionsbereich beliebig genau approximieren
+        \item \textbf{Mathematische Formulierung}: Sei $\sigma: \mathbb{R} \to \mathbb{R}$ eine nicht-konstante, beschränkte und monotone Aktivierungsfunktion. Dann kann für jede stetige Funktion $g: [0,1]^d \to \mathbb{R}$ und $\epsilon > 0$ eine Funktion
+        \begin{equation}
+          F(\mathbf{x}) = \sum_{i=1}^N \alpha_i \sigma(\mathbf{w}_i^T \mathbf{x} + b_i)
+        \end{equation}
+        gefunden werden, sodass $|F(\mathbf{x}) - g(\mathbf{x})| < \epsilon$ für alle $\mathbf{x} \in [0,1]^d$
+        \item \textbf{Praktische Bedeutung}: 
+        \begin{itemize}
+          \item Theoretisch können neuronale Netze jede Funktion lernen
+          \item Problem: Anzahl der benötigten Neuronen kann exponentiell wachsen
+          \item Deep Learning: Mehr Schichten können effizienter sein als breitere Netze
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Die Mathematik des Lernens -- Warum Gradientenabstieg funktioniert}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Optimierungsproblem}: Minimiere Verlustfunktion $L(\boldsymbol{\theta})$ über Parameter $\boldsymbol{\theta}$
+        \item \textbf{Gradientenabstieg basiert auf Taylor-Entwicklung}:
+        \begin{equation}
+          L(\boldsymbol{\theta} + \boldsymbol{\Delta\theta}) \approx L(\boldsymbol{\theta}) + \nabla L(\boldsymbol{\theta})^T \boldsymbol{\Delta\theta}
+        \end{equation}
+        \item Um $L$ zu minimieren, wähle $\boldsymbol{\Delta\theta} = -\eta \nabla L(\boldsymbol{\theta})$ (mit $\eta > 0$)
+        \item \textbf{Warum funktioniert das?} Für kleine $\eta$:
+        \begin{equation}
+          L(\boldsymbol{\theta} - \eta \nabla L(\boldsymbol{\theta})) \approx L(\boldsymbol{\theta}) - \eta ||\nabla L(\boldsymbol{\theta})||^2 \leq L(\boldsymbol{\theta})
+        \end{equation}
+        \item \textbf{Konvergenz-Eigenschaften}:
+        \begin{itemize}
+          \item Für konvexe Funktionen: Garantierte Konvergenz zum globalen Minimum
+          \item Für nicht-konvexe Funktionen (neuronale Netze): Konvergenz zu lokalen Minima
+          \item \textbf{Überraschung}: Lokale Minima sind oft "gut genug" für praktische Anwendungen
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
 \begin{frame}{Konstruktion von Neuronalen Netzen: Single-Layer-Perceptron}
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Einfacher binärer Klassifikator
+              \item Einfacher binärer Klassifikator mit Aktivierungsfunktion
               \begin{equation}
-                        f(\text{x}) = \begin{cases}1 & \text{if }\ w \cdot x + b > \Theta,\\0 & \text{otherwise}\end{cases}
+                        f(\mathbf{x}) = \begin{cases}1 & \text{if }\ \mathbf{w}^T \mathbf{x} + b \geq \theta,\\0 & \text{otherwise}\end{cases}
                     \end{equation}
-              \item mit dem Gewichtsvektor $w$, dem Skalarprodukt $w\cdot x= \sum_{i=1}^{m} w_i x_i$ mit der Inputdimension $m$ und dem biasvektor $b$ \newline
-              \item dieser klassifikator beschreibt im zwei dimensionalen Fall eine Halbebene im Koordinatensystem mit 
+              \item mit dem Gewichtsvektor $\mathbf{w} \in \mathbb{R}^d$, Eingabevektor $\mathbf{x} \in \mathbb{R}^d$, Bias $b \in \mathbb{R}$ und Schwellwert $\theta$ \newline
+              \item Das Skalarprodukt: $\mathbf{w}^T\mathbf{x} = \sum_{i=1}^{d} w_i x_i$ \newline
+              \item Entscheidungsgrenze im 2D-Fall ($d=2$): Gerade mit Gleichung
               \begin{align}
-                w_1 x + w_2 y &> \Theta \\
-                y &> - \frac{w_1}{w_2} x -\Theta
+                w_1 x_1 + w_2 x_2 + b &= \theta \\
+                x_2 &= -\frac{w_1}{w_2} x_1 - \frac{b-\theta}{w_2}
               \end{align}
-              \item Anschaulich: Alle Punkte über dieser Linie werden der Klasse 1 zugeordnet und alle unterhalb dieser Linie der Klasse 0
+              \item Geometrische Interpretation: Hyperebene teilt den $\mathbb{R}^d$ in zwei Halbräume
+              \item Linear separierbare Probleme: Klassen können durch Hyperebene getrennt werden
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -198,16 +203,18 @@
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Optimierung dieser gewicht für einen gegebenen Datensatz mit den Datenpunkten $x$ aus der Gesamtmenge $B$
-              \item Update der Gewichte durch:
+              \item Gegeben: Trainingsdatensatz $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^n$ mit $\mathbf{x}_i \in \mathbb{R}^d, y_i \in \{-1, +1\}$
+              \item Perceptron-Lernregel \cite{rosenblatt1958}:
                     \begin{equation}
-                       w ^{(t+1)} = w^t + \gamma \sum_{w'^t x <0, x \in B} x \text{ mit der learning rate:   } \gamma>0
+                       \mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} + \eta \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}^{(t)}} y_i \mathbf{x}_i
                     \end{equation}
-              \item mit der Menge der Fehlklassifizierungen im Schritt $t$: $F(w) = \{x \in B : w'x<0 \}$
-              \item Daraus folgt die zu optimierende Zielfunktion: $ f(w) = -\sum_{F(w)} w'x $ \rightarrow min \newline
-              \item Anschaulich: Wir optimieren die Gewichte so lange bis die Zielfunktion $f(w)=0$ ist, da dann $F(w)=\emptyset$ \newline
-
-              \item Ist das immer erreichbar?
+              \item Fehlklassifizierungen: $\mathcal{M}^{(t)} = \{(\mathbf{x}_i, y_i) : y_i(\mathbf{w}^{(t)T}\mathbf{x}_i + b) \leq 0\}$
+              \item Verlustfunktion (Perceptron-Verlust):
+              \begin{equation}
+                L(\mathbf{w}, b) = \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} -y_i(\mathbf{w}^T\mathbf{x}_i + b)
+              \end{equation}
+              \item Konvergenz-Theorem: Für linear separierbare Daten konvergiert der Algorithmus in endlich vielen Schritten
+              \item Margin $\gamma = \min_{i} \frac{y_i(\mathbf{w}^*T\mathbf{x}_i + b^*)}{||\mathbf{w}^*||_2}$ bestimmt Konvergenzgeschwindigkeit
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -219,21 +226,25 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Training von Neuronalen Netzen: Single-Layer-Perceptron}
+      \begin{frame}{Training von Neuronalen Netzen: Gradientenabstieg}
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Wie erreichen wir diese Bedingung?
-              \item \emph{gradient descent}
+              \item \textbf{Gradientenabstieg} (Gradient Descent) - allgemeines Optimierungsverfahren
+              \item Iterative Aktualisierung der Parameter:
                     \begin{equation}
-                       w^{(t+1)} = w^t - \gamma \nabla f(w^t)  \text{ mit:   } \gamma>0
+                       \boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} - \eta \nabla_{\boldsymbol{\theta}} L(\boldsymbol{\theta}^{(t)})
                     \end{equation}
-              \item Exkurs Analysis: Der Gradient zeigt immer in die Richtung des steilsten Anstiegs einer Funktion
-              \item Daraus folgt, dass die Nacheinanderausführung dieser Iteration in einem lokalen Minimum konvergiert 
-              \item \begin{align}
-                \nabla f(w) &= \left( \frac{\partial f(w)}{\partial w_1}, \frac{\partial f(w)}{\partial w_2}, ... ,\frac{\partial f(w)}{\partial w_n} \right) \\
-                \frac{\partial f(w)}{\partial w_i} &= - \frac{\partial}{\partial w_i} \sum_{x \in F(w)} w'x = \frac{\partial}{\partial w_i} \sum_{x \in F(w)} \sum_{j=1}^n w_j \cdot x_j \\
-                                                  & -\sum_{x \in F(w)}  \frac{\partial}{\partial w_i} \left(  \sum_{j=1}^n w_j \cdot x_j \right) = -\sum_{x \in F(w)} x_i
+              \item $\eta > 0$: Lernrate (Schrittweite), $\boldsymbol{\theta}$: Parametervektor
+              \item Gradient einer Funktion $f: \mathbb{R}^n \to \mathbb{R}$:
+              \begin{equation}
+                \nabla f(\mathbf{x}) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n} \right)^T
+              \end{equation}
+              \item Gradient zeigt in Richtung des steilsten Anstiegs $\Rightarrow$ $-\nabla f$ zeigt zum lokalen Minimum
+              \item Für Perceptron-Verlust: 
+              \begin{align}
+                \frac{\partial L}{\partial w_j} &= \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} -y_i x_{ij} \\
+                \nabla_{\mathbf{w}} L &= -\sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} y_i \mathbf{x}_i
               \end{align}
             \end{itemize}
           \end{column}
@@ -266,15 +277,64 @@
         \end{columns}
       \end{frame}
 
+\begin{frame}{Grenzen des Single-Layer-Perceptrons -- Das XOR-Problem}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item \textbf{Fundamentale Limitation}: Perceptron kann nur linear separierbare Probleme lösen
+        \item \textbf{XOR-Problem} \cite{minsky1969}: 
+        \begin{center}
+        \begin{tabular}{|c|c|c|}
+        \hline
+        $x_1$ & $x_2$ & XOR \\
+        \hline
+        0 & 0 & 0 \\
+        0 & 1 & 1 \\
+        1 & 0 & 1 \\
+        1 & 1 & 0 \\
+        \hline
+        \end{tabular}
+        \end{center}
+        \item \textbf{Mathematischer Beweis der Unmöglichkeit}: 
+        \item Angenommen, es existiert $\mathbf{w} = (w_1, w_2)$ und $b$, sodass:
+        \begin{align}
+          w_1 \cdot 0 + w_2 \cdot 1 + b &> 0 \quad \text{(für (0,1))} \\
+          w_1 \cdot 1 + w_2 \cdot 0 + b &> 0 \quad \text{(für (1,0))} \\
+          w_1 \cdot 0 + w_2 \cdot 0 + b &\leq 0 \quad \text{(für (0,0))} \\
+          w_1 \cdot 1 + w_2 \cdot 1 + b &\leq 0 \quad \text{(für (1,1))}
+        \end{align}
+        \item Aus (1) und (3): $w_2 > -b \geq 0 \Rightarrow w_2 > 0$
+        \item Aus (2) und (3): $w_1 > -b \geq 0 \Rightarrow w_1 > 0$
+        \item Aber (4): $w_1 + w_2 + b \leq 0$ \textbf{Widerspruch!}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \begin{figure}
+        \centering
+                    \includegraphics[width=0.9\textwidth]{images/XOR.png}
+        \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
       \begin{frame}{Konstruktion von Neuronalen Netzen: Multi-Layer-Perceptron}
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Wie können wir komplexere Formen als Geraden/Halbebenen abbilden?
-              \item Kombination von vielen Halbebenen um Konvexe Formen zu erzeugen (logisches AND) 
-              \item Mit noch einem weiteren Layer können wir ein logisches XOR und AND erzeugen
-              \item insgesamt 3 Layer (input - hidden - output) reichen für beliebige Formen
-              \item \emph{universal approximation theorem}
+              \item \textbf{Lösung des XOR-Problems}: Mehrschichtige Netze!
+              \item \textbf{Komposition von Hyperebenen}: 
+              \begin{itemize}
+                \item Erste Schicht: Erzeugt mehrere lineare Entscheidungsgrenzen
+                \item Zweite Schicht: Kombiniert diese zu komplexeren Formen
+              \end{itemize}
+              \item \textbf{Mathematische Intuition für XOR}:
+              \begin{align}
+                h_1 &= \sigma(x_1 + x_2 - 0.5) \quad \text{(OR-Gate)} \\
+                h_2 &= \sigma(-x_1 - x_2 + 1.5) \quad \text{(NAND-Gate)} \\
+                \text{XOR} &= \sigma(h_1 + h_2 - 1.5)
+              \end{align}
+              \item \textbf{Universal Approximation}: Mit einer versteckten Schicht können beliebige stetige Funktionen approximiert werden
+              \item \textbf{Tiefe vs. Breite}: Tiefere Netze können effizienter sein als breitere
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -294,19 +354,20 @@
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Wie trainiert man nun ein solches Netz?
-              \item Stelle eine Fehlerfunktion auf (Lossfunction)
-              \begin{equation}
-                f(w) = \sum_{x\in B} || g(w; x) - g^*(x) ||^2 \quad \rightarrow \text{  min  }
-              \end{equation} 
-              \item mit dem Output des Netzes $ g(w;x) $ und dem erwarteten Output $ g^*(x) $ 
-              \item 
+              \item \textbf{Multilayer Perceptron (MLP)}: Neuronales Netz mit versteckten Schichten
+              \item Forward-Pass für 2-Schicht-Netz:
               \begin{align}
-                 u^{(t+1)} &= u^t - \gamma \nabla_u f(w_t , u_t) \\
-                 w^{(t+1)} &= w^t - \gamma \nabla_w f(w_t , u_t) \\
+                \mathbf{z}^{(1)} &= \mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)} \quad \text{(lineare Transformation)} \\
+                \mathbf{a}^{(1)} &= \sigma(\mathbf{z}^{(1)}) \quad \text{(Aktivierung)} \\
+                \mathbf{z}^{(2)} &= \mathbf{W}^{(2)} \mathbf{a}^{(1)} + \mathbf{b}^{(2)} \\
+                \hat{\mathbf{y}} &= \sigma(\mathbf{z}^{(2)})
               \end{align}
-              \item Problem: Unstetige Aktivierungsfunktion im hidden layer  $ a(x) = \begin{cases}1 & \text{if }\ x > \Theta,\\0 & \text{otherwise}\end{cases}$
-              \item Lösung: Stetige und differenzierbare Aktivierungsfunktionen
+              \item Mean Squared Error (MSE) Loss:
+              \begin{equation}
+                L(\mathbf{W}, \mathbf{b}) = \frac{1}{n} \sum_{i=1}^{n} ||\hat{\mathbf{y}}_i - \mathbf{y}_i||_2^2
+              \end{equation}
+              \item Problem der Heaviside-Funktion: $H(x) = \begin{cases}1 & x \geq 0\\0 & x < 0\end{cases}$ nicht differenzierbar
+              \item Lösung: Glatte Aktivierungsfunktionen (Sigmoid, Tanh, ReLU)
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -346,27 +407,29 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Training von Neuronalen Netzen: Multi-Layer-Perceptron}
+      \begin{frame}{Backpropagation-Algorithmus: Mathematische Grundlagen}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item
-              \begin{align*}
-                y_j &= h \left( \sum_{i=1}^I w_{ij} \cdot x_i \right) = h(w_j'x) \\
-                y_j &= a \left( \sum_{i=1}^I u_{jk} \cdot y_j \right) = a(w_k'y) \\
-                    &= a \left(  \sum_{i=1}^I u_{jk} \cdot  h \left( \sum_{i=1}^I w_{ij} \cdot x_i \right)   \right)
-              \end{align*} 
-              \item mit dem Fehler des Inputs $x$:
-              \begin{align*}
-                f(w,u;x,z^*) &= \sum_{k=1}^K (z_k(x) -z^*_k(x) )^2 \\
-                            &=  \sum_{k=1}^K [a(u_k y) - z_k*]^2
-              \end{align*}
-            \item analog zum SLP nutzen wir den Gradienten zur Minimierung des Fehlers
-            \begin{align*}
-              \nabla f(w,u) &= \sum_{x,z^* \in B} \nabla f(w, u; x,z^*) \\
-              \frac{\partial f(w,u)}{\partial u_{jk}} &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial u_{jk}} \\
-              \frac{\partial f(w,u)}{\partial w_{ij}} &= \sum_{x,z^* \in B} \frac{\partial f(w,u;x,z^*)}{\partial w_{ij}} 
-            \end{align*}
+              \item \textbf{Backpropagation} \cite{rumelhart1986}: Effizienter Algorithmus zur Berechnung von Gradienten in neuronalen Netzen
+              \item Anwendung der Kettenregel der Differentiation:
+              \begin{equation}
+                \frac{\partial L}{\partial w_{ij}^{(l)}} = \frac{\partial L}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}
+              \end{equation}
+              \item Definition der \textbf{lokalen Gradienten} (Deltas):
+              \begin{equation}
+                \delta_j^{(l)} = \frac{\partial L}{\partial z_j^{(l)}}
+              \end{equation}
+              \item Rekursive Berechnung (rückwärts durch das Netz):
+              \begin{align}
+                \delta_j^{(L)} &= \frac{\partial L}{\partial a_j^{(L)}} \cdot \sigma'(z_j^{(L)}) \quad \text{(Output-Schicht)} \\
+                \delta_j^{(l)} &= \left(\sum_{k} \delta_k^{(l+1)} w_{jk}^{(l+1)}\right) \sigma'(z_j^{(l)}) \quad \text{(versteckte Schichten)}
+              \end{align}
+              \item Gradientenberechnung:
+              \begin{align}
+                \frac{\partial L}{\partial w_{ij}^{(l)}} &= \delta_j^{(l)} \cdot a_i^{(l-1)} \\
+                \frac{\partial L}{\partial b_j^{(l)}} &= \delta_j^{(l)}
+              \end{align}
             \end{itemize}
           \end{column}
           %\begin{column}{0.3\textwidth}
@@ -470,21 +533,24 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{ Verallgemeinerung Training von Neuronalen Netzen: M-Layer-Perceptron}
+      \begin{frame}{Fortgeschrittene Optimierungsalgorithmen}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item Weitere Trainingsalgorithmen:
-              \item Backpropagation with Momentum \rightarrow Berücksichtigung der voherigen Gewichtsänderungen
-              \item ADAM (Adaptive Moment Estimation)
-              \begin{align*}
-                m_w ^ {(t+1)} &\leftarrow \beta_1 m_w ^ {(t)} + (1 - \beta_1) \nabla _w L ^ {(t)}\\
-                v_w ^ {(t+1)} &\leftarrow \beta_2 v_w ^ {(t)} + (1 - \beta_2) (\nabla _w L ^ {(t)} )^2\\
-                \hat{m}_w &= \frac{m_w ^ {(t+1)}}{1 - \beta_1}\\
-                \hat{v}_w &= \frac{ v_w ^ {(t+1)}}{1 - \beta_2}\\         
-                w ^ {(t+1)} &\leftarrow w ^ {(t)} - \gamma \frac{\hat{m}_w}{\sqrt{\hat{v}_w} + \epsilon}
-              \end{align*}
-              \item mit einer kleinen Zahl $\epsilon$ und Skalierungsfaktoren $\beta_i$
+              \item \textbf{Momentum}: Beschleunigung in konsistente Richtungen
+              \begin{align}
+                \mathbf{v}^{(t+1)} &= \beta \mathbf{v}^{(t)} + \eta \nabla L(\boldsymbol{\theta}^{(t)}) \\
+                \boldsymbol{\theta}^{(t+1)} &= \boldsymbol{\theta}^{(t)} - \mathbf{v}^{(t+1)}
+              \end{align}
+              \item \textbf{ADAM} \cite{kingma2014adam} (Adaptive Moment Estimation) - Kombination aus Momentum und RMSprop:
+              \begin{align}
+                m_w^{(t+1)} &= \beta_1 m_w^{(t)} + (1 - \beta_1) \nabla_w L^{(t)} \quad \text{(1. Moment)} \\
+                v_w^{(t+1)} &= \beta_2 v_w^{(t)} + (1 - \beta_2) (\nabla_w L^{(t)})^2 \quad \text{(2. Moment)} \\
+                \hat{m}_w^{(t)} &= \frac{m_w^{(t+1)}}{1 - \beta_1^{t+1}} \quad \text{(Bias-Korrektur)} \\
+                \hat{v}_w^{(t)} &= \frac{v_w^{(t+1)}}{1 - \beta_2^{t+1}} \quad \text{(Bias-Korrektur)} \\
+                w^{(t+1)} &= w^{(t)} - \frac{\eta}{\sqrt{\hat{v}_w^{(t)}} + \epsilon} \hat{m}_w^{(t)}
+              \end{align}
+              \item Typische Hyperparameter: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$
             \end{itemize}
           \end{column}
           % \begin{column}{0.3\textwidth}
@@ -496,18 +562,55 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{ How Deep is your Network?}
+\begin{frame}{Warum "Deep" Learning? -- Mathematische Rechtfertigung für tiefe Netze}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Representation Learning}: Tiefere Netze lernen hierarchische Merkmalsdarstellungen
+        \item \textbf{Mathematischer Vorteil}: Exponentiell weniger Parameter für dieselbe Expressivität
+        \item \textbf{Beispiel - Parität-Funktion}: Prüfe, ob eine ungerade Anzahl von Bits gesetzt ist
+        \begin{itemize}
+          \item Flaches Netz: Benötigt $O(2^n)$ versteckte Neuronen
+          \item Tiefes Netz: Benötigt nur $O(n)$ Neuronen in $O(\log n)$ Schichten
+        \end{itemize}
+        \item \textbf{Kompositionelle Struktur}: Viele reale Funktionen haben hierarchische Struktur
+        \begin{equation}
+          f(\mathbf{x}) = g_L(g_{L-1}(...g_2(g_1(\mathbf{x}))...))
+        \end{equation}
+        \item \textbf{Feature Learning}: Jede Schicht $\ell$ lernt Features der Form:
+        \begin{equation}
+          \mathbf{h}^{(\ell)} = \sigma(\mathbf{W}^{(\ell)} \mathbf{h}^{(\ell-1)} + \mathbf{b}^{(\ell)})
+        \end{equation}
+        \item \textbf{Intuition}: 
+        \begin{itemize}
+          \item Untere Schichten: Einfache Features (Kanten, Texturen)
+          \item Mittlere Schichten: Kombinationen (Formen, Teile)
+          \item Obere Schichten: Komplexe Konzepte (Objekte, Semantik)
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+      \begin{frame}{Das Vanishing Gradient Problem -- Warum tiefe Netze schwer zu trainieren sind}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
-              \item bei mehr als 3 Layern wird häufig von "Deep Learning" gesprochen
-              \item Wieso nutzen wir mehr als 3 Layer?
-              \item Viele Machine Learning Algorithmen leben von Feature Engineering
-              \item eine naive Vorstellung:
-              \item wir haben $L$ Layer von denen 3 Layer unseren endgültigen Klassifikator bilden
-              \item Die restlichen $L-3$ Layer "erzeugen" Feature
-              \item Nachteile: Training von vielen Layern ist "teuer"
-              \item Verschwindende Gradienten bei der Sigmoid Funktion
+              \item \textbf{Problem}: Bei tiefen Netzen werden Gradienten exponentiell kleiner
+              \item \textbf{Mathematische Analyse}: Für Sigmoid-Aktivierung $\sigma'(x) \leq 0.25$
+              \item Gradient in Schicht $\ell$ proportional zu:
+              \begin{equation}
+                \frac{\partial L}{\partial \mathbf{W}^{(\ell)}} \propto \prod_{i=\ell+1}^{L} \mathbf{W}^{(i)} \sigma'(\mathbf{z}^{(i)})
+              \end{equation}
+              \item Für $L-\ell$ Schichten: Faktor $\leq (0.25)^{L-\ell}$ 
+              \item \textbf{Beispiel}: Bei 10 Schichten kann Gradient um Faktor $10^{-6}$ schrumpfen!
+              \item \textbf{Lösungsansätze}:
+              \begin{itemize}
+                \item ReLU-Aktivierungen: $\text{ReLU}'(x) = 1$ für $x > 0$
+                \item Residual Connections (ResNets)
+                \item Normalization (BatchNorm, LayerNorm)
+                \item Bessere Initialisierung (Xavier, He)
+              \end{itemize}
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
@@ -519,7 +622,36 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Häufige Aktivierungsfunktionen}
+      \begin{frame}{Aktivierungsfunktionen -- Mathematische Eigenschaften und Warum sie wichtig sind}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Sigmoid-Funktion}: $\sigma(x) = \frac{1}{1 + e^{-x}}$, Ableitung: $\sigma'(x) = \sigma(x)(1-\sigma(x))$
+              \begin{itemize}
+                \item Glatt und differenzierbar, Ausgabe in $(0,1)$
+                \item \textbf{Problem}: Vanishing Gradients für $|x| >> 0$: $\sigma'(x) \to 0$
+              \end{itemize}
+              \item \textbf{Tanh-Funktion}: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$, Ableitung: $\tanh'(x) = 1 - \tanh^2(x)$
+              \begin{itemize}
+                \item Ausgabe in $(-1,1)$, zero-centered (bessere Konvergenz)
+                \item Ebenfalls Vanishing Gradient Problem
+              \end{itemize}
+              \item \textbf{ReLU-Funktion} \cite{nair2010}: $\text{ReLU}(x) = \max(0,x)$, Ableitung: $\text{ReLU}'(x) = \begin{cases} 1 & x > 0 \\ 0 & x \leq 0 \end{cases}$
+              \begin{itemize}
+                \item Löst Vanishing Gradient Problem für $x > 0$
+                \item Computationally efficient, führt zu sparse representations
+                \item \textbf{Problem}: "Dying ReLU" - Neuronen können "sterben" wenn $x \leq 0$
+              \end{itemize}
+              \item \textbf{Warum Nichtlinearität essentiell ist}:
+              \begin{equation}
+                \text{Ohne } \sigma: f(\mathbf{x}) = \mathbf{W}_2(\mathbf{W}_1 \mathbf{x}) = (\mathbf{W}_2\mathbf{W}_1)\mathbf{x} = \mathbf{W}_{\text{linear}}\mathbf{x}
+              \end{equation}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Häufige Aktivierungsfunktionen -- Visualisierung}
         \begin{columns}
           \begin{column}{0.5\textwidth}
             \begin{figure}
@@ -560,15 +692,50 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Spezielle Netzwerkarchitekturen: CNN}
+      \begin{frame}{Warum funktionieren CNNs? -- Mathematische Prinzipien}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Drei Schlüsselprinzipien von CNNs}:
+              \item \textbf{1. Lokale Konnektivität}: Jedes Neuron ist nur mit lokalem Bereich verbunden
+              \begin{equation}
+                y_{i,j}^{(\ell)} = \sigma\left(\sum_{m=-k}^{k} \sum_{n=-k}^{k} w_{m,n}^{(\ell)} \cdot x_{i+m,j+n}^{(\ell-1)} + b^{(\ell)}\right)
+              \end{equation}
+              \item \textbf{2. Parameter Sharing}: Derselbe Filter $\mathbf{W}$ wird über gesamte Feature-Map verwendet
+              \begin{itemize}
+                \item Reduziert Parameter von $O(H \cdot W \cdot d^2)$ auf $O(k^2 \cdot d)$
+                \item Erzwingt Translationsinvarianz
+              \end{itemize}
+              \item \textbf{3. Equivarianz zu Translationen}: Wenn Input um $\mathbf{t}$ verschoben wird, verschiebt sich Output ebenfalls um $\mathbf{t}$
+              \begin{equation}
+                \text{Conv}(T_\mathbf{t}[\mathbf{x}]) = T_\mathbf{t}[\text{Conv}(\mathbf{x})]
+              \end{equation}
+              \item \textbf{Pooling} führt zu begrenzter Translationsinvarianz:
+              \begin{equation}
+                \text{MaxPool}(\mathbf{X})_{i,j} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}_{p,q}
+              \end{equation}
+              \item \textbf{Hierarchische Feature-Extraktion}: Einfache → Komplexe Features
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Spezielle Netzwerkarchitekturen: CNN -- Implementierung}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
-              \item Convolution := Faltung \newline 
-              \item Verringerung der Dimensionalität durch Zusammenfassen von aneinanderliegenden Pixeln \newline 
-              \item Zusammenfassen von Informationen \newline 
-              \item Erzeugt 2D-Feature \newline 
-              \item MLP klassifiziert anschließend mit diesen Features \newline
+              \item \textbf{Convolutional Neural Networks} \cite{lecun1998}: Spezialisiert auf gitterförmige Daten (Bilder) \newline
+              \item \textbf{Faltungsoperation} (2D-Convolution):
+              \begin{equation}
+                (\mathbf{I} * \mathbf{K})_{i,j} = \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} \mathbf{I}_{i+m,j+n} \cdot \mathbf{K}_{m,n}
+              \end{equation}
+              \item $\mathbf{I}$: Input-Feature-Map, $\mathbf{K}$: Kernel (Filter) der Größe $M \times N$ \newline
+              \item \textbf{Pooling}: Dimensionsreduktion, z.B. Max-Pooling:
+              \begin{equation}
+                \text{MaxPool}(\mathbf{X})_{i,j} = \max_{p,q \in P_{i,j}} \mathbf{X}_{p,q}
+              \end{equation}
+              \item \textbf{Parameter Sharing}: Derselbe Filter wird über gesamte Feature-Map angewendet
+              \item \textbf{Translation Invariance}: Robustheit gegenüber Verschiebungen
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
@@ -628,10 +795,15 @@
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
-              \item Gesamtdarstellung eines "entfalteten" LSTM \newline 
-              \item zum Cell State $C$ werden Infromationen hinzugefügt \newline 
-              
-              
+              \item \textbf{Long Short-Term Memory} \cite{hochreiter1997}: Lösung des Vanishing Gradient Problems in RNNs \newline
+              \item \textbf{Cell State} $\mathbf{C}_t$: Langzeit-Gedächtnis der LSTM-Zelle \newline
+              \item \textbf{Hidden State} $\mathbf{h}_t$: Kurzzeit-Output der Zelle \newline
+              \item Drei Gating-Mechanismen kontrollieren Informationsfluss:
+              \begin{itemize}
+                \item Forget Gate: Welche Informationen vergessen?
+                \item Input Gate: Welche neuen Informationen speichern?
+                \item Output Gate: Welche Teile des Cell States ausgeben?
+              \end{itemize}
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
@@ -649,12 +821,28 @@
       \end{frame}
       
             
-      \begin{frame}{Spezielle Netzwerkarchitekturen: LSTM}
+      \begin{frame}{LSTM: Mathematische Formulierung}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}              
-              \item Forget Gate "entscheidet" mit einer Sigmoid-Funktion $\sigma$ ob ein Vorheriger Zustand vergessen wird \newline
-              \item Input Gate entscheidet mit dem voherigen hidden state ob ein neues Ereignis weitergegeben wird
+              \item \textbf{Forget Gate}: Entscheidet, welche Informationen aus $\mathbf{C}_{t-1}$ gelöscht werden
+              \begin{equation}
+                \mathbf{f}_t = \sigma(\mathbf{W}_f \cdot [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f)
+              \end{equation}
+              \item \textbf{Input Gate}: Bestimmt neue Informationen für Cell State
+              \begin{align}
+                \mathbf{i}_t &= \sigma(\mathbf{W}_i \cdot [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i) \\
+                \tilde{\mathbf{C}}_t &= \tanh(\mathbf{W}_C \cdot [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_C)
+              \end{align}
+              \item \textbf{Cell State Update}:
+              \begin{equation}
+                \mathbf{C}_t = \mathbf{f}_t * \mathbf{C}_{t-1} + \mathbf{i}_t * \tilde{\mathbf{C}}_t
+              \end{equation}
+              \item \textbf{Output Gate} und \textbf{Hidden State}:
+              \begin{align}
+                \mathbf{o}_t &= \sigma(\mathbf{W}_o \cdot [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o) \\
+                \mathbf{h}_t &= \mathbf{o}_t * \tanh(\mathbf{C}_t)
+              \end{align}
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
