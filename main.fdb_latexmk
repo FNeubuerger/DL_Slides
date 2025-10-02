@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1759390578.2147 "main.aux" "main.bbl" "main" 1759390663.94048 0
-  "./lit.bib" 1759389967 3465 d6d9b552720b1d35ebaab350c228cba5 ""
+["bibtex main"] 1759390813.51938 "main.aux" "main.bbl" "main" 1759390814.06799 0
+  "./lit.bib" 1759390802 3683 8ae6dcda2d78297bb50556f6795f1de1 ""
   "d:/texlive/2025/texmf-dist/bibtex/bst/base/ieeetr.bst" 1743656550 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "main.aux" 1759390662 6516 413458d33b40a0eb9b4dea61beb6c9bf "lualatex"
+  "main.aux" 1759390811 7161 c4b9202b6e21f4346b58478190b5995a "lualatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["lualatex"] 1759390651.50784 "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" "main.pdf" "main" 1759390663.94131 0
+["lualatex"] 1759390802.18835 "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" "main.pdf" "main" 1759390814.06827 0
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/3b355fc090260ff0fc79d71cffbecb06bbbd2537ccd7d10b627343225c33e5d0.luc" 1743677686 78308 a1574930059313ffa5b9ca485b4c5fc4 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/4def4bd880f25a909626457587afec3990d099d8aafeb19a2442b72c5431a0c8.luc" 1743677676 149322 918206f951dd93996111a756ec6d74c6 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/hb/82fd7f25077efd92267baebf6e85d4d37216ccf189f9f9480b5787b0bf7a905d.luc" 1743677686 78332 6d00418f2d9df79816d1e744c04630ed ""
@@ -27,10 +27,10 @@
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmroman9-regular.luc" 1743677672 127952 4054cd5e62ebd668307ed02877574af7 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-bold.luc" 1743677674 128096 f014f778193e94fd73e1997a21b52564 ""
   "D:/texlive/2025/texmf-var/luatex-cache/generic/fonts/otl/lmsans9-regular.luc" 1743677673 128297 0a2c7beb1c421209526d9001dd5d0f2e ""
-  "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc" 1759390659 7490 3b9a8eba9f36d38d5bfd21c9788bc567 "lualatex"
+  "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc" 1759390809 7490 3b9a8eba9f36d38d5bfd21c9788bc567 "lualatex"
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz" 1759389094 320226 8fd2182ab7fb58107ed8eebaabce6117 ""
   "beamerthemefhswf.sty" 1759389009 6462 b7e20d31109e93f11d48f79497605bc1 ""
-  "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" 1759390650 52959 8e39c1fe693ecfbf48407bb34a2e665e ""
+  "c:/Users/felix/Documents/Arbeit/DL_Slides/main.tex" 1759390788 60818 eae4adc9b4618e3c704bb36f9520d236 ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraMono-Regular.otf" 1743657457 134144 44994ff3e0dacdadabdbeb50fb90c079 ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Light.otf" 1743657457 505308 908ddf8035629ddf8584d6c783eb6761 ""
   "d:/texlive/2025/texmf-dist/fonts/opentype/public/fira/FiraSans-Medium.otf" 1743657457 514220 fb33739df7c2a9698e6f70d1f9b8b48e ""
@@ -324,7 +324,6 @@
   "d:/texlive/2025/texmf-var/web2c/luahbtex/lualatex.fmt" 1743661025 5583011 b6a41843e34ca1836fb328a50e6d8315 ""
   "images/Autoencoder.png" 1759389009 49621 178e6214e5cf9dd35023c052df75d375 ""
   "images/CNN.png" 1759389009 30713 6c119d273fa3adf046703658eabb0dea ""
-  "images/GAN.png" 1759389010 147031 e5ba1fd867fb67f8c1accfe0c6bfddf5 ""
   "images/LSTM_1.png" 1759389010 74426 695d2d18ef02b0ebd517b3adbbacb542 ""
   "images/LSTM_2.png" 1759389010 26545 459fbbdfe0c17e92ee50b3de486f95eb ""
   "images/LSTM_3.png" 1759389010 30419 913d5919805c13e03a27eebe6d0c4764 ""
@@ -345,10 +344,10 @@
   "images/machine_learning.png" 1759389010 29081 cbe71fa87fe4d1fd5607c93ddb33d795 ""
   "images/sigmoid.png" 1759389010 43676 0cd35e67712d38141c7b87e95b1e2e97 ""
   "logos/fhswf.png" 1759389010 39725 c3e6bae19da3cc022da6eda45b3cafbf ""
-  "main.aux" 1759390662 6516 413458d33b40a0eb9b4dea61beb6c9bf "lualatex"
-  "main.bbl" 1759390578 1629 1997311f7bf7ee00006445aa26b2a076 "bibtex main"
-  "main.nav" 1759390662 3899 20026601084d6b26c2623d92b6bb39f6 "lualatex"
-  "main.tex" 1759390650 52959 8e39c1fe693ecfbf48407bb34a2e665e ""
+  "main.aux" 1759390811 7161 c4b9202b6e21f4346b58478190b5995a "lualatex"
+  "main.bbl" 1759390814 1629 1997311f7bf7ee00006445aa26b2a076 "bibtex main"
+  "main.nav" 1759390811 4364 8b2c647ec8a3a608828b0570e4b064ba "lualatex"
+  "main.tex" 1759390788 60818 eae4adc9b4618e3c704bb36f9520d236 ""
   (generated)
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.lua"
   "D:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-lookup-cache.luc"

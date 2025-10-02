@@ -1041,14 +1041,25 @@
       \end{frame} 
 
 
-      \begin{frame}{Spezielle Netzwerkarchitekturen: Unsupervised Learning}
+      \begin{frame}{Autoencoder: Grundlagen und Mathematik}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
-              \item Autoencoder bzw. Encoder-Decoder Netzwerke \newline
-              \item Versuch den Input wieder zu rekonstruieren \rightarrow Interessant für unsupervised anomaly detection \newline 
-              \item Generative Netzwerk \newline
-              \item Möglichkeit aus "Noise" komplexe echt aussehende Daten zu erzeugen \rightarrow mögliche Beschleunigung von (FE-)Simulationen
+              \item \textbf{Autoencoder}: Unsupervised Learning zur Dimensionsreduktion und Rekonstruktion
+              \item \textbf{Encoder}: $\mathbf{z} = f_{enc}(\mathbf{x}; \boldsymbol{\theta}_{enc})$ - Komprimierung in latenten Raum
+              \item \textbf{Decoder}: $\hat{\mathbf{x}} = f_{dec}(\mathbf{z}; \boldsymbol{\theta}_{dec})$ - Rekonstruktion aus latenter Repräsentation
+              \item \textbf{Verlustfunktion}: Rekonstruktionsfehler
+              \begin{equation}
+                L(\mathbf{x}, \hat{\mathbf{x}}) = ||\mathbf{x} - \hat{\mathbf{x}}||^2
+              \end{equation}
+              \item \textbf{Latenter Raum} $\mathbf{z} \in \mathbb{R}^d$ mit $d << $ Eingabedimension
+              \item \textbf{Anwendungen}:
+              \begin{itemize}
+                \item Dimensionsreduktion (wie PCA, aber nichtlinear)
+                \item Anomaly Detection (hoher Rekonstruktionsfehler)
+                \item Denoising (rauschhafte Eingaben, saubere Ziele)
+                \item Feature Learning für Downstream-Tasks
+              \end{itemize}
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
@@ -1056,13 +1067,140 @@
                \centering
                            \includegraphics[width=0.9\textwidth]{images/Autoencoder.png}
                \end{figure}
-               \begin{figure}
-                \centering
-                            \includegraphics[width=0.9\textwidth]{images/GAN.png}
-                \end{figure}
             \end{column}
         \end{columns}
-      \end{frame} 
+      \end{frame}
+
+\begin{frame}{Variational Autoencoders (VAEs): Motivation}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Problem klassischer Autoencoders}: Latenter Raum ist nicht interpretierbar oder strukturiert
+        \item \textbf{Ziel der VAEs}: Lernen einer \textbf{probabilistischen} latenten Repräsentation
+        \item \textbf{Generative Modellierung}: $p(\mathbf{x}) = \int p(\mathbf{x}|\mathbf{z}) p(\mathbf{z}) d\mathbf{z}$
+        \item \textbf{Bayessche Perspektive}:
+        \begin{itemize}
+          \item Prior: $p(\mathbf{z}) = \mathcal{N}(\mathbf{0}, \mathbf{I})$ (Standard-Normalverteilung)
+          \item Likelihood: $p(\mathbf{x}|\mathbf{z})$ durch Decoder-Netzwerk
+          \item Posterior: $p(\mathbf{z}|\mathbf{x})$ durch Encoder-Netzwerk approximiert
+        \end{itemize}
+        \item \textbf{Herausforderung}: $p(\mathbf{z}|\mathbf{x})$ ist analytisch intraktabel
+        \item \textbf{Lösung}: Variational Inference mit \textbf{Evidence Lower Bound (ELBO)}
+        \item \textbf{Vorteil}: Latenter Raum ist \textbf{kontinuierlich} und \textbf{interpolierbar}
+        \item \textbf{Anwendungen}: Bildgenerierung, Data Augmentation, Semi-Supervised Learning
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{VAEs: Mathematische Grundlagen}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Variational Inference}: Approximiere $p(\mathbf{z}|\mathbf{x})$ durch $q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x})$
+        \item \textbf{Evidence Lower Bound (ELBO)}:
+        \begin{align}
+          \log p(\mathbf{x}) &\geq \mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x})}[\log p_{\boldsymbol{\theta}}(\mathbf{x}|\mathbf{z})] - D_{KL}(q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))
+        \end{align}
+        \item \textbf{Zwei Terme der Verlustfunktion}:
+        \begin{itemize}
+          \item \textbf{Rekonstruktionsverlust}: $\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x})}[\log p_{\boldsymbol{\theta}}(\mathbf{x}|\mathbf{z})]$
+          \item \textbf{Regularisierungsterm}: $D_{KL}(q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x}) || p(\mathbf{z}))$
+        \end{itemize}
+        \item \textbf{Encoder}: $q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\phi}}(\mathbf{x}), \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\phi}}^2(\mathbf{x})))$
+        \item \textbf{Decoder}: $p_{\boldsymbol{\theta}}(\mathbf{x}|\mathbf{z}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z}), \boldsymbol{\sigma}_{\boldsymbol{\theta}}^2 \mathbf{I})$
+        \item \textbf{KL-Divergenz} (analytisch berechenbar für Gausssche Verteilungen):
+        \begin{equation}
+          D_{KL} = \frac{1}{2} \sum_{j=1}^{d} (1 + \log(\sigma_j^2) - \mu_j^2 - \sigma_j^2)
+        \end{equation}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{VAEs: Reparameterization Trick}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Problem}: Stochastisches Sampling $\mathbf{z} \sim q_{\boldsymbol{\phi}}(\mathbf{z}|\mathbf{x})$ ist nicht differenzierbar
+        \item \textbf{Lösung}: Reparameterization Trick (Kingma \& Welling, 2013)
+        \item \textbf{Statt}: $\mathbf{z} \sim \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\sigma}^2)$
+        \item \textbf{Verwende}: 
+        \begin{align}
+          \boldsymbol{\epsilon} &\sim \mathcal{N}(\mathbf{0}, \mathbf{I}) \quad \text{(deterministisches Rauschen)} \\
+          \mathbf{z} &= \boldsymbol{\mu} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon} \quad \text{(deterministische Transformation)}
+        \end{align}
+        \item \textbf{Vorteil}: Gradienten können durch $\boldsymbol{\mu}$ und $\boldsymbol{\sigma}$ zurückpropagiert werden
+        \item \textbf{Praktische Implementierung}:
+        \begin{itemize}
+          \item Encoder gibt $\boldsymbol{\mu}(\mathbf{x})$ und $\log \boldsymbol{\sigma}^2(\mathbf{x})$ aus
+          \item Sample $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
+          \item Berechne $\mathbf{z} = \boldsymbol{\mu} + \exp(\frac{1}{2}\log \boldsymbol{\sigma}^2) \odot \boldsymbol{\epsilon}$
+          \item Führe $\mathbf{z}$ durch Decoder
+        \end{itemize}
+        \item \textbf{Trainingsalgorithmus}: Standard-Backpropagation mit stochastischem Gradienten!
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{VAEs: Eigenschaften und Anwendungen}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Interpolation im latenten Raum}: Glatte Übergänge zwischen Datenpunkten
+        \begin{equation}
+          \mathbf{z}_{interp} = \alpha \mathbf{z}_1 + (1-\alpha) \mathbf{z}_2, \quad \alpha \in [0,1]
+        \end{equation}
+        \item \textbf{Generierung neuer Daten}: Sample $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$, dann $\mathbf{x}_{new} = \text{Decoder}(\mathbf{z})$
+        \item \textbf{Disentangled Representations}: Verschiedene Dimensionen von $\mathbf{z}$ kodieren verschiedene Eigenschaften
+        \item \textbf{Anwendungen}:
+        \begin{itemize}
+          \item \textbf{Computer Vision}: Gesichtsgenerierung, Style Transfer
+          \item \textbf{NLP}: Text Generation, Sentence Interpolation
+          \item \textbf{Drug Discovery}: Molekularstruktur-Generation
+          \item \textbf{Anomaly Detection}: Niedrige Likelihood $\rightarrow$ Anomalie
+          \item \textbf{Data Augmentation}: Generierung synthetischer Trainingsdaten
+        \end{itemize}
+        \item \textbf{Varianten}:
+        \begin{itemize}
+          \item $\beta$-VAE: $\beta \cdot D_{KL}$ für bessere Disentanglement
+          \item Conditional VAE: $p(\mathbf{x}|\mathbf{y}, \mathbf{z})$ mit Labels $\mathbf{y}$
+          \item Hierarchical VAE: Mehrere latente Schichten
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GANs vs. VAEs: Vergleich der generativen Modelle}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Generative Adversarial Networks (GANs)}:
+        \begin{itemize}
+          \item Adversarial Training: Generator vs. Discriminator
+          \item Sehr scharfe, realistische Bilder
+          \item Training instabil, Mode Collapse möglich
+          \item Kein Encoder - keine direkte latente Repräsentation von Daten
+        \end{itemize}
+        \item \textbf{Variational Autoencoders (VAEs)}:
+        \begin{itemize}
+          \item Likelihood-basiertes Training mit ELBO
+          \item Verschwommene Bilder durch Gauss-Annahme
+          \item Stabiles Training, theoretisch fundiert
+          \item Bidirektional: Encoding und Decoding möglich
+        \end{itemize}
+        \item \textbf{Praktische Wahl}:
+        \begin{itemize}
+          \item \textbf{GANs}: Wenn Bildqualität wichtigster Faktor
+          \item \textbf{VAEs}: Wenn interpretierbare latente Repräsentation wichtig
+          \item \textbf{Hybrid-Modelle}: VAE-GAN kombiniert beide Ansätze
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame} 
 
       
 
