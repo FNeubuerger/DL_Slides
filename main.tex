@@ -835,6 +835,67 @@
         \end{columns}
       \end{frame}
 
+      \begin{frame}{Was sind Convolutional Neural Networks (CNNs)?}
+        \begin{columns}
+          \begin{column}{0.65\textwidth}
+            \begin{itemize}
+              \item \textbf{CNNs}: Speziell für räumliche Daten entwickelte neuronale Netze
+              \item \textbf{Hauptanwendung}: Bildverarbeitung, Computer Vision
+              \item \textbf{Grundidee}: Nutze lokale Strukturen in Bildern
+              \item \textbf{Kernoperationen}:
+              \begin{itemize}
+                \item \textbf{Convolution}: Filtere lokale Features
+                \item \textbf{Pooling}: Reduziere räumliche Dimensionen
+                \item \textbf{Fully Connected}: Klassifikation am Ende
+              \end{itemize}
+              \item \textbf{Hierarchische Feature-Extraktion}:
+              \begin{itemize}
+                \item \textbf{Layer 1}: Kanten, Ecken
+                \item \textbf{Layer 2}: Texturen, Formen
+                \item \textbf{Layer 3}: Objektteile
+                \item \textbf{Layer 4}: Vollständige Objekte
+              \end{itemize}
+              \item \textbf{Vorteil}: Automatisches Lernen relevanter Features
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/CNN.png}
+            \vspace{0.5cm}
+            \includegraphics[width=\textwidth]{images/featuremaps.jpg}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Grundoperationen: Convolution}
+        \begin{columns}
+          \begin{column}{0.7\textwidth}
+            \begin{itemize}
+              \item \textbf{Convolution Operation}:
+              \begin{equation}
+                (f * g)(x,y) = \sum_{m} \sum_{n} f(m,n) \cdot g(x-m, y-n)
+              \end{equation}
+              \item \textbf{In CNNs}:
+              \begin{equation}
+                \text{Output}(i,j) = \sum_{m} \sum_{n} \text{Filter}(m,n) \cdot \text{Input}(i+m, j+n)
+              \end{equation}
+              \item \textbf{Filter (Kernel)}:
+              \begin{itemize}
+                \item Kleine Matrizen (z.B. 3×3, 5×5)
+                \item Erkennen spezifische Muster
+                \item Gewichte werden gelernt
+              \end{itemize}
+              \item \textbf{Beispiel}: Kantendetektor, Blur-Filter
+              \item \textbf{Feature Maps}: Ausgabe nach Convolution + Aktivierung
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/convolution.png}
+          \end{column}
+        \end{columns}
+      \end{frame}
+      
       \begin{frame}{Warum funktionieren CNNs? -- Mathematische Prinzipien}
         \begin{columns}
           \begin{column}{1\textwidth}
