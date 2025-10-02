@@ -82,6 +82,143 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}{Mathematischer Refresher -- Vektoren und Matrizen}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Vektor}: Spaltenvektor $\mathbf{x} \in \mathbb{R}^d$ mit $d$ Komponenten
+        \begin{equation}
+          \mathbf{x} = \begin{pmatrix} x_1 \\\\ x_2 \\\\ \vdots \\\\ x_d \end{pmatrix}
+        \end{equation}
+        \item \textbf{Zeilenvektor}: $\mathbf{x}^T = (x_1, x_2, \ldots, x_d)$ (Transponiert)
+        \item \textbf{Matrix}: $\mathbf{A} \in \mathbb{R}^{m \times n}$ mit $m$ Zeilen und $n$ Spalten
+        \begin{equation}
+          \mathbf{A} = \begin{pmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\\\
+            a_{21} & a_{22} & \cdots & a_{2n} \\\\
+            \vdots & \vdots & \ddots & \vdots \\\\
+            a_{m1} & a_{m2} & \cdots & a_{mn}
+          \end{pmatrix}
+        \end{equation}
+        \item \textbf{Indexierung}: $a_{ij}$ = Element in Zeile $i$, Spalte $j$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Mathematischer Refresher -- Grundoperationen}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Skalarprodukt} (Dot Product): Für $\mathbf{x}, \mathbf{y} \in \mathbb{R}^d$
+        \begin{equation}
+          \mathbf{x}^T \mathbf{y} = \mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^{d} x_i y_i
+        \end{equation}
+        \item \textbf{Matrix-Vektor-Multiplikation}: $\mathbf{A} \in \mathbb{R}^{m \times n}, \mathbf{x} \in \mathbb{R}^n$
+        \begin{equation}
+          \mathbf{y} = \mathbf{A}\mathbf{x} \in \mathbb{R}^m, \quad y_i = \sum_{j=1}^{n} a_{ij} x_j
+        \end{equation}
+        \item \textbf{Matrix-Matrix-Multiplikation}: $\mathbf{A} \in \mathbb{R}^{m \times k}, \mathbf{B} \in \mathbb{R}^{k \times n}$
+        \begin{equation}
+          \mathbf{C} = \mathbf{A}\mathbf{B} \in \mathbb{R}^{m \times n}, \quad c_{ij} = \sum_{\ell=1}^{k} a_{i\ell} b_{\ell j}
+        \end{equation}
+        \item \textbf{Elementweise Operationen}: Hadamard-Produkt $\mathbf{A} \odot \mathbf{B}$
+        \begin{equation}
+          (\mathbf{A} \odot \mathbf{B})_{ij} = a_{ij} \cdot b_{ij}
+        \end{equation}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Mathematischer Refresher -- Normen und Abstände}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Euklidische Norm}: $||\mathbf{x}||_2 = \sqrt{\sum_{i=1}^{d} x_i^2}$ (Länge des Vektors)
+        \item \textbf{L1-Norm}: $||\mathbf{x}||_1 = \sum_{i=1}^{d} |x_i|$ (Manhattan-Distanz)
+        \item \textbf{Unendlich-Norm}: $||\mathbf{x}||_\infty = \max_i |x_i|$ (Maximum-Norm)
+        \item \textbf{Frobenius-Norm} (für Matrizen): $||\mathbf{A}||_F = \sqrt{\sum_{i,j} a_{ij}^2}$
+        \item \textbf{Einheitsvektor}: $\mathbf{u}$ mit $||\mathbf{u}||_2 = 1$
+        \item \textbf{Orthogonale Vektoren}: $\mathbf{x} \perp \mathbf{y}$ wenn $\mathbf{x}^T \mathbf{y} = 0$
+        \item \textbf{Linearkombination}: $\mathbf{y} = \alpha_1 \mathbf{x}_1 + \alpha_2 \mathbf{x}_2 + \ldots + \alpha_k \mathbf{x}_k$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Mathematischer Refresher -- Differentiation und Gradienten}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Partielle Ableitung}: Für $f: \mathbb{R}^n \to \mathbb{R}$
+        \begin{equation}
+          \frac{\partial f}{\partial x_i} = \lim_{h \to 0} \frac{f(\mathbf{x} + h\mathbf{e}_i) - f(\mathbf{x})}{h}
+        \end{equation}
+        \item \textbf{Gradient}: Vektor aller partiellen Ableitungen
+        \begin{equation}
+          \nabla f(\mathbf{x}) = \begin{pmatrix}
+            \frac{\partial f}{\partial x_1} \\\\
+            \frac{\partial f}{\partial x_2} \\\\
+            \vdots \\\\
+            \frac{\partial f}{\partial x_n}
+          \end{pmatrix}
+        \end{equation}
+        \item \textbf{Kettenregel}: Für $f(g(x))$
+        \begin{equation}
+          \frac{d}{dx} f(g(x)) = f'(g(x)) \cdot g'(x)
+        \end{equation}
+        \item \textbf{Multivariable Kettenregel}: Für $f(\mathbf{u}(\mathbf{x}))$
+        \begin{equation}
+          \frac{\partial f}{\partial x_i} = \sum_j \frac{\partial f}{\partial u_j} \frac{\partial u_j}{\partial x_i} = \nabla_\mathbf{u} f \cdot \frac{\partial \mathbf{u}}{\partial x_i}
+        \end{equation}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Mathematischer Refresher -- Wichtige Funktionen und Eigenschaften}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Exponentialfunktion}: $e^x$, Ableitung: $\frac{d}{dx} e^x = e^x$
+        \item \textbf{Logarithmus}: $\ln(x)$, Ableitung: $\frac{d}{dx} \ln(x) = \frac{1}{x}$
+        \item \textbf{Sigmoid-Funktion}: $\sigma(x) = \frac{1}{1 + e^{-x}}$
+        \begin{equation}
+          \sigma'(x) = \sigma(x)(1 - \sigma(x))
+        \end{equation}
+        \item \textbf{Quadratische Funktion}: $f(x) = ax^2 + bx + c$, Ableitung: $f'(x) = 2ax + b$
+        \item \textbf{Produktregel}: $(fg)' = f'g + fg'$
+        \item \textbf{Summenregel}: $(f + g)' = f' + g'$
+        \item \textbf{Konstante Faktoren}: $(cf)' = cf'$ für Konstante $c$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Mathematische Notation -- Überblick für diese Vorlesung}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Skalare}: Kleinbuchstaben $a, b, c, x, y, z$
+        \item \textbf{Vektoren}: Fettgedruckte Kleinbuchstaben $\mathbf{x}, \mathbf{y}, \mathbf{w}, \mathbf{b}$
+        \item \textbf{Matrizen}: Fettgedruckte Großbuchstaben $\mathbf{A}, \mathbf{W}, \mathbf{X}$
+        \item \textbf{Mengen}: Kalligrafische Buchstaben $\mathcal{D}, \mathcal{M}, \mathcal{X}$
+        \item \textbf{Funktionen}: $f, g, h, L$ (Verlustfunktion)
+        \item \textbf{Aktivierungsfunktionen}: $\sigma, \text{ReLU}, \tanh$
+        \item \textbf{Indizes}:
+        \begin{itemize}
+          \item $i, j, k$: Datenindizes, Neuron-Indizes
+          \item $(\ell)$: Schicht-Index, z.B. $\mathbf{W}^{(\ell)}$
+          \item $(t)$: Zeit-/Iterationsindex, z.B. $\mathbf{w}^{(t)}$
+        \end{itemize}
+        \item \textbf{Wahrscheinlichkeiten}: $P, p, \mathbb{E}[\cdot]$ (Erwartungswert)
+        \item \textbf{Approximation}: $\approx$, Proportionalität: $\propto$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 
   \begin{frame}{Was sind Neuronale Netze und was ist Deep Learning?}
         \begin{columns}
