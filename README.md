@@ -5,7 +5,7 @@
 
 ## 📚 Über diese Vorlesung
 
-Diese Vorlesung bietet eine umfassende Einführung in **Neural Networks** und **Deep Learning** mit Fokus auf **Predictive Maintenance**. Die Folien kombinieren theoretische Grundlagen mit praktischen Anwendungen und enthalten ausführliche mathematische Herleitungen.
+Diese Vorlesung bietet eine umfassende Einführung in **Neural Networks** und **Deep Learning**. Die Folien kombinieren theoretische Grundlagen mit praktischen Anwendungen und enthalten ausführliche mathematische Herleitungen.
 
 ## 🎯 Lernziele
 
@@ -14,7 +14,6 @@ Nach dieser Vorlesung können Studierende:
 - Verschiedene Netzarchitekturen (MLP, CNN, RNN, LSTM, VAE, GAN) erklären
 - Backpropagation-Algorithmus mathematisch herleiten
 - Praktische Entscheidungen zwischen Deep Learning und klassischem ML treffen
-- Predictive Maintenance Projekte konzipieren und umsetzen
 
 ## 📖 Inhalt der Vorlesung
 
@@ -56,7 +55,6 @@ Nach dieser Vorlesung können Studierende:
   - Mode Collapse und Lösungsansätze
 
 ### 5. Praktische Anwendungen (Folien 251-300)
-- **Predictive Maintenance**: Sensordatenanalyse, Anomalieerkennung
 - **Wann Deep Learning vs. klassisches ML?**: Praktische Entscheidungshilfen
 - **Projektarbeit**: Hands-on Erfahrung mit realen Datensätzen
 
@@ -105,14 +103,6 @@ DL_Slides/
 
 ## 🎓 Für Studierende
 
-### Projektarbeit
-- **Gruppenbildung**: 2-3 Personen oder Einzelarbeit
-- **Themenvorschläge**: 
-  - Predictive Maintenance (NASA Turbofan Dataset)
-  - Computer Vision (CIFAR-10, Custom Dataset)
-  - Zeitreihenanalyse (Sensor Data)
-- **Deliverables**: Schriftliche Ausarbeitung (70%) + Präsentation (30%)
-
 ### Empfohlene Vorbereitung
 - Grundlagen in Python und NumPy
 - Lineare Algebra und Analysis (Refresher in der Vorlesung enthalten)
@@ -146,10 +136,10 @@ Dieses Projekt steht unter der MIT-Lizenz - siehe [LICENSE](LICENSE) für Detail
 
 ## 👨‍🏫 Autor
 
-**Prof. Dr. Felix Neubürger**  
+**Felix Neubürger**  
 Fachhochschule Südwestfalen  
 Fachbereich Informatik und Naturwissenschaften
 
 ---
 
-*Diese Vorlesung wurde entwickelt, um Studierenden eine solide theoretische Grundlage und praktische Erfahrung im Bereich Deep Learning zu vermitteln, mit besonderem Fokus auf industrielle Anwendungen wie Predictive Maintenance.*
+*Diese Vorlesung wurde entwickelt, um Studierenden eine solide theoretische Grundlage und praktische Erfahrung im Bereich Deep Learning zu vermitteln.*
