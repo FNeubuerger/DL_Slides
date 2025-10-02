@@ -1,0 +1,87 @@
+# LaTeX Auxiliary Files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.dvi
+*.ps
+
+# LaTeX Intermediate Files
+*.auxlock
+*.figlist
+*.makefile
+*.figlist.makefile
+*.fls.tmp
+*.makefile.tmp
+
+# Biber/BibLaTeX
+*.bcf
+*.run.xml
+
+# Build directories
+build/
+output/
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python (falls Python-Scripts für Datenverarbeitung verwendet werden)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook (falls für Datenanalyse verwendet)
+.ipynb_checkpoints
+
+# LaTeX Font files
+*.map
+*.pfb
+*.tfm
+
+# Keep important files (negative patterns)
+!*.tex
+!*.bib
+!*.sty
+!*.cls
+!images/
+!logos/
+!README.md
+!.gitignore
