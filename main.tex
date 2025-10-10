@@ -600,40 +600,93 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{MLP Training: Gradientenberechnung Output-Schicht}
+      \begin{frame}{MLP Training: Schritt 1 - Fehlerterm Output-Schicht}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{Fehlerterm für Output-Schicht}:
-              \begin{align}
-                \delta_k^{(out)} &= \frac{\partial L}{\partial z_k^{(out)}} \\
-                &= 2(z_k - z_k^*) \cdot \sigma'(z_k^{(out)}) \\
-                &= 2(z_k - z_k^*) \cdot z_k \cdot (1 - z_k)
-              \end{align}
-              \item \textbf{Gradient für Output-Gewichte}:
-              \begin{align}
-                \frac{\partial L}{\partial u_{jk}} &= \delta_k^{(out)} \cdot y_j
-              \end{align}
-              \item Wobei $y_j$ die Aktivierung der versteckten Schicht ist
+              \item \textbf{Ziel}: Berechne wie stark jedes Output-Neuron zum Gesamtfehler beiträgt
+              \item \textbf{Verlustfunktion}: $L = \sum_k (z_k - z_k^*)^2$ (Mean Squared Error)
+              \item \textbf{Schritt-für-Schritt Herleitung}:
+              \begin{enumerate}
+                \item \textbf{Ableitung nach Aktivierung}: $\frac{\partial L}{\partial z_k} = 2(z_k - z_k^*)$
+                \item \textbf{Aktivierung}: $z_k = \sigma(u_k) = \sigma(\sum_j u_{jk} y_j)$
+                \item \textbf{Sigmoid-Ableitung}: $\sigma'(u_k) = \sigma(u_k)(1-\sigma(u_k)) = z_k(1-z_k)$
+                \item \textbf{Kettenregel}: $\frac{\partial L}{\partial u_k} = \frac{\partial L}{\partial z_k} \cdot \frac{\partial z_k}{\partial u_k}$
+              \end{enumerate}
+              \item \textbf{Resultat - Fehlerterm Output}:
+              \begin{equation}
+                \delta_k^{(out)} = \frac{\partial L}{\partial u_k} = 2(z_k - z_k^*) \cdot z_k \cdot (1 - z_k)
+              \end{equation}
             \end{itemize}
           \end{column}
         \end{columns}
       \end{frame}
-      \begin{frame}{MLP Training: Gradientenberechnung versteckte Schicht}
+
+      \begin{frame}{MLP Training: Schritt 2 - Gradienten Output-Gewichte}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{Fehlerterm für versteckte Schicht}:
-              \begin{align}
-                \delta_j^{(hidden)} &= \frac{\partial L}{\partial z_j^{(hidden)}} \\
-                &= \sum_{k} \delta_k^{(out)} \cdot u_{jk} \cdot \sigma'(z_j^{(hidden)}) \\
-                &= y_j (1-y_j) \sum_{k} \delta_k^{(out)} \cdot u_{jk}
-              \end{align}
-              \item \textbf{Gradient für versteckte Gewichte}:
-              \begin{align}
-                \frac{\partial L}{\partial w_{ij}} &= \delta_j^{(hidden)} \cdot x_i
-              \end{align}
-              \item \textbf{Backpropagation}: Fehler propagiert rückwärts!
+              \item \textbf{Ziel}: Berechne Gradienten für Gewichte zwischen versteckter und Output-Schicht
+              \item \textbf{Ausgangspunkt}: Wir haben $\delta_k^{(out)} = \frac{\partial L}{\partial u_k}$
+              \item \textbf{Schritt-für-Schritt}:
+              \begin{enumerate}
+                \item \textbf{Netzinput}: $u_k = \sum_j u_{jk} \cdot y_j$ (Gewicht × Aktivierung)
+                \item \textbf{Ableitung nach Gewicht}: $\frac{\partial u_k}{\partial u_{jk}} = y_j$
+                \item \textbf{Kettenregel anwenden}:
+                \begin{equation}
+                  \frac{\partial L}{\partial u_{jk}} = \frac{\partial L}{\partial u_k} \cdot \frac{\partial u_k}{\partial u_{jk}} = \delta_k^{(out)} \cdot y_j
+                \end{equation}
+              \end{enumerate}
+              \item \textbf{Interpretation}: Gradient = Fehlerterm × Eingangssignal
+              \item \textbf{Gewicht-Update}: $u_{jk}^{neu} = u_{jk}^{alt} - \eta \cdot \delta_k^{(out)} \cdot y_j$
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{MLP Training: Schritt 3 - Fehlerterm versteckte Schicht}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Problem}: Wie berechnen wir Fehler für versteckte Neuronen?
+              \item \textbf{Idee}: Fehler "fließt rückwärts" von Output zu versteckter Schicht
+              \item \textbf{Schritt-für-Schritt}:
+              \begin{enumerate}
+                \item \textbf{Aktivierung versteckt}: $y_j = \sigma(h_j)$ mit $h_j = \sum_i w_{ij} x_i$
+                \item \textbf{Einfluss auf alle Outputs}: $y_j$ beeinflusst alle $u_k$ über Gewichte $u_{jk}$
+                \item \textbf{Kettenregel für mehrere Ausgänge}:
+                \begin{equation}
+                  \frac{\partial L}{\partial h_j} = \sum_k \frac{\partial L}{\partial u_k} \cdot \frac{\partial u_k}{\partial y_j} \cdot \frac{\partial y_j}{\partial h_j}
+                \end{equation}
+                \item \textbf{Einsetzen}: $\frac{\partial u_k}{\partial y_j} = u_{jk}$ und $\frac{\partial y_j}{\partial h_j} = y_j(1-y_j)$
+              \end{enumerate}
+              \item \textbf{Resultat}:
+              \begin{equation}
+                \delta_j^{(hidden)} = y_j(1-y_j) \sum_k \delta_k^{(out)} \cdot u_{jk}
+              \end{equation}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{MLP Training: Schritt 4 - Gradienten versteckte Gewichte}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Letzter Schritt}: Gradienten für Gewichte zwischen Input und versteckter Schicht
+              \item \textbf{Analogie zum Output}: Gleiche Logik wie bei Output-Gewichten
+              \item \textbf{Schritt-für-Schritt}:
+              \begin{enumerate}
+                \item \textbf{Wir haben}: $\delta_j^{(hidden)} = \frac{\partial L}{\partial h_j}$
+                \item \textbf{Netzinput}: $h_j = \sum_i w_{ij} \cdot x_i$
+                \item \textbf{Ableitung}: $\frac{\partial h_j}{\partial w_{ij}} = x_i$
+                \item \textbf{Kettenregel}:
+                \begin{equation}
+                  \frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial h_j} \cdot \frac{\partial h_j}{\partial w_{ij}} = \delta_j^{(hidden)} \cdot x_i
+                \end{equation}
+              \end{enumerate}
+              \item \textbf{Gewicht-Update}: $w_{ij}^{neu} = w_{ij}^{alt} - \eta \cdot \delta_j^{(hidden)} \cdot x_i$
+              \item \textbf{Backpropagation komplett}: Fehler propagiert von Output zurück zum Input!
             \end{itemize}
           \end{column}
         \end{columns}
