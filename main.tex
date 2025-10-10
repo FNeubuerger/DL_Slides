@@ -311,6 +311,7 @@
     \end{column}
   \end{columns}
 \end{frame}
+
 \begin{frame}{Konstruktion von Neuronalen Netzen: Single-Layer-Perceptron}
         \begin{columns}
           \begin{column}{0.7\textwidth}
@@ -339,80 +340,57 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Training von Neuronalen Netzen: Single-Layer-Perceptron}
+      \begin{frame}{Perceptron Training: Lernalgorithmus}
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item Gegeben: Trainingsdatensatz $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^n$ mit $\mathbf{x}_i \in \mathbb{R}^d, y_i \in \{-1, +1\}$
-              \item Perceptron-Lernregel \cite{rosenblatt1958}:
-                    \begin{equation}
-                       \mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} + \eta \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}^{(t)}} y_i \mathbf{x}_i
-                    \end{equation}
-              \item Fehlklassifizierungen: $\mathcal{M}^{(t)} = \{(\mathbf{x}_i, y_i) : y_i(\mathbf{w}^{(t)T}\mathbf{x}_i + b) \leq 0\}$
-              \item Verlustfunktion (Perceptron-Verlust):
+              \item \textbf{Gegeben}: Trainingsdaten $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^n$ mit $y_i \in \{-1, +1\}$
+              \item \textbf{Perceptron-Lernregel} \cite{rosenblatt1958}:
               \begin{equation}
-                L(\mathbf{w}, b) = \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} -y_i(\mathbf{w}^T\mathbf{x}_i + b)
+                \mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} + \eta \sum_{(\mathbf{x}_i, y_i) \in \mathcal{F}^{(t)}} y_i \mathbf{x}_i
               \end{equation}
-              \item Konvergenz-Theorem: Für linear separierbare Daten konvergiert der Algorithmus in endlich vielen Schritten
-              \item Margin $\gamma = \min_{i} \frac{y_i(\mathbf{w}^*T\mathbf{x}_i + b^*)}{||\mathbf{w}^*||_2}$ bestimmt Konvergenzgeschwindigkeit
+              \item \textbf{Fehlklassifizierungen}: $\mathcal{F}^{(t)} = \{(\mathbf{x}_i, y_i) : y_i(\mathbf{w}^{(t)T}\mathbf{x}_i) \leq 0\}$
+              \item \textbf{Algorithmus}:
+              \begin{enumerate}
+                \item Initialisiere $\mathbf{w}^{(0)} = \mathbf{0}$
+                \item Für jede Fehlklassifikation: Update $\mathbf{w}$
+                \item Wiederhole bis Konvergenz
+              \end{enumerate}
+              \item \textbf{Konvergenz-Garantie}: Für linear separierbare Daten konvergiert in endlich vielen Schritten
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
-       \begin{figure}
-       \centering
-                   \includegraphics[width=0.9\textwidth]{images/Perceptron_example.svg.png}
-       \end{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{images/Perceptron_example.svg.png}
           \end{column}
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Training von Neuronalen Netzen: Gradientenabstieg}
+      \begin{frame}{Gradientenabstieg: Allgemeines Optimierungsverfahren}
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item \textbf{Gradientenabstieg} (Gradient Descent) - allgemeines Optimierungsverfahren
-              \item Iterative Aktualisierung der Parameter:
-                    \begin{equation}
-                       \boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} - \eta \nabla_{\boldsymbol{\theta}} L(\boldsymbol{\theta}^{(t)})
-                    \end{equation}
-              \item $\eta > 0$: Lernrate (Schrittweite), $\boldsymbol{\theta}$: Parametervektor
-              \item Gradient einer Funktion $f: \mathbb{R}^n \to \mathbb{R}$:
+              \item \textbf{Grundprinzip}: Iterative Minimierung der Verlustfunktion
+              \item \textbf{Update-Regel}:
               \begin{equation}
-                \nabla f(\mathbf{x}) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n} \right)^T
+                \boldsymbol{\theta}^{(t+1)} = \boldsymbol{\theta}^{(t)} - \eta \nabla_{\boldsymbol{\theta}} L(\boldsymbol{\theta}^{(t)})
               \end{equation}
-              \item Gradient zeigt in Richtung des steilsten Anstiegs $\Rightarrow$ $-\nabla f$ zeigt zum lokalen Minimum
-              \item Für Perceptron-Verlust: 
-              \begin{align}
-                \frac{\partial L}{\partial w_j} &= \sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} -y_i x_{ij} \\
-                \nabla_{\mathbf{w}} L &= -\sum_{(\mathbf{x}_i, y_i) \in \mathcal{M}} y_i \mathbf{x}_i
-              \end{align}
+              \item \textbf{Parameter}:
+              \begin{itemize}
+                \item $\eta > 0$: Lernrate (Schrittweite)
+                \item $\boldsymbol{\theta}$: Parametervektor (Gewichte)
+                \item $\nabla L$: Gradient der Verlustfunktion
+              \end{itemize}
+              \item \textbf{Intuition}: Gradient zeigt bergauf → $-\nabla L$ zeigt zum Minimum
+              \item \textbf{Perceptron-Gradient}:
+              \begin{equation}
+                \nabla_{\mathbf{w}} L = -\sum_{(\mathbf{x}_i, y_i) \in \mathcal{F}} y_i \mathbf{x}_i
+              \end{equation}
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
-       \begin{figure}
-       \centering
-                   \includegraphics[width=0.9\textwidth]{images/Perceptron_example.svg.png}
-       \end{figure}
-          \end{column}
-        \end{columns}
-      \end{frame}
-
-      \begin{frame}{Training von Neuronalen Netzen: Single-Layer-Perceptron}
-        \begin{columns}
-          \begin{column}{0.7\textwidth}
-            \begin{itemize}
-
-              \item Daraus folgt: \begin{align} 
-                                  \nabla f(w) &= \left(  -\sum_{x \in F(w)} x_1,  -\sum_{x \in F(w)} x_2, ... ,  -\sum_{x \in F(w)} x_n   \right)
-                                              &= -\sum_{x \in F(w)} x
-                                  \end{align}
-            \end{itemize}
-          \end{column}
-          \begin{column}{0.3\textwidth}
-       \begin{figure}
-       \centering
-                   \includegraphics[width=0.9\textwidth]{images/Perceptron_example.svg.png}
-       \end{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{images/Perceptron_example.svg.png}
           \end{column}
         \end{columns}
       \end{frame}
