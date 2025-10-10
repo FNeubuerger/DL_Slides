@@ -932,7 +932,59 @@
           \end{column}
         \end{columns}
       \end{frame}
+
+      \begin{frame}{CNN Grundoperationen: Pooling}
+        \begin{columns}
+          \begin{column}{0.65\textwidth}
+            \begin{itemize}
+              \item \textbf{Was ist Pooling?} Reduziert die räumliche Größe der Feature Maps
+              \item \textbf{Ziele}:
+              \begin{itemize}
+                \item \textbf{Dimensionsreduktion}: Weniger Parameter, schnellere Berechnung
+                \item \textbf{Translation Invarianz}: Kleine Verschiebungen werden ignoriert
+                \item \textbf{Überanpassung reduzieren}: Weniger Details = bessere Generalisierung
+              \end{itemize}
+              \item \textbf{Max Pooling} (häufigste Variante):
+              \begin{equation}
+                \text{MaxPool}(\mathbf{X})_{i,j} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}_{p,q}
+              \end{equation}
+              \item \textbf{Average Pooling}:
+              \begin{equation}
+                \text{AvgPool}(\mathbf{X})_{i,j} = \frac{1}{|\mathcal{N}_{i,j}|} \sum_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}_{p,q}
+              \end{equation}
+              \item \textbf{Typische Parameter}: 2×2 Fenster mit Stride 2 → Halbiert Dimensionen
+              \item \textbf{Keine lernbaren Parameter}: Pooling-Operation ist fest definiert
+            \end{itemize}
+          \end{column}
+          \begin{column}{0.35\textwidth}
+            \begin{itemize}
+              \item \textbf{Beispiel: 2×2 Max Pooling}
+              \vspace{0.5cm}
+              \item \textbf{Input (4×4)}:
+              \begin{equation*}
+                \begin{pmatrix}
+                  1 & 3 & 2 & 4 \\
+                  5 & 6 & 1 & 2 \\
+                  3 & 2 & 4 & 7 \\
+                  1 & 0 & 3 & 5
+                \end{pmatrix}
+              \end{equation*}
+              \item \textbf{Output (2×2)}:
+              \begin{equation*}
+                \begin{pmatrix}
+                  6 & 4 \\
+                  3 & 7
+                \end{pmatrix}
+              \end{equation*}
+              \item \textbf{Jeder Wert} = Maximum des 2×2 Bereichs
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
       
+
+
+
       \begin{frame}{Warum funktionieren CNNs? -- Mathematische Prinzipien}
         \begin{columns}
           \begin{column}{1\textwidth}
@@ -992,6 +1044,137 @@
         \end{columns}
       \end{frame}
 
+      \begin{frame}{CNN Training: Schritt 1 - Forward Pass}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Ziel}: Berechne Ausgabe des CNN für einen Input
+              \item \textbf{Schritt-für-Schritt Forward Pass}:
+              \begin{enumerate}
+                \item \textbf{Input}: Bild $\mathbf{X}^{(0)} \in \mathbb{R}^{H \times W \times C}$ (Höhe × Breite × Kanäle)
+                \item \textbf{Convolution Layer $\ell$}:
+                \begin{equation}
+                  \mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c=1}^{C^{(\ell-1)}} \sum_{m=1}^{K} \sum_{n=1}^{K} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c} + b^{(\ell)}_k
+                \end{equation}
+                \item \textbf{Aktivierung}: $\mathbf{X}^{(\ell)}_{i,j,k} = \text{ReLU}(\mathbf{Z}^{(\ell)}_{i,j,k}) = \max(0, \mathbf{Z}^{(\ell)}_{i,j,k})$
+                \item \textbf{Pooling}: $\mathbf{P}^{(\ell)}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}^{(\ell)}_{p,q,k}$
+                \item \textbf{Fully Connected}: Flatten → $\mathbf{y} = \text{Softmax}(\mathbf{W}_{fc} \mathbf{h} + \mathbf{b}_{fc})$
+              \end{enumerate}
+              \item \textbf{Notation}:
+              \begin{itemize}
+                \item $\mathbf{W}^{(\ell)}_{m,n,c,k}$: Filter-Gewicht an Position $(m,n)$, Input-Kanal $c$, Output-Kanal $k$
+                \item $K$: Filter-Größe (z.B. 3×3), $C^{(\ell)}$: Anzahl Kanäle in Schicht $\ell$
+              \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 2 - Verlustfunktion und Gradientenberechnung}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Verlustfunktion}: Cross-Entropy für Klassifikation
+              \begin{equation}
+                L = -\sum_{i=1}^{N} \sum_{c=1}^{C} y_{i,c} \log(\hat{y}_{i,c})
+              \end{equation}
+              \item \textbf{Backpropagation in CNNs}: Kettenregel für Convolution-Layer
+              \item \textbf{Gradient für Output-Layer}: (Standard wie bei MLPs)
+              \begin{equation}
+                \frac{\partial L}{\partial \mathbf{W}_{fc}} = \frac{\partial L}{\partial \mathbf{y}} \frac{\partial \mathbf{y}}{\partial \mathbf{W}_{fc}} = (\hat{\mathbf{y}} - \mathbf{y}_{true}) \mathbf{h}^T
+              \end{equation}
+              \item \textbf{Gradient für Convolution-Filter}: Komplexer wegen räumlicher Struktur
+              \begin{equation}
+                \frac{\partial L}{\partial \mathbf{W}^{(\ell)}_{m,n,c,k}} = \sum_{i,j} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}
+              \end{equation}
+              \item \textbf{Delta-Propagation}: Fehler muss durch Pooling und Convolution zurückpropagiert werden
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 3 - Backpropagation durch Convolution}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Problem}: Wie berechnen wir $\frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}}$ aus $\frac{\partial L}{\partial \mathbf{Z}^{(\ell)}}$?
+              \item \textbf{Convolution ist linear}: Können Kettenregel anwenden
+              \item \textbf{Schritt-für-Schritt}:
+              \begin{enumerate}
+                \item \textbf{Forward}: $\mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c,m,n} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}$
+                \item \textbf{Ableitung nach Input}: 
+                \begin{equation}
+                  \frac{\partial \mathbf{Z}^{(\ell)}_{i,j,k}}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} = \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
+                \end{equation}
+                \item \textbf{Kettenregel}:
+                \begin{equation}
+                  \frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} = \sum_{i,j,k} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
+                \end{equation}
+              \end{enumerate}
+              \item \textbf{Interpretation}: Backpropagation = Convolution mit "umgedrehten" Filtern
+              \item \textbf{Implementierung}: Oft als "Transposed Convolution" implementiert
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 4 - Backpropagation durch Pooling}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Max Pooling Backpropagation}: Nur das Maximum bekommt den Gradienten
+              \item \textbf{Schritt-für-Schritt für Max Pooling}:
+              \begin{enumerate}
+                \item \textbf{Forward}: $\mathbf{P}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}_{p,q,k}$
+                \item \textbf{Speichere Positionen}: Merke dir $(p^*, q^*)$ wo Maximum war
+                \item \textbf{Backward}:
+                \begin{equation}
+                  \frac{\partial L}{\partial \mathbf{X}_{p,q,k}} = \begin{cases}
+                    \frac{\partial L}{\partial \mathbf{P}_{i,j,k}} & \text{wenn } (p,q) = (p^*, q^*) \\
+                    0 & \text{sonst}
+                  \end{cases}
+                \end{equation}
+              \end{enumerate}
+              \item \textbf{Average Pooling}: Gradient wird gleichmäßig verteilt
+              \begin{equation}
+                \frac{\partial L}{\partial \mathbf{X}_{p,q,k}} = \frac{1}{|\mathcal{N}_{i,j}|} \frac{\partial L}{\partial \mathbf{P}_{i,j,k}}
+              \end{equation}
+              \item \textbf{Praktische Implementierung}: "Switch Variables" speichern Max-Positionen
+              \item \textbf{Resultat}: Gradienten fließen nur zu den "wichtigsten" Neuronen zurück
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 5 - Optimierung und praktische Aspekte}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Gradient Descent Update}: Wie bei MLPs, aber für Filter-Gewichte
+              \begin{equation}
+                \mathbf{W}^{(\ell)}_{new} = \mathbf{W}^{(\ell)}_{old} - \eta \frac{\partial L}{\partial \mathbf{W}^{(\ell)}}
+              \end{equation}
+              \item \textbf{Batch Processing}: Trainiere mit Mini-Batches für Effizienz
+              \begin{equation}
+                \frac{\partial L_{batch}}{\partial \mathbf{W}^{(\ell)}} = \frac{1}{B} \sum_{b=1}^{B} \frac{\partial L_b}{\partial \mathbf{W}^{(\ell)}}
+              \end{equation}
+              \item \textbf{Besondere Herausforderungen bei CNNs}:
+              \begin{itemize}
+                \item \textbf{Speicher}: Feature Maps können sehr groß werden
+                \item \textbf{Initialisierung}: Filter richtig initialisieren
+                \item \textbf{Learning Rate}: Oft kleiner als bei MLPs
+                \item \textbf{Data Augmentation}: Rotation, Skalierung, Crop für mehr Daten
+              \end{itemize}
+              \item \textbf{Moderne Optimierer}: Adam, RMSprop statt SGD
+              \item \textbf{Regularisierung}: Dropout, Batch Normalization, Weight Decay
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+
+
+
       \begin{frame}{Spezielle Netzwerkarchitekturen: CNN}
         \begin{columns}
           \begin{column}{0.5\textwidth}
@@ -1012,7 +1195,181 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Spezielle Netzwerkarchitekturen: RNN}
+      \begin{frame}{Historische CNN-Architekturen: AlexNet (2012)}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Durchbruch}: Gewinner ImageNet Challenge 2012 (Top-5 Error: 15.3\%)
+              \item \textbf{Architektur-Details}:
+              \begin{itemize}
+                \item 8 Schichten (5 Conv + 3 FC), 60 Millionen Parameter
+                \item Input: 224×224×3, Output: 1000 Klassen
+                \item Erste GPU-Implementation für Deep Learning
+              \end{itemize}
+              \item \textbf{Schicht-Struktur}:
+              \begin{equation}
+                \text{Input} \xrightarrow{\text{Conv1: 11×11, 96}} \text{ReLU} \xrightarrow{\text{MaxPool: 3×3}} \text{Conv2: 5×5, 256} \xrightarrow{\text{...}} \text{FC: 4096}
+              \end{equation}
+              \item \textbf{Innovationen}:
+              \begin{itemize}
+                \item \textbf{ReLU-Aktivierung}: Statt Sigmoid/Tanh → schnelleres Training
+                \item \textbf{Dropout}: Regularisierung in FC-Layern (p=0.5)
+                \item \textbf{Data Augmentation}: Random Crops, Horizontal Flips
+                \item \textbf{Local Response Normalization}: Normalisierung zwischen Kanälen
+              \end{itemize}
+              \item \textbf{Bedeutung}: Bewies Potenzial von Deep CNNs für Computer Vision
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Moderne CNN-Architekturen: VGGNet (2014)}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Philosophie}: "Deeper is better" - sehr tiefe Netzwerke (16-19 Schichten)
+              \item \textbf{Architektur-Prinzip}: Nur 3×3 Convolutions, 2×2 Max Pooling
+              \item \textbf{VGG-16 Struktur}:
+              \begin{equation}
+                \begin{aligned}
+                &\text{Block 1: } 2 \times (\text{Conv 3×3, 64}) \rightarrow \text{MaxPool} \\
+                &\text{Block 2: } 2 \times (\text{Conv 3×3, 128}) \rightarrow \text{MaxPool} \\
+                &\text{Block 3: } 3 \times (\text{Conv 3×3, 256}) \rightarrow \text{MaxPool} \\
+                &\text{Block 4: } 3 \times (\text{Conv 3×3, 512}) \rightarrow \text{MaxPool} \\
+                &\text{Block 5: } 3 \times (\text{Conv 3×3, 512}) \rightarrow \text{MaxPool} \\
+                &\text{FC: } 4096 \rightarrow 4096 \rightarrow 1000
+                \end{aligned}
+              \end{equation}
+              \item \textbf{Warum 3×3 Filter?}
+              \begin{itemize}
+                \item Zwei 3×3 Filter = ein 5×5 Filter (gleiche rezeptive Feldgröße)
+                \item Weniger Parameter: $2 \times (3^2 \times C^2) < 5^2 \times C^2$
+                \item Mehr Nichtlinearitäten durch zusätzliche ReLU-Schichten
+              \end{itemize}
+              \item \textbf{Problem}: Sehr viele Parameter (138M), langsames Training
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Revolutionäre CNN-Architekturen: ResNet (2015)}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Problem}: Verschwindende Gradienten bei sehr tiefen Netzwerken (>20 Schichten)
+              \item \textbf{Lösung}: Residual Connections (Skip Connections)
+              \item \textbf{Residual Block}:
+              \begin{equation}
+                \mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + \mathbf{x}
+              \end{equation}
+              \begin{equation}
+                \mathbf{H}(\mathbf{x}) = \mathcal{F}(\mathbf{x}) + \mathbf{x} \text{, wo } \mathcal{F}(\mathbf{x}) = W_2 \sigma(W_1 \mathbf{x})
+              \end{equation}
+              \item \textbf{Intuition}: Lerne die Residual-Funktion $\mathcal{F}(\mathbf{x}) = \mathbf{H}(\mathbf{x}) - \mathbf{x}$
+              \item \textbf{Gradient-Flow}: Skip Connections ermöglichen direkten Gradient-Fluss
+              \begin{equation}
+                \frac{\partial L}{\partial \mathbf{x}} = \frac{\partial L}{\partial \mathbf{y}} \left( \frac{\partial \mathcal{F}}{\partial \mathbf{x}} + \mathbf{I} \right)
+              \end{equation}
+              \item \textbf{Varianten}: ResNet-34, ResNet-50, ResNet-101, ResNet-152
+              \item \textbf{Bottleneck Design} (ResNet-50+): 1×1 → 3×3 → 1×1 für Effizienz
+              \item \textbf{Erfolg}: Ermöglichte Training von 152-Schicht-Netzwerken
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Effiziente CNN-Architekturen: MobileNet \& EfficientNet}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{MobileNet (2017)}: Optimiert für mobile Geräte
+              \begin{itemize}
+                \item \textbf{Depthwise Separable Convolution}:
+                \begin{equation}
+                  \text{Standard Conv: } M \times N \times D_K \times D_K \text{ Parameter}
+                \end{equation}
+                \begin{equation}
+                  \text{Depthwise Sep: } M \times D_K \times D_K + M \times N \text{ Parameter}
+                \end{equation}
+                \item \textbf{Reduktion}: Faktor $\frac{1}{N} + \frac{1}{D_K^2}$ (z.B. 8-9× weniger Parameter)
+                \item \textbf{Width Multiplier}: $\alpha \in (0,1]$ für Modell-Skalierung
+              \end{itemize}
+              \item \textbf{EfficientNet (2019)}: Systematisches Netzwerk-Scaling
+              \begin{itemize}
+                \item \textbf{Compound Scaling}: Gleichzeitige Skalierung von Tiefe, Breite, Auflösung
+                \begin{equation}
+                  \text{depth: } d = \alpha^\phi, \quad \text{width: } w = \beta^\phi, \quad \text{resolution: } r = \gamma^\phi
+                \end{equation}
+                \item \textbf{Constraint}: $\alpha \cdot \beta^2 \cdot \gamma^2 \approx 2$, $\alpha \geq 1, \beta \geq 1, \gamma \geq 1$
+                \item \textbf{EfficientNet-B0 bis B7}: Verschiedene Skalierungsstufen
+              \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Vision Transformer: CNN-Alternative (2020)}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Paradigmenwechsel}: Transformer-Architektur für Computer Vision
+              \item \textbf{Grundidee}: Bild als Sequenz von Patches behandeln
+              \item \textbf{Patch Embedding}:
+              \begin{equation}
+                \text{Image } \mathbf{X} \in \mathbb{R}^{H \times W \times C} \rightarrow \text{Patches } \mathbf{x}_p \in \mathbb{R}^{N \times (P^2 \cdot C)}
+              \end{equation}
+              \begin{equation}
+                \mathbf{z}_0 = [\mathbf{x}_{class}; \mathbf{x}_p^1 \mathbf{E}; \mathbf{x}_p^2 \mathbf{E}; \ldots; \mathbf{x}_p^N \mathbf{E}] + \mathbf{E}_{pos}
+              \end{equation}
+              \item \textbf{Self-Attention}: Patches "kommunizieren" miteinander
+              \begin{equation}
+                \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}
+              \end{equation}
+              \item \textbf{Vorteile}:
+              \begin{itemize}
+                \item Globale Aufmerksamkeit von Anfang an (vs. lokale CNN-Filter)
+                \item Bessere Skalierung mit Datenmengen
+                \item Transfer Learning von NLP
+              \end{itemize}
+              \item \textbf{Nachteile}: Benötigt sehr große Datenmengen, weniger induktive Biases
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN-Architekturen: Zusammenfassung und Trends}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Entwicklung der CNN-Architekturen}:
+              \begin{itemize}
+                \item \textbf{2012 AlexNet}: Beweis dass Deep Learning funktioniert
+                \item \textbf{2014 VGGNet}: Deeper Networks, kleinere Filter
+                \item \textbf{2015 ResNet}: Skip Connections lösen Vanishing Gradient Problem
+                \item \textbf{2017 MobileNet}: Effizienz für mobile Anwendungen
+                \item \textbf{2019 EfficientNet}: Systematisches Model Scaling
+                \item \textbf{2020 Vision Transformer}: Alternative zu CNNs
+              \end{itemize}
+              \item \textbf{Aktuelle Trends}:
+              \begin{itemize}
+                \item \textbf{Hybrid-Architekturen}: CNNs + Transformers (ConvNeXt, CoAtNet)
+                \item \textbf{Neural Architecture Search (NAS)}: Automatisches Design
+                \item \textbf{Self-Supervised Learning}: Weniger gelabelte Daten
+                \item \textbf{Multimodal Models}: Vision + Language (CLIP, DALL-E)
+              \end{itemize}
+              \item \textbf{Auswahlkriterien}:
+              \begin{itemize}
+                \item \textbf{Accuracy}: ResNet, EfficientNet, Vision Transformer
+                \item \textbf{Speed}: MobileNet, ShuffleNet
+                \item \textbf{Memory}: MobileNet, SqueezeNet
+                \item \textbf{Interpretability}: Klassische CNNs mit Attention
+              \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+  \begin{frame}{Spezielle Netzwerkarchitekturen: RNN}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
