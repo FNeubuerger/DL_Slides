@@ -551,6 +551,12 @@
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
+              \item \textbf{Notation}: 
+              \begin{itemize}
+                \item $L$: Verlustfunktion, $a_j^{(l)}$: Aktivierung von Neuron $j$ in Schicht $l$
+                \item $z_j^{(l)} = \sum_i w_{ij}^{(l)} a_i^{(l-1)} + b_j^{(l)}$: Eingabe vor Aktivierung
+                \item $\delta_j^{(l)} = \frac{\partial L}{\partial z_j^{(l)}}$: Lokaler Gradient (Fehlerterm)
+              \end{itemize}
               \item \textbf{Forward Pass}: Berechne Ausgaben für alle Schichten
               \item \textbf{Backward Pass}: Berechne Gradienten rekursiv
               \item \textbf{Output-Schicht}:
