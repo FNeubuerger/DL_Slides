@@ -1,0 +1,617 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Deep Learning - Übung 4}
+\lhead{FH Südwestfalen}
+\rfoot{Seite \thepage}
+
+% Python code style
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\title{\textbf{Deep Learning - Übungsblatt 4} \\ \large Recurrent Neural Networks und LSTM}
+\author{Fachhochschule Südwestfalen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Voraussetzungen}
+\begin{itemize}
+    \item Übungsblätter 1-3 sollten erfolgreich bearbeitet worden sein
+    \item Verständnis von Backpropagation und CNNs
+    \item Grundkenntnisse in Sequenz-Datenverarbeitung
+    \item Mathematische Grundlagen: Zeitreihenanalyse, Rekurrenz
+\end{itemize}
+
+\section*{Lernziele}
+Nach erfolgreicher Bearbeitung dieser Übung können Sie:
+\begin{itemize}
+    \item RNN-Architekturen verstehen und mathematisch beschreiben
+    \item Das Vanishing Gradient Problem in RNNs erklären
+    \item LSTM- und GRU-Mechanismen implementieren und anwenden
+    \item Sequenz-zu-Sequenz Modelle für verschiedene Aufgaben verwenden
+    \item Attention-Mechanismen grundlegend verstehen
+\end{itemize}
+
+\section{RNN-Grundlagen}
+
+\subsection{Vanilla RNN Forward Pass}
+
+\textbf{Aufgabe 1.1:} Gegeben sei ein einfaches RNN mit folgenden Parametern:
+
+\begin{align}
+W_{xh} &= \begin{pmatrix} 0.5 & 0.3 \\ -0.2 & 0.4 \end{pmatrix}, \quad 
+W_{hh} = \begin{pmatrix} 0.1 & -0.3 \\ 0.6 & 0.2 \end{pmatrix} \\
+W_{hy} &= \begin{pmatrix} 0.7 & -0.1 \end{pmatrix}, \quad 
+b_h = \begin{pmatrix} 0.1 \\ -0.2 \end{pmatrix}, \quad b_y = 0.3
+\end{align}
+
+\textbf{Input-Sequenz:} $x_1 = (1, 0)^T$, $x_2 = (0, 1)^T$, $x_3 = (1, 1)^T$
+
+\textbf{RNN-Gleichungen:}
+\begin{align}
+h_t &= \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h) \\
+y_t &= W_{hy} h_t + b_y
+\end{align}
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie $h_0 = (0, 0)^T$ (Initialzustand)
+    \item Berechnen Sie $h_1$ und $y_1$ für Input $x_1$
+    \item Berechnen Sie $h_2$ und $y_2$ für Input $x_2$  
+    \item Berechnen Sie $h_3$ und $y_3$ für Input $x_3$
+    \item Interpretieren Sie: Wie entwickelt sich der Hidden State über die Zeit?
+\end{enumerate}
+
+\subsection{Backpropagation Through Time (BPTT)}
+
+\textbf{Aufgabe 1.2:} Vereinfachtes BPTT
+
+Betrachten Sie ein RNN mit nur einer Hidden Unit für 3 Zeitschritte.
+
+\textbf{Gegeben:}
+- $W_{xh} = 0.5$, $W_{hh} = 0.8$, $W_{hy} = 1.0$
+- $b_h = 0$, $b_y = 0$
+- Targets: $\hat{y}_1 = 1$, $\hat{y}_2 = 0$, $\hat{y}_3 = 1$
+- Loss: $L_t = \frac{1}{2}(y_t - \hat{y}_t)^2$
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie den Forward Pass für $x_1 = 1$, $x_2 = 0$, $x_3 = 1$
+    \item Berechnen Sie $\frac{\partial L_3}{\partial W_{hy}}$
+    \item Berechnen Sie $\frac{\partial L_3}{\partial h_3}$
+    \item Zeigen Sie die Kettenregel für $\frac{\partial L_3}{\partial W_{hh}}$:
+    $$\frac{\partial L_3}{\partial W_{hh}} = \frac{\partial L_3}{\partial h_3} \frac{\partial h_3}{\partial h_2} \frac{\partial h_2}{\partial W_{hh}} + \frac{\partial L_3}{\partial h_3} \frac{\partial h_3}{\partial h_2} \frac{\partial h_2}{\partial h_1} \frac{\partial h_1}{\partial W_{hh}}$$
+    \item Erklären Sie das Vanishing Gradient Problem anhand dieser Berechnung
+\end{enumerate}
+
+\section{LSTM-Mechanismen}
+
+\subsection{LSTM-Zell-Mathematik}
+
+\textbf{Aufgabe 2.1:} Analysieren Sie eine LSTM-Zelle mit folgenden Gleichungen:
+
+\begin{align}
+f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \quad \text{(Forget Gate)} \\
+i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \quad \text{(Input Gate)} \\
+\tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \quad \text{(Candidate Values)} \\
+C_t &= f_t * C_{t-1} + i_t * \tilde{C}_t \quad \text{(Cell State)} \\
+o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \quad \text{(Output Gate)} \\
+h_t &= o_t * \tanh(C_t) \quad \text{(Hidden State)}
+\end{align}
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie die Funktion jeder Komponente (Gates und States)
+    \item Gegeben seien vereinfachte 1D-Parameter:
+    \begin{itemize}
+        \item $W_f = [0.2, 0.1]$, $b_f = 0.5$
+        \item $W_i = [0.3, 0.4]$, $b_i = 0.2$  
+        \item $W_C = [0.1, 0.5]$, $b_C = 0.1$
+        \item $W_o = [0.4, 0.2]$, $b_o = 0.3$
+    \end{itemize}
+    \item Berechnen Sie alle Zwischenwerte für $h_{t-1} = 0.5$, $x_t = 1.0$, $C_{t-1} = 0.3$
+    \item Interpretieren Sie: Welche Information wird "vergessen" und welche wird "erinnert"?
+\end{enumerate}
+
+\subsection{LSTM vs. Vanilla RNN}
+
+\textbf{Aufgabe 2.2:} Vergleichende Analyse
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie die Anzahl der Parameter für:
+    \begin{itemize}
+        \item Vanilla RNN mit Hidden Size 128 und Input Size 64
+        \item LSTM mit Hidden Size 128 und Input Size 64
+    \end{itemize}
+    \item Erklären Sie, warum LSTMs das Vanishing Gradient Problem besser handhaben
+    \item Diskutieren Sie: Wann würden Sie ein Vanilla RNN gegenüber einem LSTM bevorzugen?
+    \item Beschreiben Sie das GRU (Gated Recurrent Unit) als Kompromiss zwischen RNN und LSTM
+\end{enumerate}
+
+\section{Sequenz-zu-Sequenz Modelle}
+
+\subsection{Sequence-to-Sequence Architekturen}
+
+\textbf{Aufgabe 3.1:} Encoder-Decoder Design
+
+\begin{enumerate}[(a)]
+    \item Skizzieren Sie eine Seq2Seq-Architektur für Übersetzung:
+    \begin{itemize}
+        \item Input: "Hello World" (Englisch)
+        \item Output: "Hallo Welt" (Deutsch)
+    \end{itemize}
+    \item Erklären Sie die Rolle des \textbf{Context Vectors}
+    \item Diskutieren Sie das \textbf{Information Bottleneck} Problem
+    \item Wie kann \textbf{Teacher Forcing} beim Training helfen?
+    \item Beschreiben Sie den Unterschied zwischen Training und Inference
+\end{enumerate}
+
+\subsection{Attention-Mechanismus}
+
+\textbf{Aufgabe 3.2:} Grundlagen der Attention
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie das Problem fester Context-Vektoren bei langen Sequenzen
+    \item Beschreiben Sie den Bahdanau Attention-Mechanismus:
+    \begin{align}
+    e_{t,i} &= \text{align}(s_{t-1}, h_i) \\
+    \alpha_{t,i} &= \frac{\exp(e_{t,i})}{\sum_{j=1}^{T_x} \exp(e_{t,j})} \\
+    c_t &= \sum_{i=1}^{T_x} \alpha_{t,i} h_i
+    \end{align}
+    \item Interpretieren Sie die Attention-Gewichte $\alpha_{t,i}$
+    \item Diskutieren Sie: Wie löst Attention das Information Bottleneck Problem?
+\end{enumerate}
+
+\section{Programmieraufgaben}
+
+\subsection{RNN von Grund auf implementieren}
+
+\textbf{Aufgabe 4.1:} Vanilla RNN Implementation
+
+\begin{lstlisting}[caption=RNN Grundgerüst]
+import numpy as np
+import matplotlib.pyplot as plt
+
+class SimpleRNN:
+    def __init__(self, input_size, hidden_size, output_size):
+        self.hidden_size = hidden_size
+        
+        # TODO: Initialisieren Sie die Gewichtsmatrizen
+        # self.Wxh = ...  # Input zu Hidden
+        # self.Whh = ...  # Hidden zu Hidden  
+        # self.Why = ...  # Hidden zu Output
+        # self.bh = ...   # Hidden Bias
+        # self.by = ...   # Output Bias
+        
+    def forward(self, inputs):
+        """
+        Forward Pass durch das RNN
+        
+        Args:
+            inputs: Liste von Input-Vektoren [x1, x2, ..., xT]
+        
+        Returns:
+            outputs: Liste von Output-Vektoren
+            hidden_states: Liste von Hidden States
+        """
+        h = np.zeros((self.hidden_size, 1))
+        hidden_states = []
+        outputs = []
+        
+        for x in inputs:
+            # TODO: Implementieren Sie den Forward Pass
+            # h = tanh(Wxh @ x + Whh @ h + bh)
+            # y = Why @ h + by
+            pass
+            
+        return outputs, hidden_states
+    
+    def backward(self, inputs, targets, outputs, hidden_states):
+        """
+        Backpropagation Through Time
+        
+        Returns:
+            gradients: Dictionary mit Gradienten
+        """
+        # TODO: Implementieren Sie BPTT
+        pass
+
+def test_rnn():
+    """Test des RNN mit einer einfachen Sequenz"""
+    rnn = SimpleRNN(input_size=2, hidden_size=3, output_size=1)
+    
+    # Beispiel-Sequenz
+    inputs = [np.array([[1], [0]]), 
+              np.array([[0], [1]]), 
+              np.array([[1], [1]])]
+    
+    outputs, hidden_states = rnn.forward(inputs)
+    
+    print("RNN Outputs:")
+    for i, output in enumerate(outputs):
+        print(f"t={i+1}: {output.flatten()}")
+
+if __name__ == "__main__":
+    test_rnn()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie die \texttt{\_\_init\_\_} Methode mit Xavier-Initialisierung
+    \item Vervollständigen Sie den \texttt{forward} Pass
+    \item Implementieren Sie \texttt{backward} für BPTT (vereinfacht)
+    \item Testen Sie mit verschiedenen Sequenzen
+    \item Visualisieren Sie die Hidden States über die Zeit
+\end{enumerate}
+
+\subsection{LSTM mit TensorFlow/Keras}
+
+\textbf{Aufgabe 4.2:} Zeitreihen-Vorhersage
+
+\begin{lstlisting}[caption=LSTM für Zeitreihen]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+import matplotlib.pyplot as plt
+
+def generate_sine_data(seq_length, num_samples):
+    """
+    Generiert Sinus-Zeitreihen für Training
+    
+    Args:
+        seq_length: Länge jeder Sequenz
+        num_samples: Anzahl der Beispiele
+    
+    Returns:
+        X: Input-Sequenzen (num_samples, seq_length, 1)
+        y: Targets (num_samples, 1)
+    """
+    # TODO: Generieren Sie Sinus-Daten
+    # Tipp: np.sin(np.linspace(...))
+    pass
+
+def create_lstm_model(seq_length):
+    """
+    Erstellt ein LSTM-Modell für Zeitreihen-Vorhersage
+    
+    Args:
+        seq_length: Länge der Input-Sequenzen
+    
+    Returns:
+        model: Keras-Modell
+    """
+    model = keras.Sequential([
+        # TODO: Implementieren Sie die LSTM-Architektur
+        # - LSTM Layer(s)
+        # - Dense Layer für Output
+        # - Geeignete Aktivierungsfunktionen
+    ])
+    
+    return model
+
+def plot_predictions(model, test_data, test_targets):
+    """Visualisiert Vorhersagen vs. tatsächliche Werte"""
+    predictions = model.predict(test_data)
+    
+    plt.figure(figsize=(12, 6))
+    plt.plot(test_targets[:100], label='Tatsächliche Werte', alpha=0.7)
+    plt.plot(predictions[:100], label='Vorhersagen', alpha=0.7)
+    plt.legend()
+    plt.title('LSTM Zeitreihen-Vorhersage')
+    plt.show()
+
+def main():
+    # Parameter
+    seq_length = 20
+    num_samples = 10000
+    
+    # Daten generieren
+    X, y = generate_sine_data(seq_length, num_samples)
+    
+    # TODO: Train/Test Split
+    # TODO: Modell erstellen und trainieren
+    # TODO: Evaluation und Visualisierung
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie die Sinus-Datengenerierung
+    \item Erstellen Sie ein LSTM-Modell mit 1-2 LSTM-Schichten
+    \item Trainieren Sie das Modell für Sinus-Vorhersage
+    \item Erweitern Sie auf komplexere Zeitreihen (mehrere Sinuswellen, Rauschen)
+    \item Implementieren Sie Multi-Step-Vorhersage
+    \item Vergleichen Sie LSTM vs. GRU vs. Simple RNN
+\end{enumerate}
+
+\subsection{Text-Generierung}
+
+\textbf{Aufgabe 4.3:} Character-Level RNN
+
+\begin{lstlisting}[caption=Text-Generierung mit RNN]
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+import string
+
+class CharRNN:
+    def __init__(self, vocab_size, embedding_dim, rnn_units):
+        self.vocab_size = vocab_size
+        self.embedding_dim = embedding_dim
+        self.rnn_units = rnn_units
+        self.model = self._build_model()
+    
+    def _build_model(self):
+        """Erstellt das Character-RNN Modell"""
+        model = keras.Sequential([
+            # TODO: Implementieren Sie die Architektur
+            # - Embedding Layer
+            # - LSTM/GRU Layer(s)
+            # - Dense Layer mit vocab_size Outputs
+        ])
+        return model
+    
+    def prepare_data(self, text):
+        """
+        Bereitet Text-Daten für Training vor
+        
+        Args:
+            text: Input-Text als String
+        
+        Returns:
+            dataset: TensorFlow Dataset
+            char_to_idx: Character zu Index Mapping
+            idx_to_char: Index zu Character Mapping
+        """
+        # TODO: Implementierung
+        # - Eindeutige Charaktere extrahieren
+        # - Character-zu-Index Mappings erstellen
+        # - Text in Sequenzen aufteilen
+        pass
+    
+    def generate_text(self, seed_text, num_generate=100, temperature=1.0):
+        """
+        Generiert Text basierend auf Seed-Text
+        
+        Args:
+            seed_text: Start-Text
+            num_generate: Anzahl zu generierender Charaktere
+            temperature: Sampling-Temperature (Kreativität)
+        
+        Returns:
+            generated_text: Generierter Text
+        """
+        # TODO: Implementierung
+        # - Seed-Text in Indices konvertieren
+        # - Iterativ Charaktere sampeln und vorhersagen
+        pass
+
+def main():
+    # Beispiel-Text (Sie können auch eigene Texte verwenden)
+    sample_text = """
+    Machine learning is a subset of artificial intelligence that focuses on 
+    algorithms that can learn from data. Deep learning is a subset of machine 
+    learning that uses neural networks with multiple layers.
+    """
+    
+    # TODO: CharRNN erstellen und trainieren
+    # TODO: Text generieren und evaluieren
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie die Datenvorverarbeitung für Character-Level Text
+    \item Erstellen Sie ein RNN für Text-Generierung
+    \item Trainieren Sie auf einem kleinen Text-Korpus
+    \item Experimentieren Sie mit verschiedenen Temperaturen beim Sampling
+    \item Implementieren Sie Beam Search für bessere Generierung
+    \item Erweitern Sie auf Word-Level Generation
+\end{enumerate}
+
+\section{Erweiterte Konzepte}
+
+\subsection{Bidirectional RNNs}
+
+\textbf{Aufgabe 5.1:} Bidirectional LSTM
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie die Motivation für bidirectionale RNNs
+    \item Skizzieren Sie die Architektur eines Bidirectional LSTM
+    \item Berechnen Sie die Anzahl Parameter im Vergleich zu einem unidirektionalen LSTM
+    \item Implementieren Sie ein bidirectionales LSTM für Sentiment-Analyse
+    \item Diskutieren Sie: Wann sind bidirectionale RNNs nicht geeignet?
+\end{enumerate}
+
+\subsection{Sequence-to-Sequence mit Attention}
+
+\textbf{Aufgabe 5.2:} Attention-Implementierung
+
+\begin{lstlisting}[caption=Einfacher Attention-Mechanismus]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+class AttentionLayer(layers.Layer):
+    def __init__(self, units):
+        super(AttentionLayer, self).__init__()
+        self.units = units
+        
+    def build(self, input_shape):
+        # TODO: Definieren Sie die Gewichtsmatrizen für Attention
+        # W1, W2, V für Bahdanau Attention
+        pass
+    
+    def call(self, query, values):
+        """
+        Berechnet Attention-Gewichte und Context-Vektor
+        
+        Args:
+            query: Decoder Hidden State (batch_size, hidden_size)
+            values: Encoder Hidden States (batch_size, seq_len, hidden_size)
+        
+        Returns:
+            context_vector: Gewichtete Summe der Encoder States
+            attention_weights: Attention-Gewichte
+        """
+        # TODO: Implementieren Sie Attention-Berechnung
+        pass
+
+def create_seq2seq_with_attention():
+    """Erstellt Seq2Seq-Modell mit Attention"""
+    # TODO: Implementierung
+    pass
+\end{lstlisting}
+
+\section{Verständnisfragen}
+
+\textbf{Aufgabe 6.1:} RNN-Limitationen
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie das \textbf{Vanishing Gradient Problem} in RNNs:
+    \begin{itemize}
+        \item Mathematische Ursache
+        \item Auswirkungen auf das Training
+        \item Warum sind lange Sequenzen besonders problematisch?
+    \end{itemize}
+    \item Beschreiben Sie das \textbf{Exploding Gradient Problem}:
+    \begin{itemize}
+        \item Unterschied zu Vanishing Gradients
+        \item Lösungsansätze (Gradient Clipping)
+    \end{itemize}
+    \item Diskutieren Sie \textbf{Computational Efficiency}:
+    \begin{itemize}
+        \item Warum können RNNs nicht vollständig parallelisiert werden?
+        \item Vergleich mit CNNs und Transformers
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Aufgabe 6.2:} LSTM-Mechanismen
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie detailliert, wie jedes LSTM-Gate funktioniert:
+    \begin{itemize}
+        \item \textbf{Forget Gate:} Welche Information wird "vergessen"?
+        \item \textbf{Input Gate:} Wie wird neue Information ausgewählt?
+        \item \textbf{Output Gate:} Wie wird der Output gesteuert?
+    \end{itemize}
+    \item Beschreiben Sie den \textbf{Cell State} vs. \textbf{Hidden State}:
+    \begin{itemize}
+        \item Unterschiedliche Rollen
+        \item Informationsfluss durch das Netzwerk
+    \end{itemize}
+    \item Vergleichen Sie \textbf{LSTM vs. GRU}:
+    \begin{itemize}
+        \item Anzahl Parameter
+        \item Computational Complexity
+        \item Performance-Unterschiede
+    \end{itemize}
+\end{enumerate}
+
+\section{Zusatzaufgaben (Optional)}
+
+\textbf{Aufgabe 7.1:} Multi-Modal Seq2Seq
+
+\begin{enumerate}[(a)]
+    \item Implementieren Sie ein Modell für Image Captioning:
+    \begin{itemize}
+        \item CNN-Encoder für Bilder
+        \item RNN-Decoder für Text-Generierung
+        \item Attention zwischen visuellen Features und Text
+    \end{itemize}
+    \item Erweitern Sie auf Video Captioning mit 3D-CNNs
+\end{enumerate}
+
+\textbf{Aufgabe 7.2:} Transformer vs. RNN
+
+\begin{enumerate}[(a)]
+    \item Recherchieren Sie die Transformer-Architektur
+    \item Implementieren Sie einen einfachen Transformer-Block
+    \item Vergleichen Sie RNN vs. Transformer für:
+    \begin{itemize}
+        \item Parallelisierbarkeit
+        \item Memory-Effizienz
+        \item Lange Sequenzen
+        \item Training-Zeit
+    \end{itemize}
+    \item Diskutieren Sie: "Attention is All You Need" - stimmt das?
+\end{enumerate}
+
+\section*{Hinweise und Tipps}
+
+\subsection*{Zu den Mathematik-Aufgaben}
+\begin{itemize}
+    \item \textbf{Dimensionen:} Prüfen Sie immer Matrix-Dimensionen bei Multiplikationen
+    \item \textbf{Aktivierungsfunktionen:} $\tanh$ für Hidden States, $\sigma$ für Gates
+    \item \textbf{Gradienten:} Verwenden Sie die Kettenregel systematisch
+    \item \textbf{Numerische Stabilität:} Beachten Sie Overflow bei $\exp()$ in Softmax
+\end{itemize}
+
+\subsection*{Zu den Programmieraufgaben}
+\begin{itemize}
+    \item \textbf{Sequence Length:} Beginnen Sie mit kurzen Sequenzen (10-20 Zeitschritte)
+    \item \textbf{Batch Size:} RNNs benötigen oft kleinere Batches als CNNs
+    \item \textbf{Learning Rate:} Verwenden Sie kleinere Learning Rates für RNNs (0.001-0.01)
+    \item \textbf{Gradient Clipping:} Implementieren Sie Gradient Clipping bei Training
+\end{itemize}
+
+\subsection*{Häufige Fehler vermeiden}
+\begin{itemize}
+    \item \textbf{Sequence Dimension:} Achten Sie auf (batch, time, features) Anordnung
+    \item \textbf{Stateful vs. Stateless:} Verstehen Sie, wann States zwischen Batches übertragen werden
+    \item \textbf{Return Sequences:} \texttt{return\_sequences=True} für Seq2Seq, \texttt{False} für Classification
+    \item \textbf{Masking:} Verwenden Sie Masking für variable Sequenzlängen
+\end{itemize}
+
+\section*{Weiterführende Ressourcen}
+
+\begin{itemize}
+    \item \textbf{Bücher:}
+    \begin{itemize}
+        \item "Deep Learning" - Goodfellow et al., Kapitel 10
+        \item "Speech and Language Processing" - Jurafsky \& Martin
+    \end{itemize}
+    \item \textbf{Papers:}
+    \begin{itemize}
+        \item "Long Short-Term Memory" - Hochreiter \& Schmidhuber (1997)
+        \item "Learning Phrase Representations using RNN Encoder-Decoder" - Cho et al.
+        \item "Neural Machine Translation by Jointly Learning to Align and Translate" - Bahdanau et al.
+        \item "Attention Is All You Need" - Vaswani et al.
+    \end{itemize}
+    \item \textbf{Online:}
+    \begin{itemize}
+        \item "Understanding LSTM Networks" - Christopher Olah
+        \item "The Unreasonable Effectiveness of RNNs" - Andrej Karpathy
+        \item CS224n: Natural Language Processing with Deep Learning
+    \end{itemize}
+\end{itemize}
+
+\end{document}

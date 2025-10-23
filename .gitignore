@@ -85,3 +85,7 @@ venv.bak/
 !logos/
 !README.md
 !.gitignore
+
+#powershell scripts
+*.ps
+*.ps1

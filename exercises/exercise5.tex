@@ -1,0 +1,672 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Deep Learning - Übung 5}
+\lhead{FH Südwestfalen}
+\rfoot{Seite \thepage}
+
+% Python code style
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\title{\textbf{Deep Learning - Übungsblatt 5} \\ \large Generative Modelle und Fortgeschrittenes Deep Learning}
+\author{Fachhochschule Südwestfalen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Voraussetzungen}
+\begin{itemize}
+    \item Alle vorherigen Übungsblätter sollten erfolgreich bearbeitet worden sein
+    \item Solides Verständnis von CNNs, RNNs und Optimierungsverfahren
+    \item Grundkenntnisse in Wahrscheinlichkeitstheorie und Informationstheorie
+    \item Vertrautheit mit komplexeren Deep Learning Konzepten
+\end{itemize}
+
+\section*{Lernziele}
+Nach erfolgreicher Bearbeitung dieser Übung können Sie:
+\begin{itemize}
+    \item Autoencoder-Architekturen verstehen und implementieren
+    \item Variational Autoencoders (VAEs) mathematisch herleiten
+    \item Generative Adversarial Networks (GANs) konzipieren und trainieren
+    \item Diffusion Models grundlegend verstehen
+    \item Transfer Learning und Fine-Tuning praktisch anwenden
+    \item Moderne Optimierungsverfahren implementieren
+\end{itemize}
+
+\section{Autoencoders}
+
+\subsection{Grundlegende Autoencoder-Mathematik}
+
+\textbf{Aufgabe 1.1:} Gegeben sei ein einfacher Autoencoder für MNIST-Daten:
+
+\textbf{Architektur:}
+\begin{align}
+\text{Encoder: } \mathbf{z} &= f_{\text{enc}}(\mathbf{x}) = \sigma(\mathbf{W}_e \mathbf{x} + \mathbf{b}_e) \\
+\text{Decoder: } \hat{\mathbf{x}} &= f_{\text{dec}}(\mathbf{z}) = \sigma(\mathbf{W}_d \mathbf{z} + \mathbf{b}_d) \\
+\text{Loss: } L(\mathbf{x}, \hat{\mathbf{x}}) &= \|\mathbf{x} - \hat{\mathbf{x}}\|^2
+\end{align}
+
+\textbf{Dimensionen:}
+- Input: $\mathbf{x} \in \mathbb{R}^{784}$ (28×28 Pixel, flattened)
+- Latent: $\mathbf{z} \in \mathbb{R}^{32}$ (Bottleneck)
+- Output: $\hat{\mathbf{x}} \in \mathbb{R}^{784}$ (Rekonstruktion)
+
+\begin{enumerate}[(a)]
+    \item Bestimmen Sie die Dimensionen aller Gewichtsmatrizen und Bias-Vektoren
+    \item Berechnen Sie die Gesamtanzahl der Parameter
+    \item Gegeben sei $\mathbf{x} = (1, 0, 1, 0, \ldots)^T$ (vereinfacht auf 4D) und:
+    \begin{align}
+    \mathbf{W}_e &= \begin{pmatrix} 0.5 & 0.2 & -0.1 & 0.3 \\ 0.1 & -0.4 & 0.6 & 0.2 \end{pmatrix}, \quad 
+    \mathbf{b}_e = \begin{pmatrix} 0.1 \\ -0.2 \end{pmatrix} \\
+    \mathbf{W}_d &= \begin{pmatrix} 0.4 & 0.1 \\ -0.2 & 0.5 \\ 0.3 & -0.1 \\ 0.2 & 0.4 \end{pmatrix}, \quad 
+    \mathbf{b}_d = \begin{pmatrix} 0.05 \\ -0.1 \\ 0.15 \\ 0.0 \end{pmatrix}
+    \end{align}
+    \item Berechnen Sie $\mathbf{z}$ und $\hat{\mathbf{x}}$ (verwenden Sie $\sigma(x) = \frac{1}{1+e^{-x}}$)
+    \item Berechnen Sie den Rekonstruktionsfehler $L(\mathbf{x}, \hat{\mathbf{x}})$
+    \item Interpretieren Sie: Was repräsentiert der latente Raum $\mathbf{z}$?
+\end{enumerate}
+
+\subsection{Denoising Autoencoders}
+
+\textbf{Aufgabe 1.2:} Noise Robustness
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie das Konzept von Denoising Autoencoders
+    \item Gegeben sei ein Input $\mathbf{x}$ und Noise $\boldsymbol{\epsilon} \sim \mathcal{N}(0, \sigma^2 \mathbf{I})$
+    \item Die noisy Eingabe ist $\tilde{\mathbf{x}} = \mathbf{x} + \boldsymbol{\epsilon}$
+    \item Loss-Funktion: $L = \|\mathbf{x} - f(\tilde{\mathbf{x}})\|^2$
+    \item Diskutieren Sie: Wie lernt der Autoencoder robuste Repräsentationen?
+    \item Implementieren Sie verschiedene Noise-Typen (Gaussian, Salt-and-Pepper, Dropout)
+\end{enumerate}
+
+\section{Variational Autoencoders (VAEs)}
+
+\subsection{VAE-Mathematik}
+
+\textbf{Aufgabe 2.1:} Variational Inference
+
+\textbf{VAE-Gleichungen:}
+\begin{align}
+q_\phi(\mathbf{z}|\mathbf{x}) &= \mathcal{N}(\boldsymbol{\mu}_\phi(\mathbf{x}), \boldsymbol{\sigma}_\phi^2(\mathbf{x})) \quad \text{(Encoder)} \\
+p_\theta(\mathbf{x}|\mathbf{z}) &= \mathcal{N}(\boldsymbol{\mu}_\theta(\mathbf{z}), \mathbf{I}) \quad \text{(Decoder)} \\
+p(\mathbf{z}) &= \mathcal{N}(\mathbf{0}, \mathbf{I}) \quad \text{(Prior)}
+\end{align}
+
+\textbf{ELBO (Evidence Lower Bound):}
+\begin{equation}
+\mathcal{L} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \text{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \| p(\mathbf{z}))
+\end{equation}
+
+\begin{enumerate}[(a)]
+    \item Leiten Sie die KL-Divergenz zwischen zwei Gaussschen Verteilungen her:
+    $$\text{KL}(\mathcal{N}(\mu_1, \sigma_1^2) \| \mathcal{N}(\mu_2, \sigma_2^2))$$
+    \item Für den VAE-Fall mit $p(\mathbf{z}) = \mathcal{N}(\mathbf{0}, \mathbf{I})$, zeigen Sie:
+    $$\text{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \| p(\mathbf{z})) = \frac{1}{2} \sum_{i=1}^{d} (1 + \log \sigma_i^2 - \mu_i^2 - \sigma_i^2)$$
+    \item Erklären Sie den \textbf{Reparameterization Trick}: $\mathbf{z} = \boldsymbol{\mu} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon}$ mit $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$
+    \item Diskutieren Sie die zwei Terme der ELBO:
+    \begin{itemize}
+        \item Reconstruction Term: Was wird optimiert?
+        \item Regularization Term: Welche Rolle spielt dieser?
+    \end{itemize}
+\end{enumerate}
+
+\subsection{$\beta$-VAE}
+
+\textbf{Aufgabe 2.2:} Disentangled Representations
+
+\begin{enumerate}[(a)]
+    \item Die $\beta$-VAE Loss-Funktion ist:
+    $$\mathcal{L}_{\beta} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta \cdot \text{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \| p(\mathbf{z}))$$
+    \item Analysieren Sie den Einfluss von $\beta$:
+    \begin{itemize}
+        \item $\beta = 1$: Standard VAE
+        \item $\beta > 1$: Stärkere Regularisierung
+        \item $\beta < 1$: Schwächere Regularisierung
+    \end{itemize}
+    \item Erklären Sie das Konzept von \textbf{Disentangled Representations}
+    \item Diskutieren Sie das Trade-off zwischen Reconstruction Quality und Disentanglement
+\end{enumerate}
+
+\section{Generative Adversarial Networks (GANs)}
+
+\subsection{GAN-Grundlagen}
+
+\textbf{Aufgabe 3.1:} Minimax-Spiel
+
+\textbf{GAN-Zielfunktion:}
+\begin{equation}
+\min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_z}[\log(1 - D(G(\mathbf{z})))]
+\end{equation}
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie die Rollen von Generator $G$ und Discriminator $D$
+    \item Zeigen Sie, dass der optimale Discriminator für einen festen Generator $G$ ist:
+    $$D^*(\mathbf{x}) = \frac{p_{\text{data}}(\mathbf{x})}{p_{\text{data}}(\mathbf{x}) + p_g(\mathbf{x})}$$
+    \item Beweisen Sie, dass für den optimalen Discriminator $D^*$:
+    $$V(D^*, G) = -\log(4) + 2 \cdot \text{JS}(p_{\text{data}} \| p_g)$$
+    wobei JS die Jensen-Shannon Divergenz ist
+    \item Interpretieren Sie: Warum minimiert der Generator die JS-Divergenz?
+    \item Diskutieren Sie das \textbf{Mode Collapse} Problem
+\end{enumerate}
+
+\subsection{Wasserstein GANs (WGANs)}
+
+\textbf{Aufgabe 3.2:} Wasserstein Distance
+
+\begin{enumerate}[(a)]
+    \item Die Wasserstein-1 Distance (Earth-Mover Distance) ist definiert als:
+    $$W(p, q) = \inf_{\gamma \in \Pi(p,q)} \mathbb{E}_{(\mathbf{x}, \mathbf{y}) \sim \gamma}[\|\mathbf{x} - \mathbf{y}\|]$$
+    \item Unter der Kantorovich-Rubinstein Dualität:
+    $$W(p, q) = \sup_{\|f\|_L \leq 1} \mathbb{E}_{\mathbf{x} \sim p}[f(\mathbf{x})] - \mathbb{E}_{\mathbf{y} \sim q}[f(\mathbf{y})]$$
+    \item WGAN-Zielfunktion:
+    $$\min_G \max_{D \in \mathcal{D}} \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[D(\mathbf{x})] - \mathbb{E}_{\mathbf{z} \sim p_z}[D(G(\mathbf{z}))]$$
+    \item Erklären Sie die \textbf{Lipschitz-Constraint} auf den Discriminator
+    \item Diskutieren Sie: Warum sind WGANs stabiler als Standard GANs?
+    \item Beschreiben Sie den \textbf{Gradient Penalty} Ansatz (WGAN-GP)
+\end{enumerate}
+
+\section{Diffusion Models}
+
+\subsection{Denoising Diffusion Probabilistic Models (DDPMs)}
+
+\textbf{Aufgabe 4.1:} Forward und Reverse Process
+
+\textbf{Forward Process (Noise-Addition):}
+\begin{align}
+q(\mathbf{x}_t|\mathbf{x}_{t-1}) &= \mathcal{N}(\mathbf{x}_t; \sqrt{1-\beta_t}\mathbf{x}_{t-1}, \beta_t \mathbf{I}) \\
+q(\mathbf{x}_{1:T}|\mathbf{x}_0) &= \prod_{t=1}^T q(\mathbf{x}_t|\mathbf{x}_{t-1})
+\end{align}
+
+\textbf{Reverse Process (Denoising):}
+\begin{equation}
+p_\theta(\mathbf{x}_{0:T}) = p(\mathbf{x}_T) \prod_{t=1}^T p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t)
+\end{equation}
+
+\begin{enumerate}[(a)]
+    \item Zeigen Sie, dass der Forward Process direkt von $\mathbf{x}_0$ zu $\mathbf{x}_t$ führt:
+    $$q(\mathbf{x}_t|\mathbf{x}_0) = \mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t}\mathbf{x}_0, (1-\bar{\alpha}_t)\mathbf{I})$$
+    mit $\alpha_t = 1 - \beta_t$ und $\bar{\alpha}_t = \prod_{s=1}^t \alpha_s$
+    \item Erklären Sie das \textbf{Training-Ziel} für DDPMs:
+    $$L = \mathbb{E}_{\mathbf{x}_0, \boldsymbol{\epsilon}, t}[\|\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\|^2]$$
+    \item Beschreiben Sie den \textbf{Sampling-Prozess} zur Generierung
+    \item Diskutieren Sie: Wie unterscheiden sich Diffusion Models von VAEs und GANs?
+\end{enumerate}
+
+\section{Programmieraufgaben}
+
+\subsection{Autoencoder Implementation}
+
+\textbf{Aufgabe 5.1:} MNIST Autoencoder
+
+\begin{lstlisting}[caption=Autoencoder für MNIST]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Autoencoder(keras.Model):
+    def __init__(self, encoding_dim):
+        super(Autoencoder, self).__init__()
+        self.encoding_dim = encoding_dim
+        
+        # Encoder
+        self.encoder = keras.Sequential([
+            # TODO: Implementieren Sie den Encoder
+            # - Flatten für MNIST (28, 28) -> (784,)
+            # - Dense Layer(s) mit Aktivierung
+            # - Bottleneck mit encoding_dim
+        ])
+        
+        # Decoder  
+        self.decoder = keras.Sequential([
+            # TODO: Implementieren Sie den Decoder
+            # - Dense Layer(s) von encoding_dim zurück zu 784
+            # - Reshape zurück zu (28, 28)
+            # - Sigmoid-Aktivierung für Pixel-Werte
+        ])
+    
+    def call(self, x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
+
+def plot_reconstructions(model, test_data, n=10):
+    """Visualisiert Original vs. Rekonstruktion"""
+    predictions = model.predict(test_data[:n])
+    
+    plt.figure(figsize=(20, 4))
+    for i in range(n):
+        # Original
+        ax = plt.subplot(2, n, i + 1)
+        plt.imshow(test_data[i].reshape(28, 28), cmap='gray')
+        plt.title("Original")
+        plt.axis('off')
+        
+        # Rekonstruktion
+        ax = plt.subplot(2, n, i + 1 + n)
+        plt.imshow(predictions[i].reshape(28, 28), cmap='gray')
+        plt.title("Rekonstruiert")
+        plt.axis('off')
+    plt.show()
+
+def main():
+    # Daten laden
+    (x_train, _), (x_test, _) = keras.datasets.mnist.load_data()
+    
+    # TODO: Datenvorverarbeitung
+    # - Normalisierung auf [0, 1]
+    # - Reshape falls nötig
+    
+    # TODO: Modell erstellen und trainieren
+    autoencoder = Autoencoder(encoding_dim=32)
+    
+    # TODO: Compilation und Training
+    # TODO: Visualisierung der Ergebnisse
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie einen einfachen Autoencoder mit 32-dimensionalem Latent Space
+    \item Erweitern Sie auf Convolutional Autoencoder
+    \item Implementieren Sie Denoising-Funktionalität
+    \item Visualisieren Sie den latenten Raum mit t-SNE oder PCA
+    \item Experimentieren Sie mit verschiedenen Latent Space Größen (2, 8, 32, 128)
+\end{enumerate}
+
+\subsection{VAE Implementation}
+
+\textbf{Aufgabe 5.2:} Variational Autoencoder
+
+\begin{lstlisting}[caption=VAE für MNIST]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+
+class VAE(keras.Model):
+    def __init__(self, latent_dim):
+        super(VAE, self).__init__()
+        self.latent_dim = latent_dim
+        
+        # Encoder
+        self.encoder = keras.Sequential([
+            # TODO: Encoder-Architektur
+        ])
+        
+        # Latent space - separate outputs für μ und log(σ²)
+        self.mu_layer = layers.Dense(latent_dim)
+        self.log_var_layer = layers.Dense(latent_dim)
+        
+        # Decoder
+        self.decoder = keras.Sequential([
+            # TODO: Decoder-Architektur
+        ])
+    
+    def encode(self, x):
+        """Encoded Input zu μ und log(σ²)"""
+        h = self.encoder(x)
+        mu = self.mu_layer(h)
+        log_var = self.log_var_layer(h)
+        return mu, log_var
+    
+    def reparameterize(self, mu, log_var):
+        """Reparameterization Trick"""
+        # TODO: Implementierung
+        # z = μ + σ * ε, wobei ε ~ N(0, I)
+        pass
+    
+    def decode(self, z):
+        """Dekodiert latente Repräsentation"""
+        return self.decoder(z)
+    
+    def call(self, x):
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)
+        return self.decode(z), mu, log_var
+
+def vae_loss(x, x_reconstructed, mu, log_var):
+    """VAE Loss: Reconstruction + KL Divergence"""
+    # TODO: Implementieren Sie ELBO
+    # reconstruction_loss = ...
+    # kl_loss = ...
+    # return reconstruction_loss + kl_loss
+    pass
+
+def generate_images(model, n=10):
+    """Generiert neue Bilder durch Sampling aus dem Prior"""
+    # TODO: Sample z aus N(0, I) und dekodiere
+    pass
+
+def plot_latent_space(model, test_data, test_labels):
+    """Visualisiert den 2D latenten Raum (nur für latent_dim=2)"""
+    # TODO: Encode test_data und plotte nach Labels eingefärbt
+    pass
+
+def main():
+    # TODO: VAE Training und Evaluation
+    pass
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie den Reparameterization Trick
+    \item Vervollständigen Sie die VAE Loss-Funktion
+    \item Trainieren Sie das VAE auf MNIST
+    \item Implementieren Sie Bildgenerierung durch Prior-Sampling
+    \item Für 2D Latent Space: Visualisieren Sie die Verteilung verschiedener Ziffern
+    \item Experimentieren Sie mit $\beta$-VAE ($\beta > 1$)
+\end{enumerate}
+
+\subsection{GAN Implementation}
+
+\textbf{Aufgabe 5.3:} Simple GAN
+
+\begin{lstlisting}[caption=GAN für MNIST]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+
+def build_generator(latent_dim):
+    """Erstellt Generator-Netzwerk"""
+    model = keras.Sequential([
+        # TODO: Generator-Architektur
+        # - Input: Latent Vector (z)
+        # - Dense Layer(s) mit ReLU
+        # - Output: 28x28x1 Bild mit tanh-Aktivierung
+    ])
+    return model
+
+def build_discriminator():
+    """Erstellt Discriminator-Netzwerk"""
+    model = keras.Sequential([
+        # TODO: Discriminator-Architektur  
+        # - Input: 28x28x1 Bild
+        # - Conv2D oder Dense Layer(s)
+        # - Output: Einzelne Probability (echt/fake)
+    ])
+    return model
+
+class GAN:
+    def __init__(self, latent_dim=100):
+        self.latent_dim = latent_dim
+        
+        self.generator = build_generator(latent_dim)
+        self.discriminator = build_discriminator()
+        
+        # Optimizers
+        self.generator_optimizer = keras.optimizers.Adam(1e-4)
+        self.discriminator_optimizer = keras.optimizers.Adam(1e-4)
+        
+        # Loss function
+        self.cross_entropy = keras.losses.BinaryCrossentropy()
+    
+    def discriminator_loss(self, real_output, fake_output):
+        """Discriminator Loss"""
+        # TODO: Implementierung
+        # real_loss = cross_entropy(ones, real_output)
+        # fake_loss = cross_entropy(zeros, fake_output)
+        # return real_loss + fake_loss
+        pass
+    
+    def generator_loss(self, fake_output):
+        """Generator Loss"""
+        # TODO: Implementierung
+        # Generator will Discriminator "täuschen" -> Labels = 1
+        pass
+    
+    @tf.function
+    def train_step(self, real_images, batch_size):
+        """Ein Trainingsschritt für beide Netzwerke"""
+        noise = tf.random.normal([batch_size, self.latent_dim])
+        
+        with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
+            # TODO: Forward Pass
+            # generated_images = self.generator(noise)
+            # real_output = self.discriminator(real_images)
+            # fake_output = self.discriminator(generated_images)
+            
+            # TODO: Loss-Berechnung
+            # gen_loss = self.generator_loss(fake_output)
+            # disc_loss = self.discriminator_loss(real_output, fake_output)
+            pass
+        
+        # TODO: Gradient-Berechnung und Update
+        
+    def generate_images(self, n=16):
+        """Generiert n Bilder"""
+        noise = tf.random.normal([n, self.latent_dim])
+        generated_images = self.generator(noise)
+        return generated_images
+
+def main():
+    # TODO: GAN Training
+    pass
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie Generator und Discriminator
+    \item Vervollständigen Sie die Loss-Funktionen
+    \item Implementieren Sie den alternierenden Trainingsprozess
+    \item Visualisieren Sie generierte Bilder während des Trainings
+    \item Experimentieren Sie mit verschiedenen Architekturen
+    \item Implementieren Sie WGAN-Verlust (optional)
+\end{enumerate}
+
+\section{Transfer Learning und Fine-Tuning}
+
+\subsection{Feature Extraction vs. Fine-Tuning}
+
+\textbf{Aufgabe 6.1:} ImageNet Pre-trained Models
+
+\begin{enumerate}[(a)]
+    \item Laden Sie ein pre-trained ResNet50 (ImageNet) ohne Top-Layer
+    \item Implementieren Sie \textbf{Feature Extraction}:
+    \begin{itemize}
+        \item Alle ConvNet-Layer einfrieren (trainable=False)
+        \item Nur neue Classifier-Layer trainieren
+    \end{itemize}
+    \item Implementieren Sie \textbf{Fine-Tuning}:
+    \begin{itemize}
+        \item Erst Feature Extraction für wenige Epochen
+        \item Dann ausgewählte obere Layer "auftauen"
+        \item Mit sehr kleiner Learning Rate weitertrainieren
+    \end{itemize}
+    \item Vergleichen Sie beide Ansätze auf einem kleinen Dataset (z.B. CIFAR-10)
+    \item Diskutieren Sie: Wann verwenden Sie welchen Ansatz?
+\end{enumerate}
+
+\subsection{Domain Adaptation}
+
+\textbf{Aufgabe 6.2:} Cross-Domain Transfer
+
+\begin{enumerate}[(a)]
+    \item Trainieren Sie ein CNN auf MNIST
+    \item Evaluieren Sie auf Fashion-MNIST ohne Re-Training
+    \item Implementieren Sie Domain Adaptation Techniken:
+    \begin{itemize}
+        \item Gradual Unfreezing
+        \item Discriminative Learning Rates  
+        \item Data Augmentation für Ziel-Domain
+    \end{itemize}
+    \item Messen Sie Performance-Verbesserungen
+    \item Analysieren Sie: Welche Features sind transferierbar?
+\end{enumerate}
+
+\section{Moderne Optimierungsverfahren}
+
+\subsection{Adaptive Learning Rate Methods}
+
+\textbf{Aufgabe 7.1:} Optimizer-Vergleich
+
+\begin{enumerate}[(a)]
+    \item Implementieren Sie von Grund auf:
+    \begin{itemize}
+        \item \textbf{SGD with Momentum}: $v_t = \gamma v_{t-1} + \eta \nabla_\theta J(\theta)$
+        \item \textbf{AdaGrad}: $\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{G_t + \epsilon}} \nabla_\theta J(\theta)$
+        \item \textbf{Adam}: Kombination aus Momentum und adaptive Learning Rates
+    \end{itemize}
+    \item Testen Sie alle Optimizer auf demselben Problem (z.B. MNIST-Klassifikation)
+    \item Plotten Sie Convergence-Curves und Learning Rate Schedules
+    \item Diskutieren Sie Vor- und Nachteile jedes Verfahrens
+\end{enumerate}
+
+\subsection{Learning Rate Scheduling}
+
+\textbf{Aufgabe 7.2:} Advanced Scheduling
+
+\begin{enumerate}[(a)]
+    \item Implementieren Sie verschiedene LR-Schedules:
+    \begin{itemize}
+        \item \textbf{Step Decay}: LR halbieren alle N Epochen
+        \item \textbf{Exponential Decay}: $\text{LR} = \text{LR}_0 \cdot e^{-kt}$
+        \item \textbf{Cosine Annealing}: $\text{LR} = \text{LR}_{\min} + \frac{1}{2}(\text{LR}_{\max} - \text{LR}_{\min})(1 + \cos(\frac{T_{\text{cur}}}{T_{\max}} \pi))$
+        \item \textbf{Warm Restarts}: Periodische LR-Resets
+    \end{itemize}
+    \item Vergleichen Sie die Auswirkungen auf Training-Stabilität und finale Performance
+    \item Diskutieren Sie: Wann ist welcher Schedule geeignet?
+\end{enumerate}
+
+\section{Verständnisfragen}
+
+\textbf{Aufgabe 8.1:} Generative Models Comparison
+
+\begin{enumerate}[(a)]
+    \item Vergleichen Sie VAEs, GANs und Diffusion Models bezüglich:
+    \begin{itemize}
+        \item \textbf{Training-Stabilität}
+        \item \textbf{Sample-Qualität}
+        \item \textbf{Mode Coverage}
+        \item \textbf{Latent Space Interpretierbarkeit}
+        \item \textbf{Computational Complexity}
+    \end{itemize}
+    \item Diskutieren Sie spezifische Anwendungsfälle für jedes Modell
+    \item Erklären Sie das \textbf{Mode Collapse} Problem in GANs und Lösungsansätze
+    \item Beschreiben Sie das \textbf{Posterior Collapse} Problem in VAEs
+\end{enumerate}
+
+\textbf{Aufgabe 8.2:} Theoretical Foundations
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie die Information-Theoretic Perspektive auf Autoencoders:
+    \begin{itemize}
+        \item Information Bottleneck Principle
+        \item Mutual Information zwischen Input und Latent Space
+        \item Rate-Distortion Theory
+    \end{itemize}
+    \item Diskutieren Sie die Verbindung zwischen:
+    \begin{itemize}
+        \item VAE ELBO und Maximum Likelihood Estimation
+        \item GAN Minimax-Spiel und Optimal Transport
+        \item Diffusion Models und Score Matching
+    \end{itemize}
+\end{enumerate}
+
+\section{Zusatzaufgaben (Optional)}
+
+\textbf{Aufgabe 9.1:} Conditional Generation
+
+\begin{enumerate}[(a)]
+    \item Implementieren Sie Conditional VAE (CVAE) für MNIST
+    \item Erweitern Sie Ihr GAN zu einem Conditional GAN (cGAN)
+    \item Vergleichen Sie beide Ansätze für kontrollierte Generierung
+    \item Implementieren Sie Style Transfer mit pre-trained Networks
+\end{enumerate}
+
+\textbf{Aufgabe 9.2:} Advanced Architectures
+
+\begin{enumerate}[(a)]
+    \item Recherchieren Sie StyleGAN-Architektur
+    \item Implementieren Sie Progressive Growing für GANs
+    \item Experimentieren Sie mit Self-Attention in Generative Models
+    \item Implementieren Sie Spectral Normalization für GAN-Stabilität
+\end{enumerate}
+
+\section*{Hinweise und Tipps}
+
+\subsection*{Zu den Mathematik-Aufgaben}
+\begin{itemize}
+    \item \textbf{Wahrscheinlichkeitstheorie:} Verstehen Sie KL-Divergenz und andere Distanzmaße
+    \item \textbf{Reparameterization Trick:} Essentiell für gradient-based Optimization in VAEs
+    \item \textbf{Numerical Stability:} Verwenden Sie log-space Berechnungen wo möglich
+    \item \textbf{Minimax-Spiele:} Verstehen Sie die Dynamik zwischen Generator und Discriminator
+\end{itemize}
+
+\subsection*{Zu den Programmieraufgaben}
+\begin{itemize}
+    \item \textbf{Training Instability:} GANs sind notorisch schwer zu trainieren - experimentieren Sie mit Hyperparametern
+    \item \textbf{Model Monitoring:} Tracken Sie multiple Metriken (Loss, FID, IS, etc.)
+    \item \textbf{Computational Resources:} Generative Models benötigen viel Rechenzeit
+    \item \textbf{Evaluation:} Qualitative Evaluation ist oft wichtiger als quantitative Metriken
+\end{itemize}
+
+\subsection*{Häufige Fehler vermeiden}
+\begin{itemize}
+    \item \textbf{VAE KL-Collapse:} Balance zwischen Reconstruction und KL-Term
+    \item \textbf{GAN Mode Collapse:} Verschiedene Techniken zur Diversität
+    \item \textbf{Learning Rate:} GANs benötigen oft verschiedene LRs für G und D
+    \item \textbf{Data Normalization:} Konsistente Normalisierung zwischen Training und Generation
+\end{itemize}
+
+\section*{Weiterführende Ressourcen}
+
+\begin{itemize}
+    \item \textbf{Bücher:}
+    \begin{itemize}
+        \item "Deep Learning" - Goodfellow et al., Kapitel 14, 16, 20
+        \item "Probabilistic Machine Learning" - Kevin Murphy
+    \end{itemize}
+    \item \textbf{Fundamental Papers:}
+    \begin{itemize}
+        \item "Auto-Encoding Variational Bayes" - Kingma \& Welling
+        \item "Generative Adversarial Networks" - Goodfellow et al.
+        \item "Denoising Diffusion Probabilistic Models" - Ho et al.
+        \item "Wasserstein GAN" - Arjovsky et al.
+    \end{itemize}
+    \item \textbf{Online:}
+    \begin{itemize}
+        \item "Tutorial on Variational Autoencoders" - Carl Doersch
+        \item "GAN Lab" - Interactive GAN Visualization
+        \item CS236: Deep Generative Models (Stanford)
+        \item Distill.pub: "Visualizing Neural Networks with the Grand Tour"
+    \end{itemize}
+\end{itemize}
+
+\end{document}

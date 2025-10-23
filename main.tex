@@ -298,9 +298,10 @@
         \end{equation}
         \item Um $L$ zu minimieren, wähle $\boldsymbol{\Delta\theta} = -\eta \nabla L(\boldsymbol{\theta})$ (mit $\eta > 0$)
         \item \textbf{Warum funktioniert das?} Für kleine $\eta$:
-        \begin{equation}
-          L(\boldsymbol{\theta} - \eta \nabla L(\boldsymbol{\theta})) \approx L(\boldsymbol{\theta}) - \eta ||\nabla L(\boldsymbol{\theta})||^2 \leq L(\boldsymbol{\theta})
-        \end{equation}
+        \begin{align}
+          L(\boldsymbol{\theta} - \eta \nabla L(\boldsymbol{\theta})) &\approx L(\boldsymbol{\theta}) - \eta \|\nabla L(\boldsymbol{\theta})\|^2 \\
+          &\leq L(\boldsymbol{\theta})
+        \end{align}
         \item \textbf{Konvergenz-Eigenschaften}:
         \begin{itemize}
           \item Für konvexe Funktionen: Garantierte Konvergenz zum globalen Minimum
@@ -320,15 +321,18 @@
               \begin{equation}
                         f(\mathbf{x}) = \begin{cases}1 & \text{if }\ \mathbf{w}^T \mathbf{x} + b \geq \theta,\\0 & \text{otherwise}\end{cases}
                     \end{equation}
-              \item mit dem Gewichtsvektor $\mathbf{w} \in \mathbb{R}^d$, Eingabevektor $\mathbf{x} \in \mathbb{R}^d$, Bias $b \in \mathbb{R}$ und Schwellwert $\theta$ \newline
-              \item Das Skalarprodukt: $\mathbf{w}^T\mathbf{x} = \sum_{i=1}^{d} w_i x_i$ \newline
+              \item mit dem Gewichtsvektor $\mathbf{w} \in \mathbb{R}^d$, \\
+                    Eingabevektor $\mathbf{x} \in \mathbb{R}^d$, \\
+                    Bias $b \in \mathbb{R}$ und Schwellwert $\theta$
+              \item Das Skalarprodukt: $\mathbf{w}^T\mathbf{x} = \sum_{i=1}^{d} w_i x_i$
               \item Entscheidungsgrenze im 2D-Fall ($d=2$): Gerade mit Gleichung
               \begin{align}
                 w_1 x_1 + w_2 x_2 + b &= \theta \\
                 x_2 &= -\frac{w_1}{w_2} x_1 - \frac{b-\theta}{w_2}
               \end{align}
               \item Geometrische Interpretation: Hyperebene teilt den $\mathbb{R}^d$ in zwei Halbräume
-              \item Linear separierbare Probleme: Klassen können durch Hyperebene getrennt werden
+              \item Linear separierbare Probleme: \\
+                    Klassen können durch Hyperebene getrennt werden
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -349,14 +353,16 @@
               \begin{equation}
                 \mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} + \eta \sum_{(\mathbf{x}_i, y_i) \in \mathcal{F}^{(t)}} y_i \mathbf{x}_i
               \end{equation}
-              \item \textbf{Fehlklassifizierungen}: $\mathcal{F}^{(t)} = \{(\mathbf{x}_i, y_i) : y_i(\mathbf{w}^{(t)T}\mathbf{x}_i) \leq 0\}$
+              \item \textbf{Fehlklassifizierungen}: \\
+                    $\mathcal{F}^{(t)} = \{(\mathbf{x}_i, y_i) : y_i(\mathbf{w}^{(t)T}\mathbf{x}_i) \leq 0\}$
               \item \textbf{Algorithmus}:
               \begin{enumerate}
                 \item Initialisiere $\mathbf{w}^{(0)} = \mathbf{0}$
                 \item Für jede Fehlklassifikation: Update $\mathbf{w}$
                 \item Wiederhole bis Konvergenz
               \end{enumerate}
-              \item \textbf{Konvergenz-Garantie}: Für linear separierbare Daten konvergiert in endlich vielen Schritten
+              \item \textbf{Konvergenz-Garantie}: \\
+                    Für linear separierbare Daten konvergiert in endlich vielen Schritten
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -503,19 +509,19 @@
         \begin{columns}
           \begin{column}{0.7\textwidth}
             \begin{itemize}
-              \item
+              \item \textbf{Verlustfunktion}:
               \begin{equation}
-                f(w) = \sum_{x\in B} || g(w; x) - g^*(x) ||^2 \quad \rightarrow \text{  min  }
+                f(\mathbf{w}) = \sum_{\mathbf{x}\in B} \| g(\mathbf{w}; \mathbf{x}) - g^*(\mathbf{x}) \|^2 \quad \rightarrow \text{min}
               \end{equation} 
-              \item mit dem Output des Netzes $ g(w;x) $ und dem erwarteten Output $ g^*(x) $ 
-              \item 
+              \item mit dem Output des Netzes $ g(\mathbf{w};\mathbf{x}) $ und dem erwarteten Output $ g^*(\mathbf{x}) $ 
+              \item \textbf{Gradientenabstieg für alle Parameter}:
               \begin{align}
-                 u^{(t+1)} &= u^t - \gamma \nabla_u f(w_t , u_t) \\
-                 w^{(t+1)} &= w^t - \gamma \nabla_w f(w_t , u_t) \\
+                 \mathbf{u}^{(t+1)} &= \mathbf{u}^{(t)} - \gamma \nabla_{\mathbf{u}} f(\mathbf{w}^{(t)} , \mathbf{u}^{(t)}) \\
+                 \mathbf{w}^{(t+1)} &= \mathbf{w}^{(t)} - \gamma \nabla_{\mathbf{w}} f(\mathbf{w}^{(t)} , \mathbf{u}^{(t)})
               \end{align}
-              \item $x_i$: Inputs 
-              \item $y_j$: Werte nach dem ersten Layer
-              \item $z_k$: Werte nach dem zweiten Layer
+              \item $\mathbf{x}_i$: Input-Vektoren 
+              \item $\mathbf{y}_j$: Werte nach dem ersten Layer
+              \item $\mathbf{z}_k$: Werte nach dem zweiten Layer
             \end{itemize}
           \end{column}
           \begin{column}{0.3\textwidth}
@@ -531,15 +537,16 @@
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{Backpropagation} \cite{rumelhart1986}: Effizienter Algorithmus zur Berechnung von Gradienten
+              \item \textbf{Backpropagation} \cite{rumelhart1986}: \\
+                    Effizienter Algorithmus zur Berechnung von Gradienten
               \item \textbf{Problem}: Wie berechnen wir $\frac{\partial L}{\partial w_{ij}}$ in tiefen Netzen?
               \item \textbf{Lösung}: Anwendung der \textbf{Kettenregel} der Differentiation:
               \begin{equation}
-                \frac{\partial L}{\partial w_{ij}^{(l)}} = \frac{\partial L}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}}
+                \frac{\partial L}{\partial w_{ij}^{(\ell)}} = \frac{\partial L}{\partial z_j^{(\ell)}} \cdot \frac{\partial z_j^{(\ell)}}{\partial w_{ij}^{(\ell)}}
               \end{equation}
               \item Definition der \textbf{lokalen Gradienten} (Deltas):
               \begin{equation}
-                \delta_j^{(l)} = \frac{\partial L}{\partial z_j^{(l)}}
+                \delta_j^{(\ell)} = \frac{\partial L}{\partial z_j^{(\ell)}}
               \end{equation}
               \item \textbf{Idee}: Berechne Fehler rückwärts durch das Netz
             \end{itemize}
@@ -547,15 +554,15 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Backpropagation: Algorithmus}
+      \begin{frame}{Backpropagation: Notation und Ablauf}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
               \item \textbf{Notation}: 
               \begin{itemize}
-                \item $L$: Verlustfunktion, $a_j^{(l)}$: Aktivierung von Neuron $j$ in Schicht $l$
-                \item $z_j^{(l)} = \sum_i w_{ij}^{(l)} a_i^{(l-1)} + b_j^{(l)}$: Eingabe vor Aktivierung
-                \item $\delta_j^{(l)} = \frac{\partial L}{\partial z_j^{(l)}}$: Lokaler Gradient (Fehlerterm)
+                \item $L$: Verlustfunktion, $a_j^{(\ell)}$: Aktivierung von Neuron $j$ in Schicht $\ell$
+                \item $z_j^{(\ell)} = \sum_i w_{ij}^{(\ell)} a_i^{(\ell-1)} + b_j^{(\ell)}$: Eingabe vor Aktivierung
+                \item $\delta_j^{(\ell)} = \frac{\partial L}{\partial z_j^{(\ell)}}$: Lokaler Gradient (Fehlerterm)
               \end{itemize}
               \item \textbf{Forward Pass}: Berechne Ausgaben für alle Schichten
               \item \textbf{Backward Pass}: Berechne Gradienten rekursiv
@@ -565,13 +572,29 @@
               \end{equation}
               \item \textbf{Versteckte Schichten}:
               \begin{equation}
-                \delta_j^{(l)} = \left(\sum_{k} \delta_k^{(l+1)} w_{jk}^{(l+1)}\right) \sigma'(z_j^{(l)})
+                \delta_j^{(\ell)} = \left(\sum_{k} \delta_k^{(\ell+1)} w_{jk}^{(\ell+1)}\right) \sigma'(z_j^{(\ell)})
               \end{equation}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Backpropagation: Gradientenberechnung}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
               \item \textbf{Gradientenberechnung}:
               \begin{align}
-                \frac{\partial L}{\partial w_{ij}^{(l)}} &= \delta_j^{(l)} \cdot a_i^{(l-1)} \\
-                \frac{\partial L}{\partial b_j^{(l)}} &= \delta_j^{(l)}
+                \frac{\partial L}{\partial w_{ij}^{(\ell)}} &= \delta_j^{(\ell)} \cdot a_i^{(\ell-1)} \\
+                \frac{\partial L}{\partial b_j^{(\ell)}} &= \delta_j^{(\ell)}
               \end{align}
+              \item \textbf{Interpretation}:
+              \begin{itemize}
+                \item Gewicht-Gradient = lokaler Gradient × Eingabeaktivierung
+                \item Bias-Gradient = lokaler Gradient
+                \item Effizienz: $O(W)$ statt $O(W^2)$ für numerische Differentiation
+              \end{itemize}
+              \item \textbf{Komplexität}: Linear in der Anzahl der Parameter
             \end{itemize}
           \end{column}
         \end{columns}
@@ -696,16 +719,21 @@
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item bei einem Neuronalen Netz mi $L$ Layern $S_1, S_2 , ... , S_L$
-              \item den Gewichten $w_{ij}$ in der Matrix $W$
-              \item dem output eines Neurons $o_j$
+              \item bei einem Neuronalen Netz mit $L$ Layern $S_1, S_2 , \ldots , S_L$
+              \item den Gewichten $w_{ij}$ in der Matrix $\mathbf{W}$
+              \item dem Output eines Neurons $o_j$
               \item ist der Fehlerterm: 
             \begin{equation*}
-              \delta_j = \begin{cases} o_j \cdot (1-o_j) \cdot  (o_j -z_j*) & \text{if }\ j \in S_L, \text{output Neuron} \\ o_j \cdot (1-o_j) \cdot \sum_{k \in S_{m+1}} \delta_k \cdot w_{jk} & \text{if } j \in S_m \text{and } m<L \end{cases}
+              \delta_j = \begin{cases} 
+                o_j \cdot (1-o_j) \cdot (o_j - z_j^*) & \text{falls } j \in S_L \\
+                & \text{(Output-Neuron)} \\[0.5em]
+                o_j \cdot (1-o_j) \cdot \sum_{k \in S_{m+1}} \delta_k \cdot w_{jk} & \text{falls } j \in S_m \\
+                & \text{und } m < L
+              \end{cases}
             \end{equation*}
             \item Der Korrekturterm für die einzelnen Gewichte ist dann:
             \begin{equation}
-              w_{ij}^{(t+1)} = w_{ij}^{t} - \gamma \cdot o_i \cdot \delta_j 
+              w_{ij}^{(t+1)} = w_{ij}^{(t)} - \gamma \cdot o_i \cdot \delta_j 
             \end{equation}
             \end{itemize}
           \end{column}
@@ -727,13 +755,14 @@
                 \mathbf{v}^{(t+1)} &= \beta \mathbf{v}^{(t)} + \eta \nabla L(\boldsymbol{\theta}^{(t)}) \\
                 \boldsymbol{\theta}^{(t+1)} &= \boldsymbol{\theta}^{(t)} - \mathbf{v}^{(t+1)}
               \end{align}
-              \item \textbf{ADAM} \cite{kingma2014adam} (Adaptive Moment Estimation) - Kombination aus Momentum und RMSprop:
+              \item \textbf{ADAM} \cite{kingma2014adam} (Adaptive Moment Estimation) -- \\
+                    Kombination aus Momentum und RMSprop:
               \begin{align}
-                m_w^{(t+1)} &= \beta_1 m_w^{(t)} + (1 - \beta_1) \nabla_w L^{(t)} \quad \text{(1. Moment)} \\
-                v_w^{(t+1)} &= \beta_2 v_w^{(t)} + (1 - \beta_2) (\nabla_w L^{(t)})^2 \quad \text{(2. Moment)} \\
-                \hat{m}_w^{(t)} &= \frac{m_w^{(t+1)}}{1 - \beta_1^{t+1}} \quad \text{(Bias-Korrektur)} \\
-                \hat{v}_w^{(t)} &= \frac{v_w^{(t+1)}}{1 - \beta_2^{t+1}} \quad \text{(Bias-Korrektur)} \\
-                w^{(t+1)} &= w^{(t)} - \frac{\eta}{\sqrt{\hat{v}_w^{(t)}} + \epsilon} \hat{m}_w^{(t)}
+                \mathbf{m}^{(t+1)} &= \beta_1 \mathbf{m}^{(t)} + (1 - \beta_1) \nabla_{\boldsymbol{\theta}} L^{(t)} \\
+                \mathbf{v}^{(t+1)} &= \beta_2 \mathbf{v}^{(t)} + (1 - \beta_2) (\nabla_{\boldsymbol{\theta}} L^{(t)})^2 \\
+                \hat{\mathbf{m}}^{(t)} &= \frac{\mathbf{m}^{(t+1)}}{1 - \beta_1^{t+1}} \quad \text{(Bias-Korrektur)} \\
+                \hat{\mathbf{v}}^{(t)} &= \frac{\mathbf{v}^{(t+1)}}{1 - \beta_2^{t+1}} \quad \text{(Bias-Korrektur)} \\
+                \boldsymbol{\theta}^{(t+1)} &= \boldsymbol{\theta}^{(t)} - \frac{\eta}{\sqrt{\hat{\mathbf{v}}^{(t)}} + \epsilon} \hat{\mathbf{m}}^{(t)}
               \end{align}
               \item Typische Hyperparameter: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$
             \end{itemize}
@@ -777,13 +806,15 @@
           \begin{column}{0.6\textwidth}
             \begin{itemize}
               \item \textbf{Problem}: Bei tiefen Netzen werden Gradienten exponentiell kleiner
-              \item \textbf{Mathematische Analyse}: Für Sigmoid-Aktivierung $\sigma'(x) \leq 0.25$
+              \item \textbf{Mathematische Analyse}: \\
+                    Für Sigmoid-Aktivierung $\sigma'(x) \leq 0.25$
               \item Gradient in Schicht $\ell$ proportional zu:
               \begin{equation}
                 \frac{\partial L}{\partial \mathbf{W}^{(\ell)}} \propto \prod_{i=\ell+1}^{L} \mathbf{W}^{(i)} \sigma'(\mathbf{z}^{(i)})
               \end{equation}
               \item Für $L-\ell$ Schichten: Faktor $\leq (0.25)^{L-\ell}$ 
-              \item \textbf{Beispiel}: Bei 10 Schichten kann Gradient um Faktor $10^{-6}$ schrumpfen!
+              \item \textbf{Beispiel}: Bei 10 Schichten kann Gradient \\
+                    um Faktor $10^{-6}$ schrumpfen!
               \item \textbf{Lösungsansätze}:
               \begin{itemize}
                 \item ReLU-Aktivierungen: $\text{ReLU}'(x) = 1$ für $x > 0$
@@ -1051,19 +1082,26 @@
               \item \textbf{Ziel}: Berechne Ausgabe des CNN für einen Input
               \item \textbf{Schritt-für-Schritt Forward Pass}:
               \begin{enumerate}
-                \item \textbf{Input}: Bild $\mathbf{X}^{(0)} \in \mathbb{R}^{H \times W \times C}$ (Höhe × Breite × Kanäle)
+                \item \textbf{Input}: Bild $\mathbf{X}^{(0)} \in \mathbb{R}^{H \times W \times C}$ \\
+                      (Höhe × Breite × Kanäle)
                 \item \textbf{Convolution Layer $\ell$}:
-                \begin{equation}
-                  \mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c=1}^{C^{(\ell-1)}} \sum_{m=1}^{K} \sum_{n=1}^{K} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c} + b^{(\ell)}_k
-                \end{equation}
-                \item \textbf{Aktivierung}: $\mathbf{X}^{(\ell)}_{i,j,k} = \text{ReLU}(\mathbf{Z}^{(\ell)}_{i,j,k}) = \max(0, \mathbf{Z}^{(\ell)}_{i,j,k})$
-                \item \textbf{Pooling}: $\mathbf{P}^{(\ell)}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}^{(\ell)}_{p,q,k}$
-                \item \textbf{Fully Connected}: Flatten → $\mathbf{y} = \text{Softmax}(\mathbf{W}_{fc} \mathbf{h} + \mathbf{b}_{fc})$
+                \begin{align}
+                  \mathbf{Z}^{(\ell)}_{i,j,k} &= \sum_{c=1}^{C^{(\ell-1)}} \sum_{m=1}^{K} \sum_{n=1}^{K} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c} \\
+                  &\quad + b^{(\ell)}_k
+                \end{align}
+                \item \textbf{Aktivierung}: \\
+                      $\mathbf{X}^{(\ell)}_{i,j,k} = \text{ReLU}(\mathbf{Z}^{(\ell)}_{i,j,k}) = \max(0, \mathbf{Z}^{(\ell)}_{i,j,k})$
+                \item \textbf{Pooling}: \\
+                      $\mathbf{P}^{(\ell)}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}^{(\ell)}_{p,q,k}$
+                \item \textbf{Fully Connected}: \\
+                      Flatten → $\mathbf{y} = \text{Softmax}(\mathbf{W}_{fc} \mathbf{h} + \mathbf{b}_{fc})$
               \end{enumerate}
               \item \textbf{Notation}:
               \begin{itemize}
-                \item $\mathbf{W}^{(\ell)}_{m,n,c,k}$: Filter-Gewicht an Position $(m,n)$, Input-Kanal $c$, Output-Kanal $k$
-                \item $K$: Filter-Größe (z.B. 3×3), $C^{(\ell)}$: Anzahl Kanäle in Schicht $\ell$
+                \item $\mathbf{W}^{(\ell)}_{m,n,c,k}$: Filter-Gewicht an Position $(m,n)$, \\
+                      Input-Kanal $c$, Output-Kanal $k$
+                \item $K$: Filter-Größe (z.B. 3×3), \\
+                      $C^{(\ell)}$: Anzahl Kanäle in Schicht $\ell$
               \end{itemize}
             \end{itemize}
           \end{column}
@@ -1083,11 +1121,13 @@
               \begin{equation}
                 \frac{\partial L}{\partial \mathbf{W}_{fc}} = \frac{\partial L}{\partial \mathbf{y}} \frac{\partial \mathbf{y}}{\partial \mathbf{W}_{fc}} = (\hat{\mathbf{y}} - \mathbf{y}_{true}) \mathbf{h}^T
               \end{equation}
-              \item \textbf{Gradient für Convolution-Filter}: Komplexer wegen räumlicher Struktur
-              \begin{equation}
-                \frac{\partial L}{\partial \mathbf{W}^{(\ell)}_{m,n,c,k}} = \sum_{i,j} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}
-              \end{equation}
-              \item \textbf{Delta-Propagation}: Fehler muss durch Pooling und Convolution zurückpropagiert werden
+              \item \textbf{Gradient für Convolution-Filter}: \\
+                    Komplexer wegen räumlicher Struktur
+              \begin{align}
+                \frac{\partial L}{\partial \mathbf{W}^{(\ell)}_{m,n,c,k}} &= \sum_{i,j} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}
+              \end{align}
+              \item \textbf{Delta-Propagation}: \\
+                    Fehler muss durch Pooling und Convolution zurückpropagiert werden
             \end{itemize}
           \end{column}
         \end{columns}
@@ -1101,15 +1141,17 @@
               \item \textbf{Convolution ist linear}: Können Kettenregel anwenden
               \item \textbf{Schritt-für-Schritt}:
               \begin{enumerate}
-                \item \textbf{Forward}: $\mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c,m,n} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}$
+                \item \textbf{Forward}: \\
+                      $\mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c,m,n} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}$
                 \item \textbf{Ableitung nach Input}: 
                 \begin{equation}
                   \frac{\partial \mathbf{Z}^{(\ell)}_{i,j,k}}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} = \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
                 \end{equation}
                 \item \textbf{Kettenregel}:
-                \begin{equation}
-                  \frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} = \sum_{i,j,k} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
-                \end{equation}
+                \begin{align}
+                  \frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} &= \sum_{i,j,k} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \\
+                  &\quad \cdot \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
+                \end{align}
               \end{enumerate}
               \item \textbf{Interpretation}: Backpropagation = Convolution mit "umgedrehten" Filtern
               \item \textbf{Implementierung}: Oft als "Transposed Convolution" implementiert
@@ -1435,12 +1477,12 @@
               \end{align}
               \item \textbf{Cell State Update}:
               \begin{equation}
-                \mathbf{C}_t = \mathbf{f}_t * \mathbf{C}_{t-1} + \mathbf{i}_t * \tilde{\mathbf{C}}_t
+                \mathbf{C}_t = \mathbf{f}_t \odot \mathbf{C}_{t-1} + \mathbf{i}_t \odot \tilde{\mathbf{C}}_t
               \end{equation}
               \item \textbf{Output Gate} und \textbf{Hidden State}:
               \begin{align}
                 \mathbf{o}_t &= \sigma(\mathbf{W}_o \cdot [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o) \\
-                \mathbf{h}_t &= \mathbf{o}_t * \tanh(\mathbf{C}_t)
+                \mathbf{h}_t &= \mathbf{o}_t \odot \tanh(\mathbf{C}_t)
               \end{align}
             \end{itemize}
           \end{column}
@@ -1842,7 +1884,8 @@
         \begin{itemize}
           \item \textbf{Computer Vision}: Objekterkennung, medizinische Bildanalyse
           \item \textbf{NLP}: Sprachübersetzung, Chatbots, Sentiment Analysis
-          \item \textbf{Predictive Maintenance}: Sensordaten, Zeitreihen mit vielen Features
+          \item \textbf{Predictive Maintenance}: Sensordaten, \\
+            Zeitreihen mit vielen Features
           \item \textbf{Generative Tasks}: Bild-/Texterstellung, Data Augmentation
         \end{itemize}
         \item \textbf{Beispiele für klassisches ML}:
@@ -1873,7 +1916,8 @@
         \item \textbf{Mathematische Grundlagen}: Lineare Algebra, Gradienten, Optimierung als Fundament
         \item \textbf{Perceptron bis Deep Learning}: Von linearer Separierung zum Universal Approximation Theorem
         \item \textbf{Training neuronaler Netze}: Backpropagation, Gradientenabstieg, moderne Optimierer (ADAM)
-        \item \textbf{Warum Deep Learning funktioniert}: Hierarchische Features, Komposition, Expressivität
+        \item \textbf{Warum Deep Learning funktioniert}: \\
+          Hierarchische Features, Komposition, Expressivität
         \item \textbf{Herausforderungen}: Vanishing Gradients, Aktivierungsfunktionen, Regularisierung
         \item \textbf{Spezielle Architekturen}:
         \begin{itemize}
@@ -1901,7 +1945,8 @@
         \begin{itemize}
           \item Nicht immer ist "Deep Learning" die beste Lösung
           \item Inductive Biases nutzen (CNNs für Bilder, RNNs für Sequenzen)
-          \item Trade-offs zwischen Komplexität und Interpretierbarkeit
+          \item Trade-offs zwischen Komplexität \\
+            und Interpretierbarkeit
         \end{itemize}
         \item \textbf{Praktische Anwendung erfordert}:
         \begin{itemize}

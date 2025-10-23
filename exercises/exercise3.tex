@@ -1,0 +1,393 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Deep Learning - Übung 3}
+\lhead{FH Südwestfalen}
+\rfoot{Seite \thepage}
+
+% Python code style
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\title{\textbf{Deep Learning - Übungsblatt 3} \\ \large Convolutional Neural Networks}
+\author{Fachhochschule Südwestfalen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Voraussetzungen}
+\begin{itemize}
+    \item Übungsblätter 1 und 2 sollten erfolgreich bearbeitet worden sein
+    \item Verständnis von Multi-Layer Perceptrons und Backpropagation
+    \item Grundkenntnisse in NumPy und Bildverarbeitung
+    \item Mathematische Grundlagen: Convolution, Korrelation
+\end{itemize}
+
+\section*{Lernziele}
+Nach erfolgreicher Bearbeitung dieser Übung können Sie:
+\begin{itemize}
+    \item Convolution-Operationen mathematisch verstehen und berechnen
+    \item CNN-Architekturen konzipieren und implementieren
+    \item Feature Maps und ihre Bedeutung interpretieren
+    \item Pooling-Operationen anwenden und verstehen
+    \item Transfer Learning praktisch einsetzen
+\end{itemize}
+
+\section{Convolution-Mathematik}
+
+\subsection{Grundlegende Convolution}
+
+\textbf{Aufgabe 1.1:} Gegeben seien die folgenden Matrix und Kernel:
+
+\begin{align}
+\text{Input: } X &= \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix} \\
+\text{Kernel: } K &= \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+\end{align}
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie die \textbf{Valid Convolution} (ohne Padding) von $X$ mit $K$
+    \item Bestimmen Sie die Ausgabegröße und begründen Sie diese
+    \item Interpretieren Sie das Ergebnis: Welche Eigenschaft des Bildes detektiert dieser Kernel?
+    \item Berechnen Sie die \textbf{Same Convolution} (mit Padding), sodass Input- und Output-Größe übereinstimmen
+\end{enumerate}
+
+\textbf{Aufgabe 1.2:} Erweiterte Convolution-Parameter
+
+\begin{enumerate}[(a)]
+    \item Gegeben sei ein Input der Größe $32 \times 32$ und ein Kernel der Größe $5 \times 5$. 
+    \begin{itemize}
+        \item Berechnen Sie die Output-Größe für Padding=0, Stride=1
+        \item Berechnen Sie die Output-Größe für Padding=2, Stride=1  
+        \item Berechnen Sie die Output-Größe für Padding=2, Stride=2
+    \end{itemize}
+    \item Allgemeine Formel: Leiten Sie die Formel für die Output-Größe her:
+    $$\text{Output-Größe} = \left\lfloor \frac{\text{Input-Größe} + 2 \cdot \text{Padding} - \text{Kernel-Größe}}{\text{Stride}} \right\rfloor + 1$$
+\end{enumerate}
+
+\subsection{Multi-Channel Convolution}
+
+\textbf{Aufgabe 1.3:} RGB-Bild Convolution
+
+Ein RGB-Bild hat 3 Kanäle (Rot, Grün, Blau). Gegeben sei ein vereinfachtes $2 \times 2$ RGB-Bild:
+
+\begin{align}
+\text{Rot: } R &= \begin{pmatrix} 255 & 128 \\ 64 & 192 \end{pmatrix} \\
+\text{Grün: } G &= \begin{pmatrix} 200 & 100 \\ 50 & 150 \end{pmatrix} \\
+\text{Blau: } B &= \begin{pmatrix} 100 & 200 \\ 150 & 75 \end{pmatrix}
+\end{align}
+
+Kernel für alle Kanäle: $K = \begin{pmatrix} 0.33 & 0.33 \\ 0.33 & 0.01 \end{pmatrix}$
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie die Convolution für jeden Kanal einzeln
+    \item Summieren Sie die Ergebnisse zu einem einzigen Output-Pixel
+    \item Erklären Sie den Unterschied zwischen 2D- und 3D-Convolution
+\end{enumerate}
+
+\section{CNN-Architekturen}
+
+\subsection{LeNet-5 Analyse}
+
+\textbf{Aufgabe 2.1:} Analysieren Sie die klassische LeNet-5 Architektur:
+
+\textbf{Gegeben:} Input $32 \times 32 \times 1$ (Graustufenbild)
+\begin{enumerate}
+    \item \textbf{Conv1:} 6 Filter, Größe $5 \times 5$, Stride=1, Padding=0
+    \item \textbf{Pool1:} Average Pooling, Größe $2 \times 2$, Stride=2
+    \item \textbf{Conv2:} 16 Filter, Größe $5 \times 5$, Stride=1, Padding=0  
+    \item \textbf{Pool2:} Average Pooling, Größe $2 \times 2$, Stride=2
+    \item \textbf{FC1:} 120 Neuronen
+    \item \textbf{FC2:} 84 Neuronen
+    \item \textbf{Output:} 10 Klassen (Softmax)
+\end{enumerate}
+
+\textbf{Aufgaben:}
+\begin{enumerate}[(a)]
+    \item Berechnen Sie die Ausgabegröße nach jeder Schicht
+    \item Bestimmen Sie die Anzahl der Parameter in jeder Schicht
+    \item Berechnen Sie die Gesamtanzahl der Parameter
+    \item Erklären Sie, warum Pooling-Schichten keine Parameter haben
+    \item Diskutieren Sie Vor- und Nachteile dieser Architektur
+\end{enumerate}
+
+\subsection{Moderne CNN-Konzepte}
+
+\textbf{Aufgabe 2.2:} Residual Connections (ResNet-Inspiration)
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie das Problem des \textbf{Vanishing Gradient} in tiefen Netzen
+    \item Wie lösen \textbf{Residual Connections} dieses Problem?
+    \item Skizzieren Sie einen Residual Block mit der Funktion: \\
+    $F(x) = \text{ReLU}(\text{Conv}(\text{ReLU}(\text{Conv}(x)))) + x$
+    \item Diskutieren Sie: Warum können ResNets mit 100+ Schichten erfolgreich trainiert werden?
+\end{enumerate}
+
+\section{Pooling-Operationen}
+
+\textbf{Aufgabe 3.1:} Verschiedene Pooling-Arten
+
+Gegeben sei die folgende Feature Map:
+$$X = \begin{pmatrix} 
+1 & 3 & 2 & 4 \\
+2 & 8 & 1 & 3 \\
+5 & 1 & 9 & 2 \\
+3 & 4 & 6 & 7
+\end{pmatrix}$$
+
+Berechnen Sie für ein $2 \times 2$ Pooling-Fenster mit Stride=2:
+\begin{enumerate}[(a)]
+    \item \textbf{Max Pooling}
+    \item \textbf{Average Pooling}  
+    \item \textbf{Min Pooling}
+    \item Diskutieren Sie die Eigenschaften und Anwendungsfälle jeder Pooling-Art
+\end{enumerate}
+
+\section{Programmieraufgaben}
+
+\subsection{CNN von Grund auf implementieren}
+
+\textbf{Aufgabe 4.1:} Implementieren Sie eine einfache Convolution-Operation
+
+\begin{lstlisting}[caption=Grundgerüst für Convolution]
+import numpy as np
+import matplotlib.pyplot as plt
+
+def convolution_2d(input_matrix, kernel, stride=1, padding=0):
+    """
+    Implementieren Sie hier eine 2D-Convolution
+    
+    Args:
+        input_matrix: numpy array (H, W)
+        kernel: numpy array (K_H, K_W)
+        stride: Schrittweite
+        padding: Anzahl der Null-Padding Pixel
+    
+    Returns:
+        output: numpy array mit Convolution-Ergebnis
+    """
+    # TODO: Implementierung
+    pass
+
+def test_convolution():
+    """Testen Sie Ihre Implementierung"""
+    # Test mit bekannten Werten
+    input_img = np.array([[1, 2, 3], 
+                         [4, 5, 6], 
+                         [7, 8, 9]])
+    
+    # Edge-Detection Kernel
+    edge_kernel = np.array([[1, 0], 
+                           [0, -1]])
+    
+    result = convolution_2d(input_img, edge_kernel)
+    print("Convolution Ergebnis:")
+    print(result)
+    
+    # Visualisierung
+    # TODO: Plotten Sie Input, Kernel und Output
+
+if __name__ == "__main__":
+    test_convolution()
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie die \texttt{convolution\_2d} Funktion
+    \item Testen Sie mit verschiedenen Kernels (Edge Detection, Blur, Sharpen)
+    \item Erweitern Sie um Padding-Funktionalität
+    \item Visualisieren Sie die Ergebnisse mit Matplotlib
+\end{enumerate}
+
+\subsection{CNN mit TensorFlow/Keras}
+
+\textbf{Aufgabe 4.2:} CIFAR-10 Klassifikation
+
+\begin{lstlisting}[caption=CNN für CIFAR-10]
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import numpy as np
+import matplotlib.pyplot as plt
+
+def create_cnn_model():
+    """
+    Erstellen Sie ein CNN fuer CIFAR-10 Klassifikation
+    Input: 32x32x3 RGB Bilder
+    Output: 10 Klassen
+    """
+    model = keras.Sequential([
+        # TODO: Implementieren Sie die CNN-Architektur
+        # Empfehlung:
+        # - 2-3 Convolution-Blöcke (Conv + Pool + Dropout)
+        # - 1-2 Dense Layers am Ende
+        # - Verwenden Sie ReLU Aktivierung
+        # - Softmax für Output
+    ])
+    
+    return model
+
+def load_and_preprocess_data():
+    """Laden und Vorverarbeitung der CIFAR-10 Daten"""
+    # TODO: Implementierung
+    pass
+
+def train_and_evaluate():
+    """Training und Evaluation des Modells"""
+    # TODO: Implementierung
+    pass
+
+if __name__ == "__main__":
+    # Führen Sie Training und Evaluation durch
+    pass
+\end{lstlisting}
+
+\textbf{Teilaufgaben:}
+\begin{enumerate}[(a)]
+    \item Implementieren Sie eine CNN-Architektur mit mindestens 3 Convolution-Schichten
+    \item Laden und normalisieren Sie die CIFAR-10 Daten
+    \item Trainieren Sie das Modell für 10-20 Epochen
+    \item Visualisieren Sie Feature Maps der ersten Convolution-Schicht
+    \item Plotten Sie Training-/Validation-Accuracy und Loss
+    \item Erreichen Sie mindestens 70\% Accuracy auf dem Test-Set
+\end{enumerate}
+
+\section{Transfer Learning}
+
+\textbf{Aufgabe 5.1:} VGG16 für eigene Klassifikation
+
+\begin{enumerate}[(a)]
+    \item Laden Sie ein vortrainiertes VGG16-Modell (ohne Top-Layer)
+    \item "Frieren" Sie die ersten Schichten ein (trainable=False)
+    \item Fügen Sie eigene Dense-Layer für eine binäre Klassifikation hinzu
+    \item Erklären Sie: Warum ist Transfer Learning besonders bei kleinen Datensätzen vorteilhaft?
+    \item Diskutieren Sie: Welche Schichten sollten "eingefroren" werden und welche sollten weitertrainiert werden?
+\end{enumerate}
+
+\section{Verständnisfragen}
+
+\textbf{Aufgabe 6.1:} CNN vs. MLP
+
+\begin{enumerate}[(a)]
+    \item Erklären Sie die drei Schlüsselprinzipien von CNNs:
+    \begin{itemize}
+        \item \textbf{Lokale Konnektivität}
+        \item \textbf{Parameter Sharing}
+        \item \textbf{Translation Invariance}
+    \end{itemize}
+    \item Berechnen Sie: Wie viele Parameter hätte ein vollständig verbundenes Netzwerk für ein $224 \times 224 \times 3$ Bild mit 1000 Hidden Units in der ersten Schicht?
+    \item Vergleichen Sie dies mit einer Convolution-Schicht mit 64 Filtern der Größe $7 \times 7$
+    \item Diskutieren Sie Vor- und Nachteile beider Ansätze
+\end{enumerate}
+
+\textbf{Aufgabe 6.2:} Feature Hierarchie
+
+\begin{enumerate}[(a)]
+    \item Beschreiben Sie, welche Art von Features typischerweise \\
+    in verschiedenen CNN-Schichten gelernt werden:
+    \begin{itemize}
+        \item Erste Schichten (Low-Level Features)
+        \item Mittlere Schichten (Mid-Level Features)  
+        \item Tiefe Schichten (High-Level Features)
+    \end{itemize}
+    \item Erklären Sie das Konzept der \textbf{Receptive Field} und wie sie sich durch das Netzwerk verändert
+    \item Warum werden CNNs oft als "Feature Extractor" bezeichnet?
+\end{enumerate}
+
+\section{Zusatzaufgaben (Optional)}
+
+\textbf{Aufgabe 7.1:} Data Augmentation
+
+\begin{enumerate}[(a)]
+    \item Implementieren Sie verschiedene Data Augmentation Techniken:
+    \begin{itemize}
+        \item Rotation ($\pm 15°$)
+        \item Horizontales Flipping
+        \item Zoom (90\%-110\%)
+        \item Brightness/Contrast Adjustment
+    \end{itemize}
+    \item Untersuchen Sie den Einfluss auf die Generalisierungsfähigkeit
+    \item Diskutieren Sie: Welche Augmentationen sind für welche Probleme geeignet?
+\end{enumerate}
+
+\textbf{Aufgabe 7.2:} Grad-CAM Visualisierung
+
+\begin{enumerate}[(a)]
+    \item Recherchieren Sie das Grad-CAM (Gradient-weighted Class Activation Mapping) Verfahren
+    \item Implementieren Sie eine einfache Version für Ihr CIFAR-10 Modell
+    \item Visualisieren Sie, welche Bildbereiche für die Klassifikation wichtig sind
+    \item Interpretieren Sie die Ergebnisse: Lernt das Modell sinnvolle Features?
+\end{enumerate}
+
+\section*{Hinweise und Tipps}
+
+\subsection*{Zu den Mathematik-Aufgaben}
+\begin{itemize}
+    \item \textbf{Convolution vs. Korrelation:} In Deep Learning wird oft Korrelation verwendet, die als "Convolution" bezeichnet wird
+    \item \textbf{Indexierung:} Achten Sie auf korrekte Matrix-Indexierung (0-basiert vs. 1-basiert)
+    \item \textbf{Dimensionen:} Kontrollieren Sie immer die Ein- und Ausgabedimensionen
+\end{itemize}
+
+\subsection*{Zu den Programmieraufgaben}
+\begin{itemize}
+    \item \textbf{Debugging:} Testen Sie mit kleinen, bekannten Beispielen
+    \item \textbf{Speicher:} CNNs benötigen viel GPU-Speicher - verwenden Sie Batch-Größen entsprechend
+    \item \textbf{Training:} Beginnen Sie mit wenigen Epochen und kleinen Modellen
+    \item \textbf{Visualisierung:} Feature Maps helfen beim Verständnis der gelernten Repräsentationen
+\end{itemize}
+
+\subsection*{Häufige Fehler vermeiden}
+\begin{itemize}
+    \item \textbf{Padding/Stride:} Falsche Berechnungen der Output-Größen
+    \item \textbf{Kanäle:} Vergessen der Kanal-Dimension bei Multi-Channel-Inputs
+    \item \textbf{Aktivierungen:} ReLU nach jeder Convolution, aber nicht vor Softmax
+    \item \textbf{Normalisierung:} Pixel-Werte auf [0,1] oder [-1,1] skalieren
+\end{itemize}
+
+\section*{Weiterführende Ressourcen}
+
+\begin{itemize}
+    \item \textbf{Bücher:}
+    \begin{itemize}
+        \item "Deep Learning" - Goodfellow et al., Kapitel 9
+        \item "Hands-On Machine Learning" - Aurélien Géron, Kapitel 14
+    \end{itemize}
+    \item \textbf{Papers:}
+    \begin{itemize}
+        \item "ImageNet Classification with Deep CNNs" (AlexNet) - Krizhevsky et al.
+        \item "Very Deep CNNs for Large-Scale Image Recognition" (VGG) - Simonyan \& Zisserman
+        \item "Deep Residual Learning for Image Recognition" (ResNet) - He et al.
+    \end{itemize}
+    \item \textbf{Online:}
+    \begin{itemize}
+        \item CS231n: Convolutional Neural Networks for Visual Recognition
+        \item Distill.pub: "Feature Visualization" und "The Building Blocks of Interpretability"
+        \item TensorFlow CNN Tutorial
+    \end{itemize}
+\end{itemize}
+
+\end{document}

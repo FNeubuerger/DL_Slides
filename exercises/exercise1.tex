@@ -1,0 +1,320 @@
+﻿\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Deep Learning - Uebung 1}
+\lhead{FH Südwestfalen}
+\rfoot{Seite \thepage}
+
+% Python code style
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\title{\textbf{Deep Learning - Uebungsblatt 1} \\ \large Mathematische Grundlagen und Einfuehrung}
+\author{Fachhochschule Südwestfalen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Hinweise}
+\begin{itemize}
+    \item \textbf{Keine Abgabe erforderlich} - Diese Uebungen dienen der Selbstkontrolle und Vertiefung
+    \item Empfohlene Bearbeitungszeit: 2 Wochen parallel zur Vorlesung
+    \item Bei Programmieraufgaben: Code selbst ausführen und Ergebnisse interpretieren
+    \item Rechenwege bei mathematischen Aufgaben vollständig nachvollziehen
+    \item Zusammenarbeit in Lerngruppen ausdrücklich erwünscht
+    \item Bei Fragen: Sprechstunden oder Diskussion im Kurs
+    \item Lösungshinweise finden Sie am Ende des Dokuments
+\end{itemize}
+
+\section{Mathematische Grundlagen}
+
+\subsection{Lineare Algebra}
+
+\textbf{Aufgabe 1.1:} Gegeben seien die Matrizen:
+\begin{align}
+\mathbf{A} = \begin{pmatrix} 2 & 1 & -1 \\ 0 & 3 & 2 \end{pmatrix}, \quad
+\mathbf{B} = \begin{pmatrix} 1 & 0 \\ -1 & 2 \\ 3 & 1 \end{pmatrix}
+\end{align}
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie $\mathbf{C} = \mathbf{A} \cdot \mathbf{B}$
+    \item Berechnen Sie $\mathbf{B}^T \cdot \mathbf{A}^T$ und verifizieren Sie $(\mathbf{A} \cdot \mathbf{B})^T = \mathbf{B}^T \cdot \mathbf{A}^T$
+    \item Interpretieren Sie die Dimensionen: Was bedeutet eine $2 \times 3$ Matrix in einem neuronalen Netzwerk?
+\end{enumerate}
+
+\subsection{Aktivierungsfunktionen}
+
+\textbf{Wichtige Ableitungsregeln - Wiederholung:}
+\begin{itemize}
+    \item \textbf{Kettenregel:} $(f(g(x)))' = f'(g(x)) \cdot g'(x)$
+    \item \textbf{Quotientenregel:} $\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}$
+    \item \textbf{Exponentialfunktion:} $(e^{f(x)})' = e^{f(x)} \cdot f'(x)$
+    \item \textbf{Produktregel:} $(f(x) \cdot g(x))' = f'(x)g(x) + f(x)g'(x)$
+    \item \textbf{Spezialfälle:} $(e^x)' = e^x$, $(\ln(x))' = \frac{1}{x}$, $(x^n)' = nx^{n-1}$
+\end{itemize}
+
+\textbf{Aufgabe 1.2:} Analysieren Sie die folgenden Aktivierungsfunktionen:
+
+\begin{enumerate}[(a)]
+    \item \textbf{Sigmoid-Funktion:} $\sigma(x) = \frac{1}{1 + e^{-x}}$
+    \begin{itemize}
+        \item Berechnen Sie die Ableitung $\sigma'(x)$
+        \item Zeigen Sie, dass $\sigma'(x) = \sigma(x)(1 - \sigma(x))$
+        \item Berechnen Sie $\sigma(0)$, $\sigma(2)$, $\sigma(-2)$
+    \end{itemize}
+    
+    \item \textbf{ReLU-Funktion:} $\text{ReLU}(x) = \max(0, x)$
+    \begin{itemize}
+        \item Skizzieren Sie die Funktion fuer $x \in [-3, 3]$
+        \item Geben Sie die Ableitung an (beachten Sie $x = 0$)
+        \item Erklaeren Sie das "Dying ReLU" Problem
+    \end{itemize}
+\end{enumerate}
+
+\section{Grundlagen Neuronaler Netze}
+
+\subsection{Perceptron}
+
+\textbf{Aufgabe 2.1:} Ein Perceptron habe die Gewichte $\mathbf{w} = (2, -1, 1)^T$ und Bias $b = -1$.
+
+\begin{enumerate}[(a)]
+    \item Berechnen Sie die Ausgabe fuer die Eingaben:
+    \begin{itemize}
+        \item $\mathbf{x}_1 = (1, 0, 1)^T$
+        \item $\mathbf{x}_2 = (0, 1, 1)^T$
+        \item $\mathbf{x}_3 = (1, 1, 0)^T$
+    \end{itemize}
+    \item Verwenden Sie die Heaviside-Funktion als Aktivierung: $H(z) = \begin{cases} 1 & \text{wenn } z \geq 0 \\ 0 & \text{sonst} \end{cases}$
+    \item Zeichnen Sie die Entscheidungsgrenze in einem 2D-Raum (setzen Sie $x_3 = 1$)
+\end{enumerate}
+
+\subsection{XOR-Problem}
+
+\textbf{Aufgabe 2.2:} Das XOR-Problem kann nicht mit einem einzelnen Perceptron geloest werden.
+
+\begin{enumerate}[(a)]
+    \item Erklaeren Sie mathematisch, warum ein linearer Klassifikator das XOR-Problem nicht loesen kann
+    \item Entwerfen Sie ein 2-Schicht-Netzwerk (3 Neuronen in der versteckten Schicht) zur Loesung des XOR-Problems
+    \begin{itemize}
+        \item Geben Sie konkrete Gewichte und Biases an
+        \item Ueberpruefen Sie Ihre Loesung fuer alle vier XOR-Eingaben
+    \end{itemize}
+\end{enumerate}
+
+\section{Programmieraufgaben}
+
+\subsection{Implementierung Grundfunktionen}
+
+\textbf{Aufgabe 3.1:} Implementieren Sie in Python (ohne ML-Bibliotheken wie TensorFlow/PyTorch):
+
+\begin{enumerate}[(a)]
+    \item Eine Klasse \texttt{ActivationFunctions} mit den Methoden:
+    \begin{itemize}
+        \item \texttt{sigmoid(x)} und \texttt{sigmoid\_derivative(x)}
+        \item \texttt{relu(x)} und \texttt{relu\_derivative(x)}
+        \item \texttt{tanh(x)} und \texttt{tanh\_derivative(x)}
+    \end{itemize}
+    
+    \item Plotten Sie alle drei Aktivierungsfunktionen und ihre Ableitungen fuer $x \in [-5, 5]$
+\end{enumerate}
+
+\textbf{Beispiel-Code-Struktur:}
+\begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+
+class ActivationFunctions:
+    @staticmethod
+    def sigmoid(x):
+        # Ihre Implementierung hier
+        pass
+    
+    @staticmethod
+    def sigmoid_derivative(x):
+        # Ihre Implementierung hier
+        pass
+    
+    # Weitere Funktionen...
+
+# Test und Visualisierung
+x = np.linspace(-5, 5, 100)
+# Plotten Sie hier...
+\end{lstlisting}
+
+\subsection{Einfaches Perceptron}
+
+\textbf{Aufgabe 3.2:} Implementieren Sie ein einfaches Perceptron:
+
+\begin{enumerate}[(a)]
+    \item Erstellen Sie eine Klasse \texttt{Perceptron} mit:
+    \begin{itemize}
+        \item Initialisierung von Gewichten und Bias
+        \item \texttt{forward(x)}-Methode fuer Vorhersagen
+        \item \texttt{train(X, y, epochs, learning\_rate)}-Methode
+    \end{itemize}
+    
+    \item Trainieren Sie das Perceptron auf dem AND-Gate:
+    \begin{itemize}
+        \item Input: $\mathbf{X} = \begin{pmatrix} 0 & 0 \\ 0 & 1 \\ 1 & 0 \\ 1 & 1 \end{pmatrix}$
+        \item Output: $\mathbf{y} = (0, 0, 0, 1)^T$
+    \end{itemize}
+    
+    \item Visualisieren Sie den Lernprozess (Fehler ueber Epochen) und die finale Entscheidungsgrenze
+\end{enumerate}
+
+\section{Verstaendnisfragen}
+
+\textbf{Aufgabe 4.1:} Beantworten Sie folgende Fragen ausfuehrlich:
+
+\begin{enumerate}[(a)]
+    \item Erklaeren Sie den Unterschied zwischen linearen und nichtlinearen Aktivierungsfunktionen. Warum sind nichtlineare Funktionen essentiell fuer Deep Learning?
+    
+    \item Was ist der Universelle Approximationssatz und welche Bedeutung hat er fuer neuronale Netze?
+    
+    \item Erklaeren Sie das Konzept der "Lernfaehigkeit" eines neuronalen Netzes. Was unterscheidet ein lernendes System von einem statischen Algorithmus?
+\end{enumerate}
+
+\section{Bonusaufgabe}
+
+\textbf{Aufgabe 5.1:} Erweiterte mathematische Analyse:
+
+Gegeben sei ein 2-Schicht-Netzwerk mit einer versteckten Schicht:
+\begin{align}
+\mathbf{z}_1 &= \mathbf{W}_1 \mathbf{x} + \mathbf{b}_1 \\
+\mathbf{a}_1 &= \sigma(\mathbf{z}_1) \\
+z_2 &= \mathbf{w}_2^T \mathbf{a}_1 + b_2 \\
+\hat{y} &= \sigma(z_2)
+\end{align}
+
+Mit der Verlustfunktion $L = \frac{1}{2}(y - \hat{y})^2$:
+
+\begin{enumerate}[(a)]
+    \item Leiten Sie $\frac{\partial L}{\partial \mathbf{w}_2}$ und $\frac{\partial L}{\partial b_2}$ her
+    \item Leiten Sie $\frac{\partial L}{\partial \mathbf{W}_1}$ und $\frac{\partial L}{\partial \mathbf{b}_1}$ her (verwenden Sie die Kettenregel)
+\end{enumerate}
+
+\section*{Lösungshinweise und Tipps}
+
+\subsection*{Zu Aufgabe 1.1 (Lineare Algebra)}
+\begin{itemize}
+    \item \textbf{Matrixmultiplikation:} $(AB)_{ij} = \sum_k A_{ik} B_{kj}$
+    \item \textbf{Dimension prüfen:} $(m \times n) \cdot (n \times p) = (m \times p)$
+    \item \textbf{Transposition:} $(AB)^T = B^T A^T$ (Reihenfolge umkehren!)
+    \item \textbf{Interpretation:} $2 \times 3$ Matrix = 2 Ausgabe-Neuronen, 3 Eingabe-Features
+\end{itemize}
+
+\subsection*{Zu Aufgabe 1.2 (Aktivierungsfunktionen)}
+\begin{itemize}
+    \item \textbf{Sigmoid-Ableitung:} Nutzen Sie $\frac{d}{dx}(1 + e^{-x})^{-1}$ mit Kettenregel
+    \item \textbf{Tipp:} $\frac{d}{dx}e^{-x} = -e^{-x}$
+    \item \textbf{Vereinfachung:} Zeigen Sie $\sigma'(x) = \sigma(x)(1-\sigma(x))$ durch Einsetzen
+    \item \textbf{ReLU-Ableitung:} $\frac{d}{dx}\max(0,x) = \begin{cases} 0 & x < 0 \\ 1 & x > 0 \\ \text{undefiniert} & x = 0 \end{cases}$
+    \item \textbf{"Dying ReLU":} Neuronen mit $z < 0$ haben Gradient 0 und lernen nicht mehr
+\end{itemize}
+
+\subsection*{Zu Aufgabe 2.1 (Perceptron)}
+\begin{itemize}
+    \item \textbf{Berechnung:} $z = \mathbf{w}^T \mathbf{x} + b = w_1 x_1 + w_2 x_2 + w_3 x_3 + b$
+    \item \textbf{Entscheidungsgrenze:} Lösen Sie $\mathbf{w}^T \mathbf{x} + b = 0$ nach $x_2$ auf
+    \item \textbf{2D-Visualisierung:} Setzen Sie $x_3 = 1$ und plotten Sie $x_1$ vs. $x_2$
+\end{itemize}
+
+\subsection*{Zu Aufgabe 2.2 (XOR-Problem)}
+\begin{itemize}
+    \item \textbf{Linearität:} XOR ist nicht linear trennbar - zeigen Sie geometrisch
+    \item \textbf{Lösung:} Verwenden Sie AND, OR, NAND Gates als Zwischenschicht
+    \item \textbf{Beispiel-Architektur:} 
+    \begin{itemize}
+        \item Hidden Layer: 3 Neuronen (AND, OR, NAND)
+        \item Output: Kombination dieser Logikgatter
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Zu Aufgabe 3.1 (Programmierung)}
+\begin{itemize}
+    \item \textbf{Numerische Stabilitaet:} $\text{sigmoid}(x) = \frac{1}{1 + e^{-x}}$ fuer $x \geq 0$, $\frac{e^x}{e^x + 1}$ fuer $x < 0$
+    \item \textbf{Debugging:} Testen Sie mit bekannten Werten: $\sigma(0) = 0.5$, $\text{ReLU}(-1) = 0$
+    \item \textbf{Visualisierung:} Verwenden Sie \texttt{plt.subplot()} fuer mehrere Plots
+    \item \textbf{Code-Struktur:} Trennen Sie Funktion und Ableitung fuer bessere Lesbarkeit
+\end{itemize}
+
+\subsection*{Zu Aufgabe 3.2 (Perceptron-Implementation)}
+\begin{itemize}
+    \item \textbf{Gewichtsinitialisierung:} Kleine zufaellige Werte: \texttt{np.random.randn() * 0.01}
+    \item \textbf{Learning Rule:} $\mathbf{w} = \mathbf{w} + \eta (y - \hat{y}) \mathbf{x}$
+    \item \textbf{Konvergenz:} AND-Gate sollte in wenigen Epochen konvergieren
+    \item \textbf{Visualisierung:} Plotten Sie Entscheidungsgrenze als Linie in 2D
+\end{itemize}
+
+\subsection*{Zu Aufgabe 4.1 (Verständnisfragen)}
+\begin{itemize}
+    \item \textbf{Linearitaet:} Komposition linearer Funktionen bleibt linear
+    \item \textbf{Nichtlinearitaet:} Aktivierungsfunktionen ermoeglichen komplexe Mappings
+    \item \textbf{Universeller Approximationssatz:} Ein ausreichend großes Netzwerk kann jede stetige Funktion approximieren
+    \item \textbf{Lernfaehigkeit:} Gradientenbasierte Optimierung der Parameter
+\end{itemize}
+
+\subsection*{Allgemeine Tipps}
+\begin{itemize}
+    \item \textbf{Schrittweise vorgehen:} Erst verstehen, dann implementieren
+    \item \textbf{Kleine Beispiele:} Testen Sie mit 2×2 Matrizen vor groesseren Problemen
+    \item \textbf{Dimensionen pruefen:} Kontrollieren Sie Array-Shapes bei jeder Operation
+    \item \textbf{Visualisieren:} Plots helfen beim Verstaendnis der Konzepte
+    \item \textbf{Literatur:} "Deep Learning" von Goodfellow et al., Kapitel 2-3
+\end{itemize}
+
+\subsection*{Haeufige Fehler vermeiden}
+\begin{itemize}
+    \item \textbf{Matrixmultiplikation:} Achten Sie auf korrekte Dimensionen
+    \item \textbf{Indexierung:} Python verwendet 0-basierte Indizierung
+    \item \textbf{Broadcasting:} NumPy-Arrays haben automatisches Broadcasting
+    \item \textbf{Gradient Descent:} Verwenden Sie kleine Lernraten (0.01-0.1)
+\end{itemize}
+
+\section*{Weiterfuehrende Ressourcen}
+\begin{itemize}
+    \item \textbf{Buecher:} 
+    \begin{itemize}
+        \item "Deep Learning" - Goodfellow, Bengio, Courville
+        \item "Pattern Recognition and Machine Learning" - Bishop
+    \end{itemize}
+    \item \textbf{Online:}
+    \begin{itemize}
+        \item 3Blue1Brown Neural Networks Series (YouTube)
+        \item Andrej Karpathy's "Hacker's Guide to Neural Networks"
+        \item CS231n Stanford Lectures
+    \end{itemize}
+    \item \textbf{Praxis:}
+    \begin{itemize}
+        \item Jupyter Notebooks fuer interaktive Experimente
+        \item NumPy Documentation fuer Array-Operationen
+        \item Matplotlib Gallery fuer Visualisierungsideen
+    \end{itemize}
+\end{itemize}
+
+\end{document}
