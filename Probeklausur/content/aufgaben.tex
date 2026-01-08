@@ -1,0 +1,314 @@
+
+\section*{Aufgabe 1 -- Lineare Algebra -- 8 Punkte}
+
+\textbf{(8 Punkte)}
+
+Gegeben seien die Matrizen:
+\begin{equation}
+\mathbf{A} = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}, \quad
+\mathbf{B} = \begin{pmatrix} 1 & -1 \\ 2 & 0 \end{pmatrix}
+\end{equation}
+
+\begin{itemize}
+\item [a)] Berechnen Sie $\mathbf{A} \cdot \mathbf{B}$.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [b)] Berechnen Sie $\mathbf{A}^T$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Beschreiben Sie, wie eine $2 \times 2$ Gewichtsmatrix zwei Eingaben mit zwei Neuronen verbindet.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 2 -- Aktivierungsfunktionen -- 7 Punkte}
+
+\begin{itemize}
+\item [a)] Berechnen Sie die Ableitung der Sigmoid-Funktion $\sigma(x) = \frac{1}{1 + e^{-x}}$.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [b)] Berechnen Sie $\sigma(0)$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Geben Sie die Ableitung der ReLU-Funktion $\text{ReLU}(x) = \max(0, x)$ an.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 3 -- Das Perceptron und das XOR-Problem -- 8 Punkte}
+
+\begin{itemize}
+\item [a)] Zeichnen Sie die Architektur eines Single-Layer-Perceptrons mit 2 Eingängen und 1 Ausgang.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Warum kann ein Single-Layer-Perceptron die XOR-Funktion nicht lösen?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Zeichnen Sie ein Multi-Layer-Perceptron mit 2 Eingängen, 1 Hidden Layer mit 2 Neuronen und 1 Ausgang. Wie viele Gewichte?
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [d)] Warum kann dieses Netzwerk XOR lösen?
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 4 -- Partielle Ableitungen und Kettenregel -- 9 Punkte}
+
+Gegeben: $L = \frac{1}{2}(y - a)^2$ mit $y = 1$, $a = \sigma(z)$, $z = w \cdot x + b$.
+
+\begin{itemize}
+\item [a)] Berechnen Sie $\frac{\partial L}{\partial a}$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Berechnen Sie $\frac{\partial a}{\partial z}$ für Sigmoid $\sigma(z)$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Berechnen Sie $\frac{\partial z}{\partial w}$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Nutzen Sie die Kettenregel: $\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w}$.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [e)] Für $x = 1, w = 0.5, b = 0$: Berechnen Sie $z$, dann $\frac{\partial L}{\partial w}$ (mit $\sigma(0.5) \approx 0.62$).
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 5 -- Forward Pass eines 2-Schicht-Netzwerks -- 9 Punkte}
+
+Gegeben: $\mathbf{x} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$, $\mathbf{W}^H = \begin{pmatrix} 0.5 & 0.3 \\ 0.2 & 0.4 \end{pmatrix}$, $\mathbf{b}^H = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$
+
+Output Layer: $\mathbf{w}^O = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$, $b^O = 0$
+
+Hidden Layer: ReLU, Output Layer: Linear (keine Aktivierung).
+
+\begin{itemize}
+\item [a)] Berechnen Sie $\mathbf{z}^H = \mathbf{W}^H \mathbf{x} + \mathbf{b}^H$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Berechnen Sie $\mathbf{a}^H = \text{ReLU}(\mathbf{z}^H)$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Berechnen Sie $\hat{y} = \mathbf{w}^O \cdot \mathbf{a}^H + b^O$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Mit Label $y = 2$: Berechnen Sie den Verlust $L = \frac{1}{2}(y - \hat{y})^2$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [e)] Berechnen Sie $\frac{\partial L}{\partial \hat{y}}$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [f)] Berechnen Sie $\frac{\partial L}{\partial w_1^O}$ mittels Kettenregel.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\newpage
+
+\section*{Aufgabe 6 -- Gradient Descent -- 7 Punkte}
+
+\begin{itemize}
+\item [a)] Schreiben Sie die Gewichtsaktualisierungsformel für Gradient Descent auf.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Ein Gewicht $w = 0.5$ hat Gradienten $\frac{\partial L}{\partial w} = 0.4$. Aktualisieren Sie mit $\eta = 0.1$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Nennen Sie zwei Probleme bei zu hoher Learning Rate.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Was ist der Unterschied zwischen Batch GD und SGD?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\newpage
+
+\section*{Aufgabe 7 -- Convolutional Neural Networks (CNNs) -- 8 Punkte}
+
+\begin{itemize}
+\item [a)] Nennen Sie zwei Gründe, warum CNNs besser für Bilder sind als vollverbundene Netze.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Was berechnet die Convolution-Operation?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Zeichnen Sie ein Max-Pooling Beispiel: $2 \times 2$ Filter über einer $4 \times 4$ Feature Map.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [d)] Nennen Sie zwei CNN-Architekturen und je eine Besonderheit.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 8 -- RNNs und LSTMs -- 8 Punkte}
+
+\begin{itemize}
+\item [a)] Nennen Sie zwei Gründe, warum RNNs für Sequenzen besser sind als vollverbundene Netze.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Was ist das Vanishing Gradient Problem bei RNNs?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Skizzieren Sie eine LSTM-Zelle mit vier Komponenten.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [d)] Warum lösen LSTMs das Vanishing Gradient Problem besser?
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 9 -- Generative Modelle -- 7 Punkte}
+
+\begin{itemize}
+\item [a)] Unterschied zwischen diskriminativen und generativen Modellen?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Skizzieren Sie die Architektur eines GAN (Generator und Discriminator).
+\end{itemize}
+\karos{\textwidth}{3}
+
+\begin{itemize}
+\item [c)] Nennen Sie zwei Anwendungen von GANs.
+\end{itemize}
+\karos{\textwidth}{3}
+
+\newpage
+
+\section*{Aufgabe 10 -- Overfitting und Regularisierung -- 7 Punkte}
+
+\begin{itemize}
+\item [a)] Unterschied zwischen Underfitting, Good Fit und Overfitting (mit Skizze)?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Nennen Sie drei Techniken zur Vermeidung von Overfitting.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Was ist Dropout und wie funktioniert es beim Training?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Wie ändert sich Dropout bei der Inferenz?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\newpage
+
+\section*{Aufgabe 11 -- Gradienten in Vektorform -- 8 Punkte}
+
+Gegeben: $L = \frac{1}{2}(y - \hat{y})^2$ mit $\hat{y} = \mathbf{w}^T \mathbf{a} + b$, $\mathbf{a} = \text{ReLU}(\mathbf{W}\mathbf{x} + \mathbf{b})$
+
+\begin{itemize}
+\item [a)] Berechnen Sie $\frac{\partial L}{\partial \hat{y}}$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Berechnen Sie $\frac{\partial \hat{y}}{\partial \mathbf{w}}$ (als Vektor).
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Nutzen Sie die Kettenregel: $\frac{\partial L}{\partial \mathbf{w}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial \mathbf{w}}$.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Gegeben $\mathbf{a} = \begin{pmatrix} 1 \\ 0.5 \end{pmatrix}$, $y = 2$, $\hat{y} = 0.75$: Berechnen Sie $\frac{\partial L}{\partial \mathbf{w}}$ numerisch.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [e)] Warum normalisiert man den Gradienten bei Gradient Descent in die entgegengesetzte Richtung?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\newpage
+
+\section*{Aufgabe 12 -- Momentum und adaptive Learning Rates -- 8 Punkte}
+
+\begin{itemize}
+\item [a)] Erklären Sie die Momentum-Methode kurz.
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [b)] Was ist der Unterschied zwischen Momentum und SGD?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [c)] Was ist ADAM und welche Parameter hat es?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [d)] Wann ist ADAM besser als Standard Gradient Descent?
+\end{itemize}
+\karos{\textwidth}{2}
+
+\begin{itemize}
+\item [e)] Was ist der Vorteil von adaptiven Learning Rates?
+\end{itemize}
+\karos{\textwidth}{2}

@@ -1,0 +1,106 @@
+\documentclass[
+  bibliography=totoc,
+  captions=tableheading,
+  titlepage=firstiscover,
+]{scrartcl}
+
+\usepackage{scrhack}
+\usepackage[aux]{rerunfilecheck}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{fontspec}
+\recalctypearea{}
+\usepackage{polyglossia}
+\setmainlanguage{german}
+\usepackage{tikz}
+\usepackage[
+  math-style=ISO,
+  bold-style=ISO,
+  sans-style=italic,
+  nabla=upright,
+  partial=upright,
+  warnings-off={
+    mathtools-colon,
+    mathtools-overbracket,
+  },
+]{unicode-math}
+\setmathfont{Latin Modern Math}
+\setmathfont{XITS Math}[range={scr, bfscr}]
+\setmathfont{XITS Math}[range={cal, bfcal}, StylisticSet=1]
+\usepackage[locale=DE, separate-uncertainty=true, per-mode=symbol-or-fraction]{siunitx}
+\usepackage[version=4, math-greek=default, text-greek=default]{mhchem}
+\usepackage[autostyle]{csquotes}
+\usepackage{xfrac}
+\usepackage{float}
+\floatplacement{figure}{htbp}
+\floatplacement{table}{htbp}
+\usepackage[section, below]{placeins}
+\usepackage{pdflscape}
+\usepackage[labelfont=bf, font=small, width=0.9\textwidth]{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{lit.bib}
+\usepackage[unicode, pdfusetitle, pdfcreator={}, pdfproducer={}]{hyperref}
+\usepackage{bookmark}
+\usepackage[shortcuts]{extdash}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+
+\long\def\Rule{\par\par\vspace{4mm}\hrule\vspace{4mm}\par}
+
+\newcommand{\setC}{\mathbbm{C}}
+\newcommand{\setK}{\mathbbm{K}}
+\newcommand{\setN}{\mathbbm{N}}
+\newcommand{\setQ}{\mathbbm{Q}}
+\newcommand{\setR}{\mathbbm{R}}
+\newcommand{\setNpos}{\mathbbm{N}\setminus\{0\}}
+\newcommand{\setZ}{\mathbbm{Z}}
+\newcommand{\setZpos}{\mathbbm{Z}\setminus\{0\}}
+
+\setlength{\parindent}{0em}
+\topmargin -1.5cm
+\oddsidemargin -0.5cm
+\evensidemargin -0.5cm
+\setlength{\textheight}{9.2in}
+\setlength{\textwidth}{6.5in}
+
+\pagenumbering{arabic}
+\pagestyle{empty}
+
+\newcommand{\karos}[2]{
+  \begin{tikzpicture}
+    \draw[step=0.5cm,color=gray!100] (0,0) grid (#1 ,#2cm);
+  \end{tikzpicture}
+}
+
+\begin{document}
+\pagestyle{fancy}
+\noindent\textbf{Fachhochschule Südwestfalen}{\small\hfill Probeklausur -- MUSTERLÖSUNG}\\
+Fachbereich I\&W: Deep Learning \\
+M.Sc.~ Felix Neubürger\\
+\vspace*{-5mm}
+\begin{center}\Large
+\textbf{Deep Learning}\\
+\textbf{MUSTERLÖSUNG}
+\end{center}
+
+\Rule
+
+\begin{center}
+Diese Musterlösung zeigt mögliche Lösungen zu allen Aufgaben. Punkte in Klammern geben die vorgesehenen Punkte an.
+\end{center}
+
+\Rule
+\bigskip
+
+\pagestyle{fancy}
+\fancyhead[L]{Deep Learning -- Musterlösung}
+\fancyhead[R]{Probeklausur}
+\input{content/loesung.tex}
+
+\end{document}

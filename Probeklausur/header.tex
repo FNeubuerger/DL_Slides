@@ -1,0 +1,251 @@
+\documentclass[
+  bibliography=totoc,     % Literatur im Inhaltsverzeichnis
+  captions=tableheading,  % Tabellenüberschriften
+  titlepage=firstiscover, % Titelseite ist Deckblatt
+]{scrartcl}
+
+% Paket float verbessern
+\usepackage{scrhack}
+
+% Warnung, falls nochmal kompiliert werden muss
+\usepackage[aux]{rerunfilecheck}
+\usepackage{color} 
+% unverzichtbare Mathe-Befehle
+\usepackage{amsmath}
+% viele Mathe-Symbole
+\usepackage{amssymb}
+% Erweiterungen für amsmath
+\usepackage{mathtools}
+
+% Fonteinstellungen
+\usepackage{fontspec}
+% Latin Modern Fonts werden automatisch geladen
+% Alternativ zum Beispiel:
+%\setromanfont{Libertinus Serif}
+%\setsansfont{Libertinus Sans}
+%\setmonofont{Libertinus Mono}
+
+% Wenn man andere Schriftarten gesetzt hat,
+% sollte man das Seiten-Layout neu berechnen lassen
+\recalctypearea{}
+
+% deutsche Spracheinstellungen
+\usepackage{polyglossia}
+\setmainlanguage{german}
+
+\usepackage{tikz}
+\usepackage[
+  math-style=ISO,    % ┐
+  bold-style=ISO,    % │
+  sans-style=italic, % │ ISO-Standard folgen
+  nabla=upright,     % │
+  partial=upright,   % ┘
+  warnings-off={           % ┐
+    mathtools-colon,       % │ unnötige Warnungen ausschalten
+    mathtools-overbracket, % │
+  },                       % ┘
+]{unicode-math}
+
+% traditionelle Fonts für Mathematik
+\setmathfont{Latin Modern Math}
+% Alternativ zum Beispiel:
+%\setmathfont{Libertinus Math}
+
+\setmathfont{XITS Math}[range={scr, bfscr}]
+\setmathfont{XITS Math}[range={cal, bfcal}, StylisticSet=1]
+
+% Zahlen und Einheiten
+\usepackage[
+  locale=DE,                   % deutsche Einstellungen
+  separate-uncertainty=true,   % immer Fehler mit \pm
+  per-mode=symbol-or-fraction, % / in inline math, fraction in display math
+]{siunitx}
+
+% chemische Formeln
+\usepackage[
+  version=4,
+  math-greek=default, % ┐ mit unicode-math zusammenarbeiten
+  text-greek=default, % ┘
+]{mhchem}
+
+% richtige Anführungszeichen
+\usepackage[autostyle]{csquotes}
+
+% schöne Brüche im Text
+\usepackage{xfrac}
+
+% Standardplatzierung für Floats einstellen
+% allow figures to be placed in the running text by default:
+\usepackage{scrhack}
+\usepackage{float}
+\floatplacement{figure}{htbp}
+\floatplacement{table}{htbp}
+
+% Floats innerhalb einer Section halten
+\usepackage[
+  section, % Floats innerhalb der Section halten
+  below,   % unterhalb der Section aber auf der selben Seite ist ok
+]{placeins}
+
+% Seite drehen für breite Tabellen: landscape Umgebung
+\usepackage{pdflscape}
+
+% Captions schöner machen.
+\usepackage[
+  labelfont=bf,        % Tabelle x: Abbildung y: ist jetzt fett
+  font=small,          % Schrift etwas kleiner als Dokument
+  width=0.9\textwidth, % maximale Breite einer Caption schmaler
+]{caption}
+% subfigure, subtable, subref
+\usepackage{subcaption}
+
+% Grafiken können eingebunden werden
+\usepackage{graphicx}
+% größere Variation von Dateinamen möglich
+%\usepackage{grffile}
+
+% schöne Tabellen
+\usepackage{booktabs}
+
+% Verbesserungen am Schriftbild
+\usepackage{microtype}
+
+% Literaturverzeichnis
+\usepackage[
+  backend=biber,
+]{biblatex}
+% Quellendatenbank
+\addbibresource{lit.bib}
+\addbibresource{programme.bib}
+
+% Hyperlinks im Dokument
+\usepackage[
+  unicode,        % Unicode in PDF-Attributen erlauben
+  pdfusetitle,    % Titel, Autoren und Datum als PDF-Attribute
+  pdfcreator={},  % ┐ PDF-Attribute säubern
+  pdfproducer={}, % ┘
+]{hyperref}
+% erweiterte Bookmarks im PDF
+\usepackage{bookmark}
+
+% Trennung von Wörtern mit Strichen
+\usepackage[shortcuts]{extdash}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+ 
+\long\def\Rule{\par\par\vspace{4mm}\hrule\vspace{4mm}\par}
+
+\newcommand{\setC}{\mathbbm{C}}
+\newcommand{\setK}{\mathbbm{K}}
+\newcommand{\setN}{\mathbbm{N}}
+\newcommand{\setQ}{\mathbbm{Q}}
+\newcommand{\setR}{\mathbbm{R}}
+\newcommand{\setNpos}{\mathbbm{N}\setminus\{0\}}
+\newcommand{\setZ}{\mathbbm{Z}}
+\newcommand{\setZpos}{\mathbbm{Z}\setminus\{0\}}
+
+\setlength{\parindent}{0em}
+\topmargin -1.5cm
+\oddsidemargin -0.5cm
+\evensidemargin -0.5cm
+\setlength{\textheight}{9.2in}
+\setlength{\textwidth}{6.5in}
+
+\pagenumbering{arabic}
+
+\pagestyle{empty}
+\newcounter{aufgabenzaehler}
+\newcommand{\topic}[1]{\par\noindent\textbf{{\large #1:}}}
+\newcommand{\aufgabe}[1]{\topic{\stepcounter{aufgabenzaehler}\arabic{aufgabenzaehler}.
+    Aufgabe}\hfill\textbf{#1 Punkte}\\}
+\newcommand{\TutAufgabe}{\topic{\stepcounter{aufgabenzaehler}\arabic{aufgabenzaehler}. Tutoriums-Aufgabe}\\}
+\newcommand{\Tip}[1]{\hspace*{\fill}\emph{(Tip: #1)}}
+\newcommand{\Quelle}[1]{\hspace*{\fill}\emph{(Quelle: #1)}}
+\newcommand{\Loesung}[1]{\hspace*{\fill}\emph{(L\"osung: #1)}}
+\setlength{\parindent}{0mm}
+\def\Punkte#1{\hbox{\framebox[15mm]{{\large
+  \mathstrut#1}}\framebox[15mm]{{\large\mathstrut}}}}
+\def\Box#1{\framebox{\phantom{X}}~#1}
+
+
+\newcommand{\karos}[2]{
+  \begin{tikzpicture}
+    \draw[step=0.5cm,color=gray!100] (0,0) grid (#1 ,#2cm);
+  \end{tikzpicture}
+}
+
+%\addtolength{\textheight}{2cm}
+\begin{document}
+\pagestyle{fancy}
+\noindent\textbf{Fachhochschule Südwestfalen}{\small\hfill Probeklausur}\\
+Fachbereich I\&W: Deep Learning \\
+M.Sc.~ Felix Neubürger\\
+\vspace*{-5mm}
+\begin{center}\Large
+\textbf{Deep Learning}\\
+%\textbf{``Diskrete und strukturelle\\ Mathematik f"ur Informatiker''}
+\end{center}%\vfill
+
+%\vspace{0.5cm}
+
+\Rule
+%\vspace*{6mm}
+{
+{\begin{minipage}{1\textwidth}\large
+\vspace{4mm}
+{Name}: \dotfill\\[6mm]
+{Vorname}: \dotfill \\[6mm]
+{Matr.-Nr.}: \dotfill \\[6mm]
+{Prüfungsordnung}:  \dotfill \\[6mm]
+  \begin{center}
+Mit Ihrer Unterschrift bestätigen Sie, dass Sie gesundheitlich dazu in der Lage sind an der Klausur teilzunehmen.\\[6mm]
+\end{center}
+
+{Datum \& Unterschrift}: \dotfill \\[6mm]
+
+%{FB:}:
+%\Box{FB 13}\quad\Box{Sonstige:\dotfill}
+\end{minipage}}
+\vspace{-8mm}
+}
+\Rule
+\begin{center}
+\textbf{Erlaubte Hilfsmittel}: Taschenrechner
+\end{center}
+
+Mit \textbf{Bleistift} oder \textbf{in rot} geschriebene Aufgaben werden nicht gewertet.
+Die Bearbeitungszeit für die Klausur beträgt $90$ Minuten.
+Schreiben Sie bitte auf jedes Blatt Ihren \textbf{Namen} und Ihre \textbf{Matrikelnummer} in die dafür vorgesehene Zeile.
+\\
+\Rule
+\bigskip
+
+\begin{center}
+Maximal erreichbare Punktzahl: $90$.% ($70$ Punkte entsprechen $100\,\%$).\\
+%Zum Bestehen der Klausur sind $40\,\%$ der Gesamtpunktzahl sicherlich ausreichend.\newline
+
+
+\bigskip
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+Aufgabe &  1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & $\,\,\sum$\,\, \\
+\hline
+Erreichte Punkte &  &  &  &  &  &  &  &  &  &  &  &  & \\
+\hline
+Erreichbare Punkte & 8 & 7 & 8 & 9 & 9 & 7 & 8 & 8 & 7 & 7 & 8 & 8 & 90 \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+
+\pagestyle{fancy}
+\fancyhead[L]{Deep Learning} %Kopfzeile links
+\fancyhead[R]{Name: ..............................\\Matr.-Nr.: .......................}
+\input{content/aufgaben.tex}
+
+
+
+\end{document}
+
