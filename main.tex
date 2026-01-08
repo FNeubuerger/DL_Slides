@@ -35,7 +35,7 @@
 \title{Neuronale Netze/Deep Learning und Predictive Maintenance}
 \author[F.~Neubürger,]{ \textbf{Felix Neubürger}}
 \institute[I \& W]{Fachhochschule Südwestfalen, Ingenieurs- \& Wirtschaftswissenschaften}
-\date{01. Oktober 2025}
+\date{08. January 2026}
 \titlegraphic{\includegraphics[width=0.2\textwidth]{images/MLP2.png}}
 
 
@@ -903,6 +903,33 @@
         \end{columns}
       \end{frame}
 
+      \begin{frame}{Motivation: Warum spezielle Architekturen für Bilder?}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Problem 1: Verlust räumlicher Information}
+                \begin{itemize}
+                  \item Ein MLP benötigt einen flachen Input-Vektor (Flattening).
+                  \item Ein Bild ist aber eine 2D-Matrix (Pixel-Nachbarschaften sind wichtig!).
+                  \item Durch Flattening geht die Information "Pixel A liegt neben Pixel B" verloren.
+                \end{itemize}
+              \item \textbf{Problem 2: Parameter-Explosion (Curse of Dimensionality)}
+                \begin{itemize}
+                  \item Beispiel: Bild $1000 \times 1000$ Pixel = 1.000.000 Inputs.
+                  \item Erste Hidden Layer mit 1.000 Neuronen.
+                  \item Anzahl Gewichte: $10^6 \times 10^3 = 10^9$ (1 Milliarde Parameter!)
+                  \item \textbf{Folge}: Unmöglich zu trainieren, extremes Overfitting.
+                \end{itemize}
+              \item \textbf{Lösung der Natur (Visueller Kortex)}:
+                \begin{itemize}
+                  \item \textbf{Lokale Rezeptive Felder}: Neuronen schauen nur auf kleine Ausschnitte.
+                  \item \textbf{Translation Invariance}: Ein "Kanten-Detektor" funktioniert oben links genauso wie unten rechts.
+                \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
       \begin{frame}{Was sind Convolutional Neural Networks (CNNs)?}
         \begin{columns}
           \begin{column}{0.65\textwidth}
@@ -1075,63 +1102,92 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{CNN Training: Schritt 1 - Forward Pass}
+      \begin{frame}{CNN Training: Schritt 1a - Notation und Setup}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
               \item \textbf{Ziel}: Berechne Ausgabe des CNN für einen Input
-              \item \textbf{Schritt-für-Schritt Forward Pass}:
-              \begin{enumerate}
-                \item \textbf{Input}: Bild $\mathbf{X}^{(0)} \in \mathbb{R}^{H \times W \times C}$ \\
-                      (Höhe × Breite × Kanäle)
-                \item \textbf{Convolution Layer $\ell$}:
-                \begin{align}
-                  \mathbf{Z}^{(\ell)}_{i,j,k} &= \sum_{c=1}^{C^{(\ell-1)}} \sum_{m=1}^{K} \sum_{n=1}^{K} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c} \\
-                  &\quad + b^{(\ell)}_k
-                \end{align}
-                \item \textbf{Aktivierung}: \\
-                      $\mathbf{X}^{(\ell)}_{i,j,k} = \text{ReLU}(\mathbf{Z}^{(\ell)}_{i,j,k}) = \max(0, \mathbf{Z}^{(\ell)}_{i,j,k})$
-                \item \textbf{Pooling}: \\
-                      $\mathbf{P}^{(\ell)}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}^{(\ell)}_{p,q,k}$
-                \item \textbf{Fully Connected}: \\
-                      Flatten → $\mathbf{y} = \text{Softmax}(\mathbf{W}_{fc} \mathbf{h} + \mathbf{b}_{fc})$
-              \end{enumerate}
+              \item \textbf{Input}: 
+                \begin{itemize}
+                  \item Bild $\mathbf{X}^{(0)} \in \mathbb{R}^{H \times W \times C}$
+                  \item Dimensionen: Höhe × Breite × Kanäle
+                \end{itemize}
               \item \textbf{Notation}:
               \begin{itemize}
-                \item $\mathbf{W}^{(\ell)}_{m,n,c,k}$: Filter-Gewicht an Position $(m,n)$, \\
-                      Input-Kanal $c$, Output-Kanal $k$
-                \item $K$: Filter-Größe (z.B. 3×3), \\
-                      $C^{(\ell)}$: Anzahl Kanäle in Schicht $\ell$
+                \item $\mathbf{W}^{(\ell)}_{m,n,c,k}$: Filter-Gewicht an Position $(m,n)$
+                \item Indizes: Input-Kanal $c$, Output-Kanal $k$
+                \item $K$: Filter-Größe (z.B. $3 \times 3$)
+                \item $C^{(\ell)}$: Anzahl Kanäle in Schicht $\ell$
               \end{itemize}
             \end{itemize}
           \end{column}
         \end{columns}
       \end{frame}
 
-      \begin{frame}{CNN Training: Schritt 2 - Verlustfunktion und Gradientenberechnung}
+      \begin{frame}{CNN Training: Schritt 1b - Forward Pass Berechnung}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \textbf{Schritt-für-Schritt Berechnung}:
+            \begin{enumerate}
+              \item \textbf{Convolution Layer $\ell$}:
+              \begin{align*}
+                \mathbf{Z}^{(\ell)}_{i,j,k} &= \sum_{c=1}^{C^{(\ell-1)}} \sum_{m=1}^{K} \sum_{n=1}^{K} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c} \\
+                &\quad + b^{(\ell)}_k
+              \end{align*}
+              \item \textbf{Aktivierung}: \\
+                    $\mathbf{X}^{(\ell)}_{i,j,k} = \text{ReLU}(\mathbf{Z}^{(\ell)}_{i,j,k}) = \max(0, \mathbf{Z}^{(\ell)}_{i,j,k})$
+              \item \textbf{Pooling}: \\
+                    $\mathbf{P}^{(\ell)}_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} \mathbf{X}^{(\ell)}_{p,q,k}$
+              \item \textbf{Fully Connected}: \\
+                    Flatten → $\mathbf{y} = \text{Softmax}(\mathbf{W}_{fc} \mathbf{h} + \mathbf{b}_{fc})$
+            \end{enumerate}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 2a - Verlust und Output-Layer}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{Verlustfunktion}: Cross-Entropy für Klassifikation
+              \item \textbf{Verlustfunktion}:
+                \begin{itemize}
+                    \item Wir verwenden meist Cross-Entropy für Klassifikation.
+                    \item Sei $N$ die Batch-Größe und $C$ die Anzahl der Klassen:
+                \end{itemize}
               \begin{equation}
                 L = -\sum_{i=1}^{N} \sum_{c=1}^{C} y_{i,c} \log(\hat{y}_{i,c})
               \end{equation}
-              \item \textbf{Backpropagation in CNNs}: Kettenregel für Convolution-Layer
-              \item \textbf{Gradient für Output-Layer}: (Standard wie bei MLPs)
+              \item \textbf{Gradient für Output-Layer (Fully Connected)}:
+                \begin{itemize}
+                    \item Dies ist identisch zum Standard-MLP (Backpropagation).
+                    \item Der Fehlerterm $\delta$ am Ausgang ist die Differenz zwischen Vorhersage und Label:
+                \end{itemize}
               \begin{equation}
-                \frac{\partial L}{\partial \mathbf{W}_{fc}} = \frac{\partial L}{\partial \mathbf{y}} \frac{\partial \mathbf{y}}{\partial \mathbf{W}_{fc}} = (\hat{\mathbf{y}} - \mathbf{y}_{true}) \mathbf{h}^T
+                \frac{\partial L}{\partial \mathbf{W}_{fc}} = (\hat{\mathbf{y}} - \mathbf{y}_{true}) \mathbf{h}^T
               \end{equation}
-              \item \textbf{Gradient für Convolution-Filter}: \\
-                    Komplexer wegen räumlicher Struktur
-              \begin{align}
-                \frac{\partial L}{\partial \mathbf{W}^{(\ell)}_{m,n,c,k}} &= \sum_{i,j} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}
-              \end{align}
-              \item \textbf{Delta-Propagation}: \\
-                    Fehler muss durch Pooling und Convolution zurückpropagiert werden
             \end{itemize}
           \end{column}
         \end{columns}
       \end{frame}
+
+      \begin{frame}{CNN Training: Schritt 2b - Gradienten für Filter}
+        \begin{columns}
+            \begin{column}{1\textwidth}
+              \begin{itemize}
+                \item \textbf{Herausforderung}:
+                    \begin{itemize}
+                        \item Wir haben \textit{Shared Weights}! Ein Filter wird an vielen Positionen angewendet.
+                        \item Der Gradient für ein Filtergewicht ist die Summe der Gradienten von allen Positionen, wo es angewendet wurde.
+                    \end{itemize}
+                \item \textbf{Gradient für Convolution-Filter}:
+                \begin{align}
+                  \frac{\partial L}{\partial \mathbf{W}^{(\ell)}_{m,n,c,k}} &= \sum_{i,j} \underbrace{\frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}}}_{\text{Fehler an Output-Position}} \cdot \underbrace{\mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}}_{\text{Input an entsprechender Position}}
+                \end{align}
+                \item \textbf{Intuition}: Korrelation zwischen dem incoming Fehler und dem lokalen Input-Patch.
+              \end{itemize}
+            \end{column}
+          \end{columns}
+        \end{frame}
 
       \begin{frame}{CNN Training: Schritt 3 - Backpropagation durch Convolution}
         \begin{columns}
@@ -1139,22 +1195,21 @@
             \begin{itemize}
               \item \textbf{Problem}: Wie berechnen wir $\frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}}$ aus $\frac{\partial L}{\partial \mathbf{Z}^{(\ell)}}$?
               \item \textbf{Convolution ist linear}: Können Kettenregel anwenden
-              \item \textbf{Schritt-für-Schritt}:
+              \item \textbf{Schritt-für-Schritt Herleitung}:
               \begin{enumerate}
-                \item \textbf{Forward}: \\
+                \item \textbf{Forward Pass} (zur Erinnerung): \\
                       $\mathbf{Z}^{(\ell)}_{i,j,k} = \sum_{c,m,n} \mathbf{W}^{(\ell)}_{m,n,c,k} \cdot \mathbf{X}^{(\ell-1)}_{i+m-1,j+n-1,c}$
                 \item \textbf{Ableitung nach Input}: 
-                \begin{equation}
+                \[
                   \frac{\partial \mathbf{Z}^{(\ell)}_{i,j,k}}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} = \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
-                \end{equation}
+                \]
                 \item \textbf{Kettenregel}:
-                \begin{align}
-                  \frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} &= \sum_{i,j,k} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \\
-                  &\quad \cdot \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
-                \end{align}
+                \begin{align*}
+                  \frac{\partial L}{\partial \mathbf{X}^{(\ell-1)}_{p,q,c}} &= \sum_{i,j,k} \frac{\partial L}{\partial \mathbf{Z}^{(\ell)}_{i,j,k}} \cdot \mathbf{W}^{(\ell)}_{p-i+1,q-j+1,c,k}
+                \end{align*}
               \end{enumerate}
               \item \textbf{Interpretation}: Backpropagation = Convolution mit "umgedrehten" Filtern
-              \item \textbf{Implementierung}: Oft als "Transposed Convolution" implementiert
+              \item \textbf{Implementierung}: Oft als "Transposed Convolution" bezeichnet
             \end{itemize}
           \end{column}
         \end{columns}
@@ -1237,7 +1292,27 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Historische CNN-Architekturen: AlexNet (2012)}
+      \begin{frame}{Motivation: Die Evolution von CNN-Architekturen}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Warum schauen wir uns "alte" Netzwerke an?}
+                \begin{itemize}
+                  \item Moderne Architekturen (wie ConvNeXt, EfficientNet) basieren auf Ideen, die über Jahre entwickelt wurden.
+                  \item Um zu verstehen, warum Netze heute so aussehen, muss man die Evolutionsschritte kennen.
+                \end{itemize}
+              \item \textbf{Die drei Äras des CNN-Designs}:
+                \begin{itemize}
+                  \item \textbf{Die Pionier-Phase (1998-2012)}: LeNet, AlexNet. Beweis, dass es überhaupt funktioniert. Fokus auf Tiefe und GPUs.
+                  \item \textbf{Die Vertiefungs-Phase (2014-2015)}: VGG, Inception, ResNet. "Deeper is better", aber wie trainieren wir das? (Skip Connections, kleine Filter).
+                  \item \textbf{Die Effizienz-Phase (2017-heute)}: MobileNet, EfficientNet, Transformers. "Smarter is better". Fokus auf Rechenleistung und Parameter-Effizienz.
+                \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Historische CNN-Architekturen: AlexNet (2012) \cite{krizhevsky2012}}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
@@ -1255,7 +1330,7 @@
               \item \textbf{Innovationen}:
               \begin{itemize}
                 \item \textbf{ReLU-Aktivierung}: Statt Sigmoid/Tanh → schnelleres Training
-                \item \textbf{Dropout}: Regularisierung in FC-Layern (p=0.5)
+                \item \textbf{Dropout} \cite{srivastava2014}: Regularisierung in FC-Layern (p=0.5)
                 \item \textbf{Data Augmentation}: Random Crops, Horizontal Flips
                 \item \textbf{Local Response Normalization}: Normalisierung zwischen Kanälen
               \end{itemize}
@@ -1265,7 +1340,7 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Moderne CNN-Architekturen: VGGNet (2014)}
+      \begin{frame}{Moderne CNN-Architekturen: VGGNet (2014) \cite{simonyan2014}}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
@@ -1294,12 +1369,13 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Revolutionäre CNN-Architekturen: ResNet (2015)}
+      \begin{frame}{Revolutionäre CNN-Architekturen: ResNet (2015) \cite{he2016}}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
               \item \textbf{Problem}: Verschwindende Gradienten bei sehr tiefen Netzwerken (>20 Schichten)
               \item \textbf{Lösung}: Residual Connections (Skip Connections)
+              \item \textit{(Schmidhuber notes: Highway Networks \cite{srivastava2015highway} enabled very deep networks using similar principles.)}
               \item \textbf{Residual Block}:
               \begin{equation}
                 \mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + \mathbf{x}
@@ -1324,7 +1400,7 @@
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
-              \item \textbf{MobileNet (2017)}: Optimiert für mobile Geräte
+              \item \textbf{MobileNet (2017)} \cite{howard2017}: Optimiert für mobile Geräte
               \begin{itemize}
                 \item \textbf{Depthwise Separable Convolution}:
                 \begin{equation}
@@ -1336,7 +1412,7 @@
                 \item \textbf{Reduktion}: Faktor $\frac{1}{N} + \frac{1}{D_K^2}$ (z.B. 8-9× weniger Parameter)
                 \item \textbf{Width Multiplier}: $\alpha \in (0,1]$ für Modell-Skalierung
               \end{itemize}
-              \item \textbf{EfficientNet (2019)}: Systematisches Netzwerk-Scaling
+              \item \textbf{EfficientNet (2019)} \cite{tan2019}: Systematisches Netzwerk-Scaling
               \begin{itemize}
                 \item \textbf{Compound Scaling}: Gleichzeitige Skalierung von Tiefe, Breite, Auflösung
                 \begin{equation}
@@ -1350,7 +1426,7 @@
         \end{columns}
       \end{frame}
 
-      \begin{frame}{Vision Transformer: CNN-Alternative (2020)}
+      \begin{frame}{Vision Transformer: CNN-Alternative (2020) \cite{dosovitskiy2020}}
         \begin{columns}
           \begin{column}{1\textwidth}
             \begin{itemize}
@@ -1411,15 +1487,49 @@
         \end{columns}
       \end{frame}
 
+  \begin{frame}{Motivation: Warum Sequenzmodelle?}
+    \begin{columns}
+      \begin{column}{1\textwidth}
+        \begin{itemize}
+          \item \textbf{Das Limit von Feedforward Netzen (MLPs)}:
+            \begin{itemize}
+              \item Erwarten Eingabe fester Größe (z.B. genau 100 Features).
+              \item Haben kein "Gedächtnis" für Vorheriges (stateless).
+              \item Betrachten alle Eingaben gleichzeitig, nicht nacheinander.
+            \end{itemize}
+          \item \textbf{Realität sequentieller Daten}:
+            \begin{itemize}
+              \item Text, Audio, Zeitreihen, Video haben zeitliche Abhängigkeiten.
+              \item Kontext ist entscheidend: "Die \textit{Bank} am Fluss" vs. "Die \textit{Bank} zahlt Zinsen".
+              \item Variable Länge der Eingabe.
+            \end{itemize}
+          \item \textbf{Idee der Rekurrenz}:
+            \begin{itemize}
+              \item Das Netzwerk verarbeitet Input Schritt für Schritt.
+              \item Es erhält einen "internen Zustand" (Memory), der Kontext speichert.
+              \item \textbf{Recycling}: Wir nutzen \textbf{dieselben Gewichte} für jeden Zeitschritt!
+            \end{itemize}
+        \end{itemize}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+
   \begin{frame}{Spezielle Netzwerkarchitekturen: RNN}
         \begin{columns}
           \begin{column}{0.6\textwidth}
             \begin{itemize}
-              \item Anschaulich: Schleife in Netzwerk "merkt" sich voherige Zustände \newline 
+              \item Anschaulich: Schleife in Netzwerk "merkt" sich vorherige Zustände (Elman Networks \cite{elman1990}) \newline 
               \item funktioniert für kurze Zeiträume \newline 
               \item Entfaltung eines RNN \rightarrow viele zu trainierende Gewichte \newline 
               \item Problem: langfristige Zusammenhänge werden nicht erfasst \newline 
-              \item Problem: Verschwindende Gradienten
+              \item \textbf{Problem: Verschwindende Gradienten} \cite{hochreiter1991, bengio1994}:
+              \begin{itemize}
+                \item Backpropagation Through Time (BPTT) multipliziert Gewichtsmatrix $W$ oft hintereinander ($W^t$).
+                \item Wenn $|\text{Eigenwert}| < 1$ $\rightarrow$ Gradient geht exponentiell gegen 0.
+                \item Wenn $|\text{Eigenwert}| > 1$ $\rightarrow$ Explodierende Gradienten.
+                \item Frühe Schichten lernen nichts mehr.
+              \end{itemize}
             \end{itemize}
           \end{column}
            \begin{column}{0.4\textwidth}
@@ -1431,7 +1541,22 @@
            \end{column}
         \end{columns}
       \end{frame}     
-      
+
+  \begin{frame}{Training von RNNs: Backpropagation Through Time (BPTT)}
+    \begin{itemize}
+      \item \textbf{Konzept} \cite{werbos1990backpropagation} (vgl. \cite{schmidhuber2015deep}): Ein RNN über $T$ Zeitschritte ist äquivalent zu einem Feedforward-Netzwerk mit $T$ Schichten (unrolled).
+      \item \textbf{Shared Weights}: Die Gewichtsmatrix $W$ ist in jedem "Zeitschritt-Layer" identisch.
+      \item \textbf{Ablauf}:
+      \begin{enumerate}
+        \item \textbf{Forward Pass}: Berechne Zustände $h_t$ und Outputs $y_t$ sequentiell von $t=0$ bis $T$.
+        \item \textbf{Loss}: Berechne Gesamtfehler (z.B. Summe der Fehler zu jedem Zeitpunkt).
+        \item \textbf{Backward Pass}: Propagiere den Fehler vom letzten Zeitschritt $T$ rückwärts durch die Zeit bis $t=0$.
+      \end{enumerate}
+      \vspace{0.2cm}
+      \item Dies erklärt, warum Gradientenprobleme so gravierend sind: Der Fehler muss durch sehr viele Multiplikationen mit $W$ zurücklaufen.
+    \end{itemize}
+  \end{frame}
+
       \begin{frame}{Spezielle Netzwerkarchitekturen: LSTM}
         \begin{columns}
           \begin{column}{0.6\textwidth}
@@ -1538,6 +1663,57 @@
         \end{columns}
       \end{frame} 
 
+      \begin{frame}{Ausblick: Grenzen von RNNs und die Attention Revolution}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Das Flaschenhals-Problem von LSTMs}:
+                \begin{itemize}
+                  \item Auch LSTMs müssen den gesamten Kontext in einen Vektor fester Größe quetschen.
+                  \item Bei sehr langen Sequenzen (z.B. Dokumenten) gehen Details verloren.
+                \end{itemize}
+              \item \textbf{Der Paradigmenwechsel: Attention Mechanism}:
+                \begin{itemize}
+                  \item \textbf{Idee}: Statt sich alles zu merken, lernt das Netz, bei jedem Schritt auf die \textit{relevanten} Teile des Inputs zurückzuschauen.
+                  \item Analogie: Beim Übersetzen eines Satzes schaut man für das Wort "Bank" gezielt auf den Kontext "Fluss", um es korrekt zu übersetzen.
+                \end{itemize}
+              \item \textbf{Transformers}:
+                \begin{itemize}
+                  \item "Attention is All You Need" (2017) \cite{vaswani2017}
+                  \item \textit{(Schmidhuber notes: "Fast Weight Programmers" (1992) \cite{schmidhuber1992learning} pioneered the linear attention mechanism.)}
+                  \item Basis für alle modernden LLMs (GPT, Llama, Claude).
+                \end{itemize}
+              \item \textbf{Hinweis}: Detaillierte Behandlung von Attention und Transformers erfolgt im Modul \textbf{"Generative AI / LLMs"} im nächsten Semester!
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
+
+      \begin{frame}{Spezielle Netzwerkarchitekturen: Autoencoder - Motivation}
+        \begin{columns}
+          \begin{column}{1\textwidth}
+            \begin{itemize}
+              \item \textbf{Das Problem mit Labels}: 
+                \begin{itemize}
+                  \item Supervised Learning braucht gelabelte Daten $ (x, y) $.
+                  \item Labels sind teuer und rar. Unbekannte Daten sind massenhaft vorhanden.
+                \end{itemize}
+              \item \textbf{Idee des Unsupervised Learning}:
+                \begin{itemize}
+                  \item Können wir das Netzwerk zwingen, die \textbf{Struktur} der Daten zu lernen?
+                  \item Aufgabe: "Lerne, den Input $ x $ auf sich selbst abzubilden: $ f(x) \approx x $".
+                \end{itemize}
+              \item \textbf{Der Trick mit dem Flaschenhals (Bottleneck)}:
+                \begin{itemize}
+                  \item Wenn wir einfach $ f(x) = x $ (Identität) lernen, passiert nichts Spannendes.
+                  \item Wir zwingen die Daten durch eine \textbf{sehr kleine Schicht} in der Mitte.
+                  \item Analogie: Ein Buch in einen Absatz zusammenfassen (Encoder) und aus dem Absatz das Buch rekonstruieren (Decoder).
+                  \item Nur die allerwichtigsten Informationen (Latent Features) überleben den Flaschenhals.
+                \end{itemize}
+            \end{itemize}
+          \end{column}
+        \end{columns}
+      \end{frame}
 
       \begin{frame}{Autoencoder: Grundlagen und Mathematik}
         \begin{columns}
@@ -1568,6 +1744,24 @@
             \end{column}
         \end{columns}
       \end{frame}
+
+\begin{frame}{Exkurs: Statistische Grundlagen \& Bayesian Deep Learning}
+  \begin{itemize}
+    \item \textbf{Bayesian Neural Networks (BNN)} \cite{neal1996bayesian}:
+    \begin{itemize}
+      \item Gewichte sind keine festen Zahlen, sondern Wahrscheinlichkeitsverteilungen.
+      \item \textbf{Interpretation}: Ein BNN verhält sich wie ein \textit{unendliches Ensemble} möglicher Modelle.
+      \item \textbf{Vorteil}: Durch mehrere Forward-Passes (Sampling) erhält man eine \textbf{Unsicherheitsschätzung} der Vorhersage.
+    \end{itemize}
+    \vspace{0.3cm}
+    \item \textbf{Wichtige Begriffe für Variational Autoencoders (VAEs)}:
+    \begin{itemize}
+      \item \textbf{Prior} $p(z)$: A-priori-Wissen über die latenten Variablen (z.\,B. $z \sim \mathcal{N}(0, I)$). Was wir annehmen, \textit{bevor} wir Daten sehen.
+      \item \textbf{Likelihood} $p(x|z)$: Wie wahrscheinlich sind die Daten $x$, gegeben die latente Variable $z$? (Decoder-Perspektive).
+      \item \textbf{Posterior} $p(z|x)$: Wahrscheinlichkeitsverteilung von $z$, \textit{nachdem} wir das Datum $x$ beobachtet haben. (Encoder-Ziel).
+    \end{itemize}
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{Variational Autoencoders (VAEs): Motivation}
   \begin{columns}
@@ -1671,7 +1865,35 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Generative Adversarial Networks (GANs): Grundprinzip}
+\begin{frame}{Generative Adversarial Networks (GANs): Motivation}
+  \begin{columns}
+    \begin{column}{1\textwidth}
+      \begin{itemize}
+        \item \textbf{Die Idee vom perfekten Fälscher}:
+          \begin{itemize}
+            \item VAEs erzeugen oft verschwommene Bilder (wegen Mean Squared Error).
+            \item Wie erzeugen wir \textbf{gestochen scharfe} Bilder?
+            \item \textbf{Idee}: Anstatt eine statische Verlustfunktion zu nutzen, \textbf{lernen} wir die Verlustfunktion!
+          \end{itemize}
+        \item \textbf{Das Konzept des "Adversarial Training"}:
+          \begin{itemize}
+            \item Wir stellen zwei Netzwerke gegeneinander auf (wie in einem Spiel).
+            \item \textit{(Schmidhuber notes: The adversarial principle was introduced as "Artificial Curiosity" \cite{schmidhuber1990making}.)}
+            \item Ein Netz versucht zu fälschen, das andere versucht, die Fälschung zu entlarven.
+            \item Durch diesen Wettbewerb schaukeln sich beide hoch.
+          \end{itemize}
+        \item \textbf{Anwendungen}:
+          \begin{itemize}
+            \item Fotorealistische Gesichter (siehe \url{thispersondoesnotexist.com}).
+            \item Super-Resolution (Upscaling von alten Filmen/Fotos).
+            \item Style Transfer (Mache aus einem Foto ein Gemälde).
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Generative Adversarial Networks (GANs): Grundprinzip \cite{goodfellow2014}}
   \begin{columns}
     \begin{column}{0.7\textwidth}
       \begin{itemize}
@@ -1736,24 +1958,24 @@
   \begin{columns}
     \begin{column}{1\textwidth}
       \begin{itemize}
-        \item \textbf{Deep Convolutional GANs (DCGANs)}:
+        \item \textbf{Deep Convolutional GANs (DCGANs)} \cite{radford2015}:
         \begin{itemize}
           \item Verwendung von Convolutional Layers
           \item Batch Normalization, LeakyReLU
           \item Bessere Stabilität für Bildgenerierung
         \end{itemize}
-        \item \textbf{Wasserstein GAN (WGAN)}:
+        \item \textbf{Wasserstein GAN (WGAN)} \cite{arjovsky2017}:
         \begin{itemize}
           \item Earth Mover Distance statt JS-Divergenz
           \item Stabileres Training, bessere Konvergenz-Eigenschaften
           \item \textbf{Lipschitz-Constraint}: Kritisch für WGAN-Theorie
         \end{itemize}
-        \item \textbf{Conditional GANs (cGANs)}:
+        \item \textbf{Conditional GANs (cGANs)} \cite{mirza2014}:
         \begin{itemize}
           \item Bedingung auf Labels: $G(z|y)$, $D(x|y)$
           \item Kontrollierte Generierung spezifischer Klassen
         \end{itemize}
-        \item \textbf{StyleGAN}:
+        \item \textbf{StyleGAN} \cite{karras2019}:
         \begin{itemize}
           \item Latent Space Manipulation
           \item Progressive Growing, Style Transfer
@@ -1913,51 +2135,49 @@
   \begin{columns}
     \begin{column}{1\textwidth}
       \begin{itemize}
-        \item \textbf{Mathematische Grundlagen}: Lineare Algebra, Gradienten, Optimierung als Fundament
-        \item \textbf{Perceptron bis Deep Learning}: Von linearer Separierung zum Universal Approximation Theorem
-        \item \textbf{Training neuronaler Netze}: Backpropagation, Gradientenabstieg, moderne Optimierer (ADAM)
-        \item \textbf{Warum Deep Learning funktioniert}: \\
-          Hierarchische Features, Komposition, Expressivität
-        \item \textbf{Herausforderungen}: Vanishing Gradients, Aktivierungsfunktionen, Regularisierung
-        \item \textbf{Spezielle Architekturen}:
+        \item \textbf{Die Macht tiefer Netze}: Sie können komplexe Funktionen durch hierarchische Feature-Extraktion lernen. Tiefe ist hierbei oft effizienter als Breite. \newline
+        \item \textbf{Spezialisierung ist der Schlüssel}:
         \begin{itemize}
-          \item \textbf{CNNs}: Translation Equivarianz für Bilddaten
-          \item \textbf{RNNs/LSTMs}: Sequentielle Daten und Langzeit-Gedächtnis
-          \item \textbf{VAEs}: Probabilistische latente Repräsentationen
-          \item \textbf{GANs}: Adversarial Training für realistische Daten
+          \item \textbf{CNNs}: Nutzen lokale Strukturen und Translation Invariance für Bilder. Convolution spart Parameter und lernt Kanten, Formen, Objekte.
+          \item \textbf{RNNs/LSTMs}: Modellieren Sequenzen und Zeitabhängigkeiten durch internen Status (Memory).
+          \item \textbf{Autoencoders}: Lernen komprimierte Repräsentationen ohne Labels (Unsupervised).
+          \item \textbf{GANs}: Erzeugen neue Daten durch einen Wettbewerb zweier Netze.
+        \end{itemize} 
+        \item \textbf{Das Fundament}:
+        \begin{itemize}
+          \item Alles basiert auf linearer Algebra (Matrizen), Calculus (Gradienten) und Optimierung (Backpropagation).
+          \item Training ist ein iterativer Prozess der Fehlerminimierung (Loss Landscape).
         \end{itemize}
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Zentrale Erkenntnisse und Ausblick}
+\begin{frame}{Ausblick und Zukunft des Deep Learning}
   \begin{columns}
     \begin{column}{1\textwidth}
       \begin{itemize}
-        \item \textbf{Theoretisches Verständnis ist entscheidend}:
-        \begin{itemize}
-          \item Neuronale Netze sind nicht "Black Boxes" - mathematisch fundiert
-          \item Universal Approximation erklärt das Potenzial
-          \item Gradient Flow erklärt Trainierbarkeit
-        \end{itemize}
-        \item \textbf{Architektur-Wahl ist problemspezifisch}:
-        \begin{itemize}
-          \item Nicht immer ist "Deep Learning" die beste Lösung
-          \item Inductive Biases nutzen (CNNs für Bilder, RNNs für Sequenzen)
-          \item Trade-offs zwischen Komplexität \\
-            und Interpretierbarkeit
-        \end{itemize}
-        \item \textbf{Praktische Anwendung erfordert}:
-        \begin{itemize}
-          \item Datenqualität und -quantität
-          \item Richtige Problemformulierung
-          \item Evaluation und Validierung
-          \item Domain-Wissen einbeziehen
-        \end{itemize}
-        \item \textbf{Zukunft}: Transformer, Attention, Self-Supervised Learning, Foundation Models
-        \item \textbf{Ethik}: Verantwortlicher Einsatz, Bias, Interpretierbarkeit, Nachhaltigkeit
+        \item \textbf{Der Trend zu Foundation Models}:
+          \begin{itemize}
+            \item Weg von "Ein Modell pro Aufgabe" hin zu "Ein Modell für alles".
+            \item Transfer Learning wird Standard (Pre-training auf riesigen Daten, Fine-tuning für den speziellen Fall).
+          \end{itemize}
+        \item \textbf{Generative AI \& LLMs}:
+          \begin{itemize}
+            \item Transformers (Attention) haben RNNs fast vollständig abgelöst.
+            \item Modelle verstehen nicht nur Syntax, sondern auch Semantik und Kontext.
+            \item $\rightarrow$ Mehr dazu in der kommenden Vorlesung "Generative AI"!
+          \end{itemize}
+        \item \textbf{Herausforderungen}:
+          \begin{itemize}
+            \item Energieverbrauch und Modellgröße.
+            \item Erklärbarkeit (Black Box Problem) und Fairness/Bias.
+            \item Robustheit gegen Adversarial Attacks.
+          \end{itemize}
       \end{itemize}
+    \end{column}
+    \begin{column}{0\textwidth}
+      % Platzhalter
     \end{column}
   \end{columns}
 \end{frame}
